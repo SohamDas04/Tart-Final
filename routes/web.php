@@ -32,3 +32,4 @@ Route::post('/uploadp',[AccountController::class,'uploadp']);
 Route::post('/uploacp',[AccountController::class,'uploacp']);
 Route::post('/createdu',[AccountController::class,'senddata']);
 Route::post('/preview',[AccountController::class,'preview']);
+Route::post('/postit',[AccountController::class,'postit']);

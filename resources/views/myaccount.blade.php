@@ -238,8 +238,8 @@
         </div>
         <div class="col-8">
           <form class="form-floating" enctype="multipart/form-data">
-          <input type="file" name="" id="postp" style="display:none;" multiple>
-            <textarea name="" class="form-control" id="" cols="30" style="border-radius: 50px;" placeholder="Write something here..." rows="10"></textarea>
+            <input type="file" name="" id="postp" style="display:none;" multiple>
+            <textarea name="" class="form-control" id="" cols="30" style="border-radius: 50px; padding: 1px 20px 1px 20px;" placeholder="Write something here..." rows="10"></textarea>
             <!-- <input type="text" class="form-control" id="floatingInputValue" style="border-radius:150px; height: 70px;"> -->
             <!-- <label for="floatingInputValue">Write something here....</label> -->
             <div class="row">
@@ -250,32 +250,32 @@
                 </button>
 
                 <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog">
                     <div class="modal-content" style=" border-radius:10px;">
                       <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" id='cm' data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
                       <div class="modal-body">
                         <form action="">
-                          <input type="text" name="" id="" class='form-control' style="border-radius:100px;" placeholder="Something about the post...">
-                          <img src="" alt="xzfdz" id="preview" >
+                          <input type="text" name="" class='form-control' style="border-radius:100px;" id="something" placeholder="Something about the post...">
+                          <img src="" alt="xzfdz" id="preview">
                         </form>
-                        
+
                       </div>
                       <br>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary">Post</button>
+                        <button type="button" id="postit" class="btn btn-primary">Post</button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-             
+
               <div class="col-6">
                 <button type="submit" class="btn btn-dark mt-2" style="border-radius:50px; width:100%;">Post</button>
               </div>
@@ -399,12 +399,12 @@
     console.log('Upload Images');
     $('#postp').click();
   })
-  $('#postp').change(function(e){
+  $('#postp').change(function(e) {
     var files = $(this)[0].files;
     console.log(files);
     var fd = new FormData();
     fd.append('file', files[0]);
-        $.ajax({
+    $.ajax({
       url: "/preview",
       method: 'post',
       data: fd,
@@ -412,9 +412,29 @@
       processData: false,
       success: function(response) {
         console.log(response);
+        var nameofpic=response;
         let filesrc = "/uploads/posts/" + response;
         $("#preview").attr("src", filesrc);
-         $('.modal').click();
+        $('.modal').click();
+        $('#postit').click(function(e) {
+          console.log('User wants to post now!');
+          let sayit = $('#something').val();
+          console.log(sayit);
+          mydata={
+            caption: sayit,
+            pho: nameofpic
+          }
+          console.log(mydata);
+          $.ajax({
+            url: '/postit',
+            method: 'post',
+            data: JSON.stringify(mydata),
+            success: function(data){
+              console.log(data);
+              $('#cm').click();
+            }
+          })
+        })
       }
 
     })

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Information;
+use App\Models\post;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\School;
@@ -30,92 +31,75 @@ class AccountController extends Controller
     public function uploadp(Request $req)
     {
 
-        $uid=session()->get('id');
-        // $info = new Information;
-        if($req->file('file')) {
-            
-            $file = $req->file('file');
-            $filename = time().'_'.$file->getClientOriginalName();
+        $uid = session()->get('id');
+        if ($req->file('file')) {
 
-            // return '1';
-            // print_r($filename) ;
-            // exit;
-            // return $filename;
-            // File extension
-            // $extension = $file->getClientOriginalExtension();
-            // File upload location
+            $file = $req->file('file');
+            $filename = time() . '_' . $file->getClientOriginalName();
             $location = public_path('/uploads');
-            // echo $filename."ab";
-            // exit;
-            // return $location;
-            // exit;
-            // Upload file
-            $re=$file->move($location,$filename);
+            $re = $file->move($location, $filename);
             DB::table('information')
                 ->where('userid', $uid)
                 ->update(array('dp' => $filename));
 
-           return $filename;
-            // File path
-            // $filepath = url('files/'.$filename);
+            return $filename;
         }
     }
     public function uploacp(Request $req)
     {
 
-        $uid=session()->get('id');
+        $uid = session()->get('id');
         // $info = new Information;
-        if($req->file('file')) {
-            
-            $file = $req->file('file');
-            $filename = time().'_'.$file->getClientOriginalName();
+        if ($req->file('file')) {
 
-            // return '1';
-            // print_r($filename) ;
-            // exit;
-            // return $filename;
-            // File extension
-            // $extension = $file->getClientOriginalExtension();
-            // File upload location
+            $file = $req->file('file');
+            $filename = time() . '_' . $file->getClientOriginalName();
             $location = public_path('/uploads/cp');
-            // echo $filename."ab";
-            // exit;
-            // return $location;
-            // exit;
-            // Upload file
-            $re=$file->move($location,$filename);
+            $re = $file->move($location, $filename);
             DB::table('information')
                 ->where('userid', $uid)
                 ->update(array('cp' => $filename));
 
-           return $filename;
-            // File path
-            // $filepath = url('files/'.$filename);
+            return $filename;
         }
     }
     public function senddata(Request $req)
     {
-        if($req->ajax())
-        {
-            $uid=session()->get('id');
-            $data=stripslashes(file_get_contents("php://input"));
-            $mydata=json_decode($data,true);
-            $value=$mydata['value'];
+        if ($req->ajax()) {
+            $uid = session()->get('id');
+            $data = stripslashes(file_get_contents("php://input"));
+            $mydata = json_decode($data, true);
+            $value = $mydata['value'];
             DB::table('information')
-            ->where('userid', $uid)
-            ->update(array('ed' => $value));
+                ->where('userid', $uid)
+                ->update(array('ed' => $value));
             return $value;
         }
-        
     }
-    public function preview(Request $req){
-        if($req->file('file')) {
-            
+    public function preview(Request $req)
+    {
+        if ($req->file('file')) {
+
             $file = $req->file('file');
-            $filename = time().'_'.$file->getClientOriginalName();
+            $filename = time() . '_' . $file->getClientOriginalName();
             $location = public_path('/uploads/posts');
-            $re=$file->move($location,$filename);
+            $re = $file->move($location, $filename);
             return $filename;
+        }
+    }
+    public function postit(Request $req)
+    {
+        if ($req->ajax()){
+        $uid = session()->get('id');
+        $data = stripslashes(file_get_contents("php://input"));
+        $mydata = json_decode($data, true);
+        $photo=$mydata['pho'];
+        $caption=$mydata['caption'];
+        $datab= new post;
+        $datab->userid=$uid;
+        $datab->picture=$photo;
+        $datab->caption=$caption;
+        $datab->save();
         }
     }
 }
