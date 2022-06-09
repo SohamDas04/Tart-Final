@@ -428,6 +428,9 @@
             data: JSON.stringify(mydeldata),
             success: function(data){
               console.log(data);
+              $('#something').val(' ');
+              $('#cm').click();
+              return false;
             }
           })
         });
@@ -446,8 +449,8 @@
             data: JSON.stringify(mydata),
             success: function(data){
               console.log(data);
-              $('#cm').click();
               $('#something').val(' ');
+              $('#cm').click();
             }
           })
         })
