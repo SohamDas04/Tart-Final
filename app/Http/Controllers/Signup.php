@@ -40,13 +40,13 @@ class Signup extends Controller
         try{
         $mail->SMTPDebug = 2;                   // Enable verbose debug output
         $mail->isSMTP();                        // Set mailer to use SMTP
-        $mail->Host       = 'smtp.gmail.com';    // Specify main SMTP server
+        $mail->Host       = getenv('MAIL_HOST');    // Specify main SMTP server
         $mail->SMTPAuth   = true;               // Enable SMTP authentication
-        $mail->Username   = "s81126279@gmail.com";     // SMTP username
-        $mail->Password   = 'britannia5050';         // SMTP password
+        $mail->Username   = getenv("MAIL_FROM_ADDRESS");     // SMTP username
+        $mail->Password   = getenv('MAIL_PASSWORD');         // SMTP password
         $mail->SMTPSecure = 'TLS';              // Enable TLS encryption, 'ssl' also accepted
         $mail->Port       = 587;                // TCP port to connect to
-        $mail->setFrom('s81126279@gmail.com', 'supernova');           // Set sender of the mail
+        $mail->setFrom(getenv("MAIL_FROM_ADDRESS"), 'supernova');           // Set sender of the mail
         $mail->addAddress($email);           // Add a recipient
         $mail->Subject = 'Subject';
         $mail->Body    = $otp;
