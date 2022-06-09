@@ -268,7 +268,7 @@
                       </div>
                       <br>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-secondary" id="discard" data-dismiss="modal">Discard</button>
                         <button type="button" id="postit" class="btn btn-primary">Post</button>
                       </div>
                     </div>
@@ -416,6 +416,21 @@
         let filesrc = "/uploads/posts/" + response;
         $("#preview").attr("src", filesrc);
         $('.modal').click();
+        $('#discard').click(function(e){
+          console.log('User does not want to post');
+          mydeldata={
+            todel: nameofpic
+          }
+          console.log(mydeldata);
+          $.ajax({
+            url: '/notpostit',
+            method: 'post',
+            data: JSON.stringify(mydeldata),
+            success: function(data){
+              console.log(data);
+            }
+          })
+        });
         $('#postit').click(function(e) {
           console.log('User wants to post now!');
           let sayit = $('#something').val();
@@ -432,6 +447,7 @@
             success: function(data){
               console.log(data);
               $('#cm').click();
+              $('#something').val(' ');
             }
           })
         })

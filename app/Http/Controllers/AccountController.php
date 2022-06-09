@@ -89,17 +89,28 @@ class AccountController extends Controller
     }
     public function postit(Request $req)
     {
-        if ($req->ajax()){
-        $uid = session()->get('id');
-        $data = stripslashes(file_get_contents("php://input"));
-        $mydata = json_decode($data, true);
-        $photo=$mydata['pho'];
-        $caption=$mydata['caption'];
-        $datab= new post;
-        $datab->userid=$uid;
-        $datab->picture=$photo;
-        $datab->caption=$caption;
-        $datab->save();
+        if ($req->ajax()) {
+            $uid = session()->get('id');
+            $data = stripslashes(file_get_contents("php://input"));
+            $mydata = json_decode($data, true);
+            $photo = $mydata['pho'];
+            $caption = $mydata['caption'];
+            $datab = new post;
+            $datab->userid = $uid;
+            $datab->picture = $photo;
+            $datab->caption = $caption;
+            $datab->save();
+        }
+    }
+    public function notpostit(Request $req)
+    {
+        if ($req->ajax()) {
+            $data = stripslashes(file_get_contents("php://input"));
+            $mydata = json_decode($data, true);
+            $dir="uploads/posts";
+            $file=$mydata['todel'];
+            unlink($dir.'/'.$file);
+            return $file;
         }
     }
 }
