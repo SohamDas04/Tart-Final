@@ -22,6 +22,7 @@
                 <h3 class="card-title">Card title</h3>
                 <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
                 <form action="" id="sform">
+                    @csrf
                 <div class="mb-3">
                     <label for="" class="form-label">Name</label>
                     <input type="text" class="form-control" id="name" name="name" minlength="3">
@@ -46,6 +47,10 @@
                 <br>
                 <div class="d-grid gap-2 col-12 mx-auto">
                     <button class="btn btn-primary" type="submit">Sign Up</button>
+                </div>
+                <br>
+                <div class="d-grid gap-2 col-12 ">
+                    <a href="/login" button class="btn btn-primary" type="button">Log in</button></a>
                 </div>
                 </form>
             </div>
@@ -87,10 +92,17 @@
                 uname: username,
                 p: password,
                 cp: cpassword,
-                email
+                email:email
             }
             console.log(mydata);
-            $.ajax()
+            $.ajax({
+                url : "/signup",
+                method: 'POST',
+                data: JSON.stringify(mydata),
+                success:function(data){
+                    console.log(data);
+                }
+            })
 
         })
     </script>

@@ -1,56 +1,55 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Requests\LoginRequest;
-use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\Auth;
+ 
 class LoginController extends Controller
 {
     /**
-     * Display login page.
-     * 
-     * @return Renderable
-     */
-    public function show()
-    {
-        return view('auth.login');
-    }
-
-    /**
-     * Handle account login request
-     * 
-     * @param LoginRequest $request
-     * 
+     * Handle an authentication attempt.
+     *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function login(LoginRequest $request)
+    public function authenticate(Request $request)
     {
-        $credentials = $request->getCredentials();
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+        // dd($request->post());
+ 
+        if (Auth::attempt($credentials)) { 
 
-        if(!Auth::validate($credentials)):
-            return redirect()->to('login')
-                ->withErrors(trans('auth.failed'));
-        endif;
-
-        $user = Auth::getProvider()->retrieveByCredentials($credentials);
-
-        Auth::login($user);
-
-        return $this->authenticated($request, $user);
+            $query=User::select('id')->where('email', $credentials['email'])->get();
+            $id=$query[0]['id'];
+            $request->session()->regenerate();
+            $request->session()->put('id', $id);
+            // dd($request->session()->get('id'));
+           return redirect()->intended('dashboard');
+        }
+ 
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
     }
-
-    /**
-     * Handle response after user authenticated
-     * 
-     * @param Request $request
-     * @param Auth $user
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    protected function authenticated(Request $request, $user) 
+    public function login(){
+        return view('login');
+    }
+    public function dashboard(){
+        return view('dashboard');
+    }
+    public function logout(Request $request)
     {
-        return redirect()->intended();
+        Auth::logout();
+    
+        $request->session()->invalidate();
+    
+        $request->session()->regenerateToken();
+    
+        return redirect('/login');
     }
 }
