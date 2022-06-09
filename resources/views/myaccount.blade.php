@@ -238,7 +238,7 @@
         </div>
         <div class="col-8">
           <form class="form-floating" enctype="multipart/form-data">
-          <input type="file" name="" id="postp" style="display:none;" >
+          <input type="file" name="" id="postp" style="display:none;" multiple>
             <textarea name="" class="form-control" id="" cols="30" style="border-radius: 50px;" placeholder="Write something here..." rows="10"></textarea>
             <!-- <input type="text" class="form-control" id="floatingInputValue" style="border-radius:150px; height: 70px;"> -->
             <!-- <label for="floatingInputValue">Write something here....</label> -->
@@ -252,7 +252,7 @@
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
                   <div class="modal-dialog">
-                    <div class="modal-content" style="width: 600px; height:600px; border-radius:10px;">
+                    <div class="modal-content" style=" border-radius:10px;">
                       <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -262,7 +262,7 @@
                       <div class="modal-body">
                         <form action="">
                           <input type="text" name="" id="" class='form-control' style="border-radius:100px;" placeholder="Something about the post...">
-                          <img src="/boxed-water-is-better-rXJXsecq8YU-unsplash.jpg" alt="xzfdz" >
+                          <img src="" alt="xzfdz" id="preview" >
                         </form>
                         
                       </div>
@@ -397,12 +397,27 @@
   })
   $('.uploadphotos').click(function(e) {
     console.log('Upload Images');
-    // $('.modal').click();
     $('#postp').click();
   })
   $('#postp').change(function(e){
-    var files = $('.form-floating')[0].files;
+    var files = $(this)[0].files;
     console.log(files);
+    var fd = new FormData();
+    fd.append('file', files[0]);
+        $.ajax({
+      url: "/preview",
+      method: 'post',
+      data: fd,
+      contentType: false,
+      processData: false,
+      success: function(response) {
+        console.log(response);
+        let filesrc = "/uploads/posts/" + response;
+        $("#preview").attr("src", filesrc);
+         $('.modal').click();
+      }
+
+    })
   })
 </script>
 

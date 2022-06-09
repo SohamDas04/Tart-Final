@@ -108,4 +108,14 @@ class AccountController extends Controller
         }
         
     }
+    public function preview(Request $req){
+        if($req->file('file')) {
+            
+            $file = $req->file('file');
+            $filename = time().'_'.$file->getClientOriginalName();
+            $location = public_path('/uploads/posts');
+            $re=$file->move($location,$filename);
+            return $filename;
+        }
+    }
 }
