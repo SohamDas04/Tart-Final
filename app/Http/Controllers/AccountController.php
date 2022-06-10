@@ -30,7 +30,7 @@ class AccountController extends Controller
             ->where('userid', $uid)
             ->get();
         $poststable = json_decode(json_encode($posts), true);
-        dd($poststable);
+        // dd($poststable);
         return view('myaccount', ['members' => $getit[0]],['posts'=>$poststable]);
     }
     public function uploadp(Request $req)
