@@ -301,7 +301,9 @@
               <a class="nav-link disabled" href="#">Disabled</a>
             </li>
           </ul>
+          @foreach($posts as $post)
           <br>
+          
           <div class="row">
           <div class="card" style="border: transparent;">
           <div class="row">
@@ -309,15 +311,21 @@
               <img src="/uploads/{{$members['dp']}}" id='postsdp' class="rounded-circle" style="height: 50px; width: 50px; object-fit:cover;" alt="">
             </div>
             <div class="col-10" style="padding-top:10px; margin-left:8px; padding-left: 0px;padding-right: 0px;">
-                <p style="font-size: 20px;">Soham Das</p> 
+                <p style="font-size: 20px;">{{$members['name']}}</p> 
             </div>
           </div>
           <div class="row">
             <div class="col-8 mt-2 mb-2">
-              This is a caption. What do you think about this caption?
+              {{$post['caption']}}
             </div>
           </div>
-            <img class="card-img-top" src="/uploads/1654603363_boxed-water-is-better-rXJXsecq8YU-unsplash.jpg" alt="Card image cap">
+          <?php
+          if($post['picture']!=''){
+          ?>
+            <img class="card-img-top" src="/uploads/posts/{{$post['picture']}}" style="max-height: 350px; object-fit:contain;" alt="Card image cap">
+            <?php
+          }
+            ?>
             <div class="row">
               <div class="col-6" style="padding-right:0px; height: 50px;">
               <button class="btn btn-light btn-lg btn-block" style="width:100%; background: white;"><i class="fa-regular fa-thumbs-up"></i></button>
@@ -326,13 +334,9 @@
               <button class="btn btn-light btn-lg " style="width: 100%; background: white;"><i class="fa fa-commenting" aria-hidden="true"></i></button>
               </div>
             </div>
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
           </div>
           </div>
+          @endforeach
         </div>
       </div>
     </div>
