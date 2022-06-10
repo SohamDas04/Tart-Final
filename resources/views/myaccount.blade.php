@@ -13,7 +13,8 @@
   <script src="http://hayageek.github.io/jQuery-Upload-File/4.0.11/jquery.uploadfile.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <!-- <link rel="stylesheet" href="https://unpkg.com/@popperjs/core@2"> -->
-  <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
+  <!-- <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
   <!-- <script src="/JS/jQuery.js"></script> -->
   <!-- <script src="/JS/bootstrap.js"></script> -->
   <!-- <script src="/JS/popper.js"></script> -->
@@ -156,9 +157,10 @@
         <img src="/uploads/cp/{{$members['cp']}}" id="oldcp" alt="not available" />
         @endif
         <div class="text-block">
-          <i class="fa fa-pencil rounded-circle border border-white border-1 cp_upload" style="background-color:black; padding:5px;" aria-hidden="true"></i>
+          <i class="fa fa-solid fa-camera rounded-circle border border-white border-1 cp_upload" style="background-color:black; padding:5px;" aria-hidden="true"></i>
         </div>
       </div>
+
 
       <div class="profile rounded-circle">
         @if($members['dp']=='')
@@ -172,7 +174,7 @@
         </div>
         <div class="text-block-dp">
           <form action="POST" action="/uploadp" enctype="multipart/form-data">
-            <div id="fileuploader"><i class="fa fa-pencil rounded-circle border border-white border-1 dp_upload" id="{{$members['id']}}" style="background-color:black; padding:5px;" aria-hidden="true"></i></div>
+            <div id="fileuploader"><i class="fa fa-solid fa-camera rounded-circle border border-white border-1 dp_upload" id="{{$members['id']}}" style="background-color:black; padding:5px;" aria-hidden="true"></i></div>
           </form>
         </div>
         <div class="row">
@@ -284,6 +286,7 @@
             </div>
           </form>
           <!-- Button trigger modal -->
+          <br>
           <ul class="nav nav-tabs">
             <li class="nav-item">
               <a class="nav-link active" href="#">Active</a>
@@ -298,6 +301,38 @@
               <a class="nav-link disabled" href="#">Disabled</a>
             </li>
           </ul>
+          <br>
+          <div class="row">
+          <div class="card" style="border: transparent;">
+          <div class="row">
+            <div class="col-1">
+              <img src="/uploads/{{$members['dp']}}" class="rounded-circle" style="height: 50px; width: 50px; object-fit:cover;" alt="">
+            </div>
+            <div class="col-10" style="padding-top:10px; margin-left:8px; padding-left: 0px;padding-right: 0px;">
+                <p style="font-size: 20px;">Soham Das</p> 
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-8 mt-2 mb-2">
+              This is a caption. What do you think about this caption?
+            </div>
+          </div>
+            <img class="card-img-top" src="/uploads/1654603363_boxed-water-is-better-rXJXsecq8YU-unsplash.jpg" alt="Card image cap">
+            <div class="row">
+              <div class="col-6" style="padding-right:0px; height: 50px;">
+              <button class="btn btn-light btn-lg btn-block" style="width:100%; background: white;"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
+              </div>
+              <div class="col-6" style="padding-left:0px; height :50px;">
+              <button class="btn btn-light btn-lg " style="width: 100%; background: white;"><i class="fa fa-commenting" aria-hidden="true"></i></button>
+              </div>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Card title</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+          </div>
+          </div>
         </div>
       </div>
     </div>
@@ -423,8 +458,12 @@
     console.log(files);
     var fd = new FormData();
     fd.append('file', files[0]);
-    fd.append('caption', $('#something').val());
+    
+   
     $('#postit').click(function(e) {
+      let capshn=  $('#something').val();
+      fd.append('nocap', capshn);
+      console.log( $('#something').val())
       $.ajax({
         url: "/postit",
         method: 'post',

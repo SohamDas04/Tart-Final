@@ -94,7 +94,7 @@ class AccountController extends Controller
         if ($req->ajax()) {;
             $file = $req->file('file');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $caption = $req->file('file');
+            $caption = $req->post('nocap');
             $datab = new post;
             $datab->userid = $uid;
             $datab->picture = $filename;
