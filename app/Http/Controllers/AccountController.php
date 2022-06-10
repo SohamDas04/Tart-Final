@@ -65,6 +65,7 @@ class AccountController extends Controller
     }
     public function senddata(Request $req)
     {
+        
         if ($req->ajax()) {
             $uid = session()->get('id');
             $data = stripslashes(file_get_contents("php://input"));
@@ -82,24 +83,26 @@ class AccountController extends Controller
 
             $file = $req->file('file');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $location = public_path('/uploads/posts');
-            $re = $file->move($location, $filename);
+            // $location = public_path('/uploads/posts');
+            // $re = $file->move($location, $filename);
             return $filename;
         }
     }
     public function postit(Request $req)
     {
-        if ($req->ajax()) {
-            $uid = session()->get('id');
-            $data = stripslashes(file_get_contents("php://input"));
-            $mydata = json_decode($data, true);
-            $photo = $mydata['pho'];
-            $caption = $mydata['caption'];
+        $uid = session()->get('id');
+        if ($req->ajax()) {;
+            $file = $req->file('file');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $caption = $req->file('file');
             $datab = new post;
             $datab->userid = $uid;
-            $datab->picture = $photo;
+            $datab->picture = $filename;
             $datab->caption = $caption;
             $datab->save();
+            $location = public_path('/uploads/posts');
+            $re = $file->move($location, $filename);
+            return $filename;
         }
     }
     public function notpostit(Request $req)

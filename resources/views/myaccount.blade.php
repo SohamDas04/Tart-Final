@@ -238,6 +238,7 @@
         </div>
         <div class="col-8">
           <form class="form-floating" enctype="multipart/form-data">
+            @csrf
             <input type="file" name="" id="postp" style="display:none;" multiple>
             <textarea name="" class="form-control" id="" cols="30" style="border-radius: 50px; padding: 1px 20px 1px 20px;" placeholder="Write something here..." rows="10"></textarea>
             <!-- <input type="text" class="form-control" id="floatingInputValue" style="border-radius:150px; height: 70px;"> -->
@@ -261,6 +262,7 @@
                       </div>
                       <div class="modal-body">
                         <form action="">
+                          @csrf
                           <input type="text" name="" class='form-control' style="border-radius:100px;" id="something" placeholder="Something about the post...">
                           <img src="" alt="xzfdz" id="preview">
                         </form>
@@ -282,6 +284,20 @@
             </div>
           </form>
           <!-- Button trigger modal -->
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Active</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -298,15 +314,22 @@
 </body>
 
 <script>
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        console.log(e.target.result);
+        $("#preview").attr("src", e.target.result);
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
   $('#test').change(function(e) {
     var files = $('.uploadp')[0].files;
-    // console.log(files);
 
     var fd = new FormData();
     // Append data 
     fd.append('file', files[0]);
-    //  fd.append('_token',CSRF_TOKEN);
-    // console.log(fd);
     // AJAX request 
     $.ajax({
       url: "/uploadp",
@@ -318,9 +341,6 @@
       success: function(response) {
         console.log(response);
         let filesrc = "/uploads/" + response;
-        // $('#olddp').removeClass('.profile');
-        // $('#olddp').addClass('.re-profile');
-        // $('#newdp').addClass('profile');
         $("#olddp").attr("src", filesrc);
       }
 
@@ -351,9 +371,6 @@
       success: function(response) {
         console.log(response);
         let filesrc = "/uploads/cp/" + response;
-        // $('#olddp').removeClass('.profile');
-        // $('#olddp').addClass('.re-profile');
-        // $('#newdp').addClass('profile');
         $("#oldcp").attr("src", filesrc);
       }
 
@@ -399,63 +416,29 @@
     console.log('Upload Images');
     $('#postp').click();
   })
-  $('#postp').change(function(e) {
+  $('#postp').off().change(function(e) {
+    readURL(this);
+    $('.modal').click();
     var files = $(this)[0].files;
     console.log(files);
     var fd = new FormData();
     fd.append('file', files[0]);
-    $.ajax({
-      url: "/preview",
-      method: 'post',
-      data: fd,
-      contentType: false,
-      processData: false,
-      success: function(response) {
-        console.log(response);
-        var nameofpic=response;
-        let filesrc = "/uploads/posts/" + response;
-        $("#preview").attr("src", filesrc);
-        $('.modal').click();
-        $('#discard').click(function(e){
-          console.log('User does not want to post');
-          mydeldata={
-            todel: nameofpic
-          }
-          console.log(mydeldata);
-          $.ajax({
-            url: '/notpostit',
-            method: 'post',
-            data: JSON.stringify(mydeldata),
-            success: function(data){
-              console.log(data);
-              $('#something').val(' ');
-              $('#cm').click();
-              return false;
-            }
-          })
-        });
-        $('#postit').click(function(e) {
-          console.log('User wants to post now!');
-          let sayit = $('#something').val();
-          console.log(sayit);
-          mydata={
-            caption: sayit,
-            pho: nameofpic
-          }
-          console.log(mydata);
-          $.ajax({
-            url: '/postit',
-            method: 'post',
-            data: JSON.stringify(mydata),
-            success: function(data){
-              console.log(data);
-              $('#something').val(' ');
-              $('#cm').click();
-            }
-          })
-        })
-      }
+    fd.append('caption', $('#something').val());
+    $('#postit').click(function(e) {
+      $.ajax({
+        url: "/postit",
+        method: 'post',
+        data: fd,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+          console.log(response);
+          var nameofpic = response;
+          $('#something').val('');
+          $('#cm').click();
+        }
 
+      })
     })
   })
 </script>
