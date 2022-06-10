@@ -215,10 +215,10 @@
                     <input type="text" class="form-control" style="border-radius: 70px;" name="" id="edid">
                   </div>
                   <div class="col-2">
-                    <button type="button" class="can"><i class="fa fa-ban"></i></button>
+                    <button type="button" class="can btn"><i class="fa fa-ban"></i></button>
                   </div>
                   <div class="col-2">
-                    <button type="submit"><i class="fa fa-floppy-o"></i></button>
+                    <button type="submit" class="btn"><i class="fa-regular fa-floppy-disk"></i></button>
                   </div>
                 </div>
               </form>
@@ -306,7 +306,7 @@
           <div class="card" style="border: transparent;">
           <div class="row">
             <div class="col-1">
-              <img src="/uploads/{{$members['dp']}}" class="rounded-circle" style="height: 50px; width: 50px; object-fit:cover;" alt="">
+              <img src="/uploads/{{$members['dp']}}" id='postsdp' class="rounded-circle" style="height: 50px; width: 50px; object-fit:cover;" alt="">
             </div>
             <div class="col-10" style="padding-top:10px; margin-left:8px; padding-left: 0px;padding-right: 0px;">
                 <p style="font-size: 20px;">Soham Das</p> 
@@ -320,7 +320,7 @@
             <img class="card-img-top" src="/uploads/1654603363_boxed-water-is-better-rXJXsecq8YU-unsplash.jpg" alt="Card image cap">
             <div class="row">
               <div class="col-6" style="padding-right:0px; height: 50px;">
-              <button class="btn btn-light btn-lg btn-block" style="width:100%; background: white;"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
+              <button class="btn btn-light btn-lg btn-block" style="width:100%; background: white;"><i class="fa-regular fa-thumbs-up"></i></button>
               </div>
               <div class="col-6" style="padding-left:0px; height :50px;">
               <button class="btn btn-light btn-lg " style="width: 100%; background: white;"><i class="fa fa-commenting" aria-hidden="true"></i></button>
@@ -377,6 +377,7 @@
         console.log(response);
         let filesrc = "/uploads/" + response;
         $("#olddp").attr("src", filesrc);
+        $("#postsdp").attr("src", filesrc);
       }
 
     })
