@@ -323,7 +323,7 @@
           if($post['picture']!=''){
           ?>
           <div style="background: black;">
-            <img class="card-img-top" src="/uploads/posts/{{$post['picture']}}" style="max-height: 350px; width:100%; object-fit:contain;" alt="Card image cap">
+            <img class="card-img-top" src="/uploads/posts/{{$post['picture']}}" style="max-height: 350px; width:100%; object-fit:contain;">
           </div>  
             <?php
           }
