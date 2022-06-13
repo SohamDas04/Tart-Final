@@ -17,10 +17,10 @@ class CreatePostsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('userid');
-            $table->string('picture');
-            $table->integer('likes');
-            $table->string('comments');
-            $table->string('caption');
+            $table->string('picture')->nullable()->change();
+            $table->integer('likes')->default(0)->change();
+            $table->string('comments')->nullable()->change();
+            $table->string('caption')->nullable()->change();
         });
     }
 

@@ -152,7 +152,7 @@
     <div class="main">
       <div class="cover">
         @if($members['cp']=='')
-        <img src="/boxed-water-is-better-rXJXsecq8YU-unsplash.jpg" id="oldcp" alt="/mikita-yo-uw4HlQ53cAA-unsplash.jpg" />
+        <img src="/boxed-water-is-better-rXJXsecq8YU-unsplash.jpg" id="oldcp" alt="Not Available" />
         @else
         <img src="/uploads/cp/{{$members['cp']}}" id="oldcp" alt="not available" />
         @endif
@@ -164,7 +164,7 @@
 
       <div class="profile rounded-circle">
         @if($members['dp']=='')
-        <img src="/mikita-yo-uw4HlQ53cAA-unsplash.jpg" alt="/mikita-yo-uw4HlQ53cAA-unsplash.jpg" id="olddp" class="rounded-circle border border-white border-4 dp" />
+        <img src="/boxed-water-is-better-rXJXsecq8YU-unsplash.jpg" alt="notavailable" id="olddp" class="rounded-circle border border-white border-4 dp" />
         @else
         <img src="/uploads/{{$members['dp']}}" alt="notavailable" id="olddp" class="rounded-circle border border-white border-4 dp" />
         @endif
@@ -304,7 +304,7 @@
           @foreach($posts as $post)
           <br>
           
-          <div class="row">
+          <div class="row" id="newpost">
           <div class="card" style="border: transparent;">
           <div class="row">
             <div class="col-1">
@@ -482,6 +482,7 @@
           var nameofpic = response;
           $('#something').val('');
           $('#cm').click();
+          $('#newposts').children().append()
         }
 
       })
