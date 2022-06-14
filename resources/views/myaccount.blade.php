@@ -142,22 +142,22 @@
           <li class="nav-item">
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
           </li>
-        </ul>
-        <div class="frmsearch" style="margin-right:50px;">
-          <form class="d-flex searchform">
-            <li class="nav-item dropdown">
-              <div class="row">
+          <li class="nav-item" style="margin-left:60px;">
+            <div class="frmsearch" style="margin-right:80px;">
+              <form class="d-flex searchform">
+          <li class="nav-item dropdown mt-0 pt-0">
+            <div class="row mt-0 pt-0">
               <div class="col-10" style="margin-right:0px; padding-right:0px;">
-              <input class="form-control me-2 dropdown-toggle stoggle" type="search" placeholder="Search" id="search-box" aria-label="Search">
+                <input class="form-control me-2 dropdown-toggle stoggle" type="search" placeholder="Search" id="search-box" aria-label="Search">
               </div>
               <div class="col-2" style="margin-left:0px; padding-left:2px;">
                 <button class="btn btn-outline-success" type="submit">Search</button>
               </div>
-             </div>
-             
-               
-            
-            
+            </div>
+
+
+
+
             <!-- <a class="nav-link dropdown-toggle stoggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Dropdown
             </a> -->
@@ -169,24 +169,27 @@
               </li>
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
-            
+
           </li>
-         
-          
-            
-            
-            <!-- <div id="suggesstion-box">
+
+
+
+
+          <!-- <div id="suggesstion-box">
               <ul id="usuggestion">
 
               </ul>
             </div> -->
 
           </form>
-        </div>
-        <form method="GET" action="/logout" class="d-flex" style="margin-right:50px;">
-          <button type="Submit" class="btn btn-light">Logout</button>
-        </form>
       </div>
+      </li>
+      </ul>
+
+      <form method="GET" action="/logout" class="d-flex" style="margin-right:50px;">
+        <button type="Submit" class="btn btn-light">Logout</button>
+      </form>
+    </div>
     </div>
   </nav>
   <div class="container" style="background-color:white;">
@@ -537,7 +540,7 @@
       // return false;
       // $('.stoggle').click();
       $('.smenu').show();
-      $(document).click(function(){
+      $(document).click(function() {
         $('.smenu').hide();
         $("#search-box").val('');
       })
@@ -572,7 +575,7 @@
     $("#search-box").val(val);
     $("#suggesstion-box").hide();
   }
-  $('.stoggle').click(function(){
+  $('.stoggle').click(function() {
     console.log('clicked');
   })
 </script>
