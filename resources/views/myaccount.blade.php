@@ -21,6 +21,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
+
   <style>
     .main {
       display: block;
@@ -142,11 +143,44 @@
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
           </li>
         </ul>
-        <div class="form-search">
-          <form class="d-flex" style="margin-right:50px;">
-            <input class="form-control me-2" type="search" placeholder="Search" id="search-box" aria-label="Search">
-            <div id="suggesstion-box"></div>
-            <button class="btn btn-outline-success" type="submit">Search</button>
+        <div class="frmsearch" style="margin-right:50px;">
+          <form class="d-flex searchform">
+            <li class="nav-item dropdown">
+              <div class="row">
+              <div class="col-10" style="margin-right:0px; padding-right:0px;">
+              <input class="form-control me-2 dropdown-toggle stoggle" type="search" placeholder="Search" id="search-box" aria-label="Search">
+              </div>
+              <div class="col-2" style="margin-left:0px; padding-left:2px;">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+              </div>
+             </div>
+             
+               
+            
+            
+            <!-- <a class="nav-link dropdown-toggle stoggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Dropdown
+            </a> -->
+            <ul class="dropdown-menu smenu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+            
+          </li>
+         
+          
+            
+            
+            <!-- <div id="suggesstion-box">
+              <ul id="usuggestion">
+
+              </ul>
+            </div> -->
+
           </form>
         </div>
         <form method="GET" action="/logout" class="d-flex" style="margin-right:50px;">
@@ -349,6 +383,7 @@
         </div>
       </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <!-- Optional JavaScript; choose one of the two!
 
           Option 1: Bootstrap Bundle with Popper
@@ -500,6 +535,13 @@
     $("#search-box").keyup(function() {
       // console.log( $(this).val());
       // return false;
+      // $('.stoggle').click();
+      $('.smenu').show();
+      $(document).click(function(){
+        $('.smenu').hide();
+        $("#search-box").val('');
+      })
+      return false;
       $.ajax({
         type: "POST",
         url: '/search',
@@ -509,12 +551,15 @@
         },
         success: function(data) {
           console.log(data);
+          $('#searchform').addClass('nav-item');
+          $('#searchform').addClass('dropdown');
           let c = 0;
           for (let i = 0; i < data.length; i++) {
             console.log(data[c]['name']);
+            let name = data[c]['name'];
             c++;
             $("#suggesstion-box").show();
-            $("#suggesstion-box").html(data[c]['name']);
+            $("#usuggestion").html('<li> onClick=selectUser(' + name + ')</li>');
             $("#search-box").css("background", "#FFF");
           }
           // return false;
@@ -522,11 +567,14 @@
       });
     });
   });
-  //To select country name
-  function selectCountry(val) {
+  //To select user name
+  function selectUser(val) {
     $("#search-box").val(val);
     $("#suggesstion-box").hide();
   }
+  $('.stoggle').click(function(){
+    console.log('clicked');
+  })
 </script>
 
 </html>
