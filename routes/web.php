@@ -34,3 +34,4 @@ Route::post('/createdu',[AccountController::class,'senddata']);
 Route::post('/preview',[AccountController::class,'preview']);
 Route::post('/postit',[AccountController::class,'postit']);
 Route::post('/notpostit',[AccountController::class,'notpostit']);
+Route::post('/search',[AccountController::class,'search']);

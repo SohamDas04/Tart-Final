@@ -142,6 +142,13 @@
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
           </li>
         </ul>
+        <div class="form-search">
+          <form class="d-flex" style="margin-right:50px;">
+            <input class="form-control me-2" type="search" placeholder="Search" id="search-box" aria-label="Search">
+            <div id="suggesstion-box"></div>
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
         <form method="GET" action="/logout" class="d-flex" style="margin-right:50px;">
           <button type="Submit" class="btn btn-light">Logout</button>
         </form>
@@ -164,7 +171,7 @@
 
       <div class="profile rounded-circle">
         @if($members['dp']=='')
-        <img src="/boxed-water-is-better-rXJXsecq8YU-unsplash.jpg" alt="notavailable" id="olddp" class="rounded-circle border border-white border-4 dp" />
+        <img src="/blank-profile-picture-973460_1280.png" alt="notavailable" id="olddp" class="rounded-circle border border-white border dp" />
         @else
         <img src="/uploads/{{$members['dp']}}" alt="notavailable" id="olddp" class="rounded-circle border border-white border-4 dp" />
         @endif
@@ -265,7 +272,7 @@
                       <div class="modal-body">
                         <form action="">
                           @csrf
-                          <input type="text" name="" class='form-control' style="border-radius:100px;" id="something" placeholder="Something about the post...">
+                          <input type="text" name="" class='form-control mb-4' style="border: none transparent;outline: none;" id="something" placeholder="Something about the post...">
                           <img src="" alt="xzfdz" id="preview">
                         </form>
 
@@ -303,40 +310,40 @@
           </ul>
           @foreach($posts as $post)
           <br>
-          
+
           <div class="row" id="newpost">
-          <div class="card" style="border: transparent;">
-          <div class="row">
-            <div class="col-1">
-              <img src="/uploads/{{$members['dp']}}" id='postsdp' class="rounded-circle" style="height: 50px; width: 50px; object-fit:cover;" alt="">
-            </div>
-            <div class="col-10" style="padding-top:10px; margin-left:8px; padding-left: 0px;padding-right: 0px;">
-                <p style="font-size: 20px;">{{$members['name']}}</p> 
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-8 mt-2 mb-2">
-              {{$post['caption']}}
-            </div>
-          </div>
-          <?php
-          if($post['picture']!=''){
-          ?>
-          <div style="background: black;">
-            <img class="card-img-top" src="/uploads/posts/{{$post['picture']}}" style="max-height: 350px; width:100%; object-fit:contain;">
-          </div>  
-            <?php
-          }
-            ?>
-            <div class="row">
-              <div class="col-6" style="padding-right:0px; height: 50px;">
-              <button class="btn btn-light btn-lg btn-block" style="width:100%; background: white;"><i class="fa-regular fa-thumbs-up"></i></button>
+            <div class="card" style="border: transparent;">
+              <div class="row">
+                <div class="col-1">
+                  <img src="/uploads/{{$members['dp']}}" id='postsdp' class="rounded-circle" style="height: 50px; width: 50px; object-fit:cover;" alt="">
+                </div>
+                <div class="col-10" style="padding-top:10px; margin-left:8px; padding-left: 0px;padding-right: 0px;">
+                  <p style="font-size: 20px;">{{$members['name']}}</p>
+                </div>
               </div>
-              <div class="col-6" style="padding-left:0px; height :50px;">
-              <button class="btn btn-light btn-lg " style="width: 100%; background: white;"><i class="fa fa-commenting" aria-hidden="true"></i></button>
+              <div class="row">
+                <div class="col-8 mt-2 mb-2">
+                  {{$post['caption']}}
+                </div>
+              </div>
+              <?php
+              if ($post['picture'] != '') {
+              ?>
+                <div style="background: black;">
+                  <img class="card-img-top" src="/uploads/posts/{{$post['picture']}}" style="max-height: 350px; width:100%; object-fit:contain;">
+                </div>
+              <?php
+              }
+              ?>
+              <div class="row">
+                <div class="col-6" style="padding-right:0px; height: 50px;">
+                  <button class="btn btn-light btn-lg btn-block" style="width:100%; background: white;"><i class="fa-regular fa-thumbs-up"></i></button>
+                </div>
+                <div class="col-6" style="padding-left:0px; height :50px;">
+                  <button class="btn btn-light btn-lg " style="width: 100%; background: white;"><i class="fa fa-commenting" aria-hidden="true"></i></button>
+                </div>
               </div>
             </div>
-          </div>
           </div>
           @endforeach
         </div>
@@ -465,12 +472,12 @@
     console.log(files);
     var fd = new FormData();
     fd.append('file', files[0]);
-    
-   
+
+
     $('#postit').click(function(e) {
-      let capshn=  $('#something').val();
+      let capshn = $('#something').val();
       fd.append('nocap', capshn);
-      console.log( $('#something').val())
+      console.log($('#something').val())
       $.ajax({
         url: "/postit",
         method: 'post',
@@ -488,6 +495,38 @@
       })
     })
   })
+  // AJAX call for autocomplete 
+  $(document).ready(function() {
+    $("#search-box").keyup(function() {
+      // console.log( $(this).val());
+      // return false;
+      $.ajax({
+        type: "POST",
+        url: '/search',
+        data: 'keyword=' + $(this).val(),
+        beforeSend: function() {
+          $("#search-box").css("background", "#FFF url(/Spinner-5.gif) no-repeat 165px");
+        },
+        success: function(data) {
+          console.log(data);
+          let c = 0;
+          for (let i = 0; i < data.length; i++) {
+            console.log(data[c]['name']);
+            c++;
+            $("#suggesstion-box").show();
+            $("#suggesstion-box").html(data[c]['name']);
+            $("#search-box").css("background", "#FFF");
+          }
+          // return false;
+        }
+      });
+    });
+  });
+  //To select country name
+  function selectCountry(val) {
+    $("#search-box").val(val);
+    $("#suggesstion-box").hide();
+  }
 </script>
 
 </html>

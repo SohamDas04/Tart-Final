@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Information;
+use App\Models\User;
 use App\Models\post;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -119,6 +120,17 @@ class AccountController extends Controller
             $file=$mydata['todel'];
             unlink($dir.'/'.$file);
             return $file;
+        }
+    }
+    public function search(Request $req){
+        if ($req->ajax()){
+            $user=User::where('name', $_POST["keyword"])
+            ->orWhere('name', 'like', '%' . $_POST["keyword"] . '%')->get();
+            // dd($user);
+            return $user;
+            
+
+            
         }
     }
 }
