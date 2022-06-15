@@ -387,6 +387,7 @@
 </body>
 
 <script>
+
   function readURL(input) {
     if (input.files && input.files[0]) {
       var reader = new FileReader();
@@ -486,11 +487,139 @@
       }
     })
   })
-  $('.uploadphotos').click(function(e) {
-    console.log('Upload Images');
-    $('#postp').click();
-  })
-  $('#postp').off().change(function(e) {
+
+
+
+
+
+  // $('#postp').off().change(function(e) {
+  //   readURL(this);
+  //   $('.modal').click();
+  //   var files = $(this)[0].files;
+  //   console.log(files);
+  //   var fd = new FormData();
+  //   fd.append('file', files[0]);
+
+
+  //   $('#postit').click(function(e) {
+  //     let capshn = $('#something').val();
+  //     fd.append('nocap', capshn);
+  //     console.log($('#something').val())
+  //     $.ajax({
+  //       url: "/postit",
+  //       method: 'post',
+  //       data: fd,
+  //       contentType: false,
+  //       processData: false,
+  //       success: function(response) {
+  //         console.log(response);
+  //         var nameofpic = response;
+  //         $('#something').val('');
+  //         $('#cm').click();
+  //         $('#newposts').children().append()
+  //       }
+
+  //     })
+  //   })
+  // })
+  // $("body").click(function(e) {
+  //     console.log(e.target);
+  //   });
+  // AJAX call for autocomplete 
+  
+    $('.uploadphotos').click(function(e) {
+      console.log("upload");
+      $('#postp').click();
+      // console.log("hi");
+    });
+
+    $("#search-box").keyup(function(e) {
+      $(".plist").empty();
+      $("#divider").empty();
+      $("#seeall").empty();
+      // console.log( $(this).val());
+      // return false;
+      // $('.stoggle').click();
+      if ($('#search-box').val() != '') {
+        $("#search-box").css("background", "#FFF url(/Spinner-5.gif) no-repeat 250px");
+      } else {
+        $("#search-box").css('background', '#FFF');
+      }
+      if ($('#search-box').val() == '') {
+        $('.smenu').hide();
+        console.log('Empty');
+       // return false;
+      }
+      if (e.keyCode >= 8 && e.keyCode <= 46 && $('#search-box').val() == '') {
+        console.log('b tapped');
+        console.log('Empty');
+        return false;
+      }
+
+      $('.body').click(function() {
+        $('.smenu').hide();
+        $("#search-box").val('');
+        $("#search-box").css('background', '#FFF');
+        //return false;
+      })
+      // return false;
+      $.ajax({
+        type: "POST",
+        url: '/search',
+        data: 'keyword=' + $(this).val(),
+        beforeSend: function() {
+          // $("#search-box").css("background", "#FFF url(/Spinner-5.gif) no-repeat 250px");
+        },
+        success: function(data) {
+          console.log(data);
+          if (data.length == 0) {
+            $('.smenu').hide();
+          }
+          // $('#searchform').addClass('nav-item');
+          // $('#searchform').addClass('dropdown');
+          let c = 0;
+          let namearray = [];
+          for (let i = 0; i < data.length; i++) {
+            console.log(data[c]['name']);
+            let name = data[c]['name'];
+            // $("#suggesstion-box").show();
+            $("#plist").append('<button type="button" class="btn btn-light dbu"><li><class="dropdown-item" id="' + data[c]['id'] + '">' + name + '</li></button><br>');
+            $("#divider").html('<li><hr class="dropdown-divider"></li>');
+            $("#seeall").html('<li><a class="dropdown-item" href="#">See all results</a></li>');
+            if (data[c]['name'] != '')
+              $('.smenu').show();
+
+            $("#search-box").css("background", "#FFF");
+
+            namearray[i] = data[c]['id'];
+            console.log(namearray);
+            c++;
+          }
+          $('.dbu').click(function(e) {
+            e.preventDefault();
+            console.log($(this).children().text());
+            console.log($(this).children().children().attr('id'));
+            $('#search-box').attr('hideit', $(this).attr('id'))
+            console.log($('#search-box').attr('hideit'))
+            $('#search-box').val($(this).children().text());
+            $('.smenu').hide();
+            //return false;
+          })
+
+          // return false;
+          // <li><a class="dropdown-item" href="#">Action</a></li>
+
+          //         $('.uploadphotos').click(function(e) {
+          //           console.log("hjf");
+          //     $('#postp').trigger('click');    
+          // })
+
+        }
+
+      });
+    });
+
+  $('#postp').change(function(e) {
     readURL(this);
     $('.modal').click();
     var files = $(this)[0].files;
@@ -520,90 +649,6 @@
       })
     })
   })
-  // $("body").click(function(e) {
-  //     console.log(e.target);
-  //   });
-  // AJAX call for autocomplete 
-  $(document).ready(function() {
-    $("#search-box").keyup(function(e) {
-      $(".plist").empty();
-      $("#divider").empty();
-      $("#seeall").empty();
-      // console.log( $(this).val());
-      // return false;
-      // $('.stoggle').click();
-      if ($('#search-box').val() != '') {
-        $("#search-box").css("background", "#FFF url(/Spinner-5.gif) no-repeat 250px");
-      } else {
-        $("#search-box").css('background', '#FFF');
-      }
-      if ($('#search-box').val() == '') {
-        $('.smenu').hide();
-        console.log('Empty');
-        return false;
-      }
-      if (e.keyCode >= 8 && e.keyCode <= 46 && $('#search-box').val() == '') {
-        console.log('b tapped');
-        console.log('Empty');
-        return false;
-      }
-
-      $('.body').click(function() {
-        $('.smenu').hide();
-        $("#search-box").val('');
-        $("#search-box").css('background', '#FFF');
-        return false;
-      })
-      // return false;
-      $.ajax({
-        type: "POST",
-        url: '/search',
-        data: 'keyword=' + $(this).val(),
-        beforeSend: function() {
-          // $("#search-box").css("background", "#FFF url(/Spinner-5.gif) no-repeat 250px");
-        },
-        success: function(data) {
-          console.log(data);
-          if (data.length == 0) {
-            $('.smenu').hide();
-          }
-          // $('#searchform').addClass('nav-item');
-          // $('#searchform').addClass('dropdown');
-          let c = 0;
-          let namearray = [];
-          for (let i = 0; i < data.length; i++) {
-            console.log(data[c]['name']);
-            let name = data[c]['name'];
-            // $("#suggesstion-box").show();
-            $("#plist").append('<button type="button" class="btn btn-light dbu"><li><class="dropdown-item" id="'+data[c]['id']+'">' + name + '</li></button><br>');
-            $("#divider").html('<li><hr class="dropdown-divider"></li>');
-            $("#seeall").html('<li><a class="dropdown-item" href="#">See all results</a></li>');
-            if (data[c]['name'] != '')
-              $('.smenu').show();
-
-            $("#search-box").css("background", "#FFF");
-
-            namearray[i] = data[c]['id'];
-            console.log(namearray);
-            c++;
-          }
-          $('.dbu').click(function(e) {
-            e.preventDefault();
-            console.log($(this).children().text());
-            console.log($(this).children().children().attr('id'));
-            $('#search-box').attr('hideit',$(this).attr('id'))
-            console.log($('#search-box').attr('hideit'))
-            $('#search-box').val($(this).children().text());
-            $('.smenu').hide();
-          })
-
-          // return false;
-          // <li><a class="dropdown-item" href="#">Action</a></li>
-        }
-
-      });
-    });
-  });
   // $('.smenu').hide(function(){
 
   // });
@@ -618,6 +663,7 @@
   $('.dropdown-item').click(function() {
     console.log($(this).text());
   })
+
 </script>
 
 </html>
