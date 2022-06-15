@@ -129,7 +129,7 @@
           <li class="nav-item dropdown mt-0 pt-0">
             <div class="row mt-0 pt-0">
               <div class="col-10" style="margin-right:0px; padding-right:0px;">
-                <input class="form-control me-2 dropdown-toggle stoggle" type="search" placeholder="Search" id="search-box" aria-label="Search">
+                <input class="form-control me-2 dropdown-toggle stoggle" type="text" placeholder="Search" hideit="" id="search-box" aria-label="Search">
               </div>
               <div class="col-2" style="margin-left:0px; padding-left:2px;">
                 <button class="btn btn-outline-success" type="submit">Search</button>
@@ -525,7 +525,6 @@
   //   });
   // AJAX call for autocomplete 
   $(document).ready(function() {
-
     $("#search-box").keyup(function(e) {
       $(".plist").empty();
       $("#divider").empty();
@@ -533,17 +532,27 @@
       // console.log( $(this).val());
       // return false;
       // $('.stoggle').click();
+      if ($('#search-box').val() != '') {
+        $("#search-box").css("background", "#FFF url(/Spinner-5.gif) no-repeat 250px");
+      } else {
+        $("#search-box").css('background', '#FFF');
+      }
       if ($('#search-box').val() == '') {
         $('.smenu').hide();
+        console.log('Empty');
+        return false;
       }
       if (e.keyCode >= 8 && e.keyCode <= 46 && $('#search-box').val() == '') {
         console.log('b tapped');
+        console.log('Empty');
         return false;
       }
 
       $('.body').click(function() {
         $('.smenu').hide();
         $("#search-box").val('');
+        $("#search-box").css('background', '#FFF');
+        return false;
       })
       // return false;
       $.ajax({
@@ -551,11 +560,11 @@
         url: '/search',
         data: 'keyword=' + $(this).val(),
         beforeSend: function() {
-          $("#search-box").css("background", "#FFF url(/Spinner-5.gif) no-repeat 165px");
+          // $("#search-box").css("background", "#FFF url(/Spinner-5.gif) no-repeat 250px");
         },
         success: function(data) {
           console.log(data);
-          if(data.length==0){
+          if (data.length == 0) {
             $('.smenu').hide();
           }
           // $('#searchform').addClass('nav-item');
@@ -566,11 +575,11 @@
             console.log(data[c]['name']);
             let name = data[c]['name'];
             // $("#suggesstion-box").show();
-            $("#plist").append('<li><a class="dropdown-item" href="#">' + name + '</a></li>');
+            $("#plist").append('<button type="button" class="btn btn-light dbu"><li><class="dropdown-item" id="'+data[c]['id']+'">' + name + '</li></button><br>');
             $("#divider").html('<li><hr class="dropdown-divider"></li>');
             $("#seeall").html('<li><a class="dropdown-item" href="#">See all results</a></li>');
-            if(data[c]['name']!='')
-            $('.smenu').show();
+            if (data[c]['name'] != '')
+              $('.smenu').show();
 
             $("#search-box").css("background", "#FFF");
 
@@ -578,6 +587,15 @@
             console.log(namearray);
             c++;
           }
+          $('.dbu').click(function(e) {
+            e.preventDefault();
+            console.log($(this).children().text());
+            console.log($(this).children().children().attr('id'));
+            $('#search-box').attr('hideit',$(this).attr('id'))
+            console.log($('#search-box').attr('hideit'))
+            $('#search-box').val($(this).children().text());
+            $('.smenu').hide();
+          })
 
           // return false;
           // <li><a class="dropdown-item" href="#">Action</a></li>
@@ -586,7 +604,9 @@
       });
     });
   });
+  // $('.smenu').hide(function(){
 
+  // });
   //To select user name
   // function selectUser(val) {
   //   $("#search-box").val(val);
@@ -595,6 +615,9 @@
   // $('.stoggle').click(function() {
   //   console.log('clicked');
   // })
+  $('.dropdown-item').click(function() {
+    console.log($(this).text());
+  })
 </script>
 
 </html>
