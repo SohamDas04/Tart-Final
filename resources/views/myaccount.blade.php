@@ -537,9 +537,6 @@
       $(".plist").empty();
       $("#divider").empty();
       $("#seeall").empty();
-      // console.log( $(this).val());
-      // return false;
-      // $('.stoggle').click();
       if ($('#search-box').val() != '') {
         $("#search-box").css("background", "#FFF url(/Spinner-5.gif) no-repeat 250px");
       } else {
@@ -548,7 +545,6 @@
       if ($('#search-box').val() == '') {
         $('.smenu').hide();
         console.log('Empty');
-       // return false;
       }
       if (e.keyCode >= 8 && e.keyCode <= 46 && $('#search-box').val() == '') {
         console.log('b tapped');
@@ -560,9 +556,7 @@
         $('.smenu').hide();
         $("#search-box").val('');
         $("#search-box").css('background', '#FFF');
-        //return false;
       })
-      // return false;
       $.ajax({
         type: "POST",
         url: '/search',
@@ -603,16 +597,7 @@
             console.log($('#search-box').attr('hideit'))
             $('#search-box').val($(this).children().text());
             $('.smenu').hide();
-            //return false;
           })
-
-          // return false;
-          // <li><a class="dropdown-item" href="#">Action</a></li>
-
-          //         $('.uploadphotos').click(function(e) {
-          //           console.log("hjf");
-          //     $('#postp').trigger('click');    
-          // })
 
         }
 
@@ -649,17 +634,6 @@
       })
     })
   })
-  // $('.smenu').hide(function(){
-
-  // });
-  //To select user name
-  // function selectUser(val) {
-  //   $("#search-box").val(val);
-  //   $("#suggesstion-box").hide();
-  // }
-  // $('.stoggle').click(function() {
-  //   console.log('clicked');
-  // })
   $('.dropdown-item').click(function() {
     console.log($(this).text());
   })
