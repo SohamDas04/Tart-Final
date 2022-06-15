@@ -143,12 +143,16 @@
               Dropdown
             </a> -->
             <ul class="dropdown-menu smenu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li>
+              <div id="plist" class="plist"></div>
+              <!-- <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li> -->
+
+              <div id="divider"></div>
+              <!-- <li>
                 <hr class="dropdown-divider">
-              </li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </li> -->
+              <div id="seeall"></div>
+              <!-- <li><a class="dropdown-item" href="#">See all results</a></li> -->
             </ul>
 
           </li>
@@ -173,197 +177,199 @@
     </div>
     </div>
   </nav>
-  <div class="container" style="background-color:white;">
-    <div class="main">
-      <div class="cover">
-        @if($members['cp']=='')
-        <img src="/boxed-water-is-better-rXJXsecq8YU-unsplash.jpg" id="oldcp" alt="Not Available" />
-        @else
-        <img src="/uploads/cp/{{$members['cp']}}" id="oldcp" alt="not available" />
-        @endif
-        <div class="text-block">
-          <i class="fa fa-solid fa-camera rounded-circle border border-white border-1 cp_upload" style="background-color:black; padding:5px;" aria-hidden="true"></i>
-        </div>
-      </div>
-
-
-      <div class="profile rounded-circle">
-        @if($members['dp']=='')
-        <img src="/blank-profile-picture-973460_1280.png" alt="notavailable" id="olddp" class="rounded-circle border border-white border dp" />
-        @else
-        <img src="/uploads/{{$members['dp']}}" alt="notavailable" id="olddp" class="rounded-circle border border-white border-4 dp" />
-        @endif
-        <img src="/uploads/{{$members['dp']}}" alt="notavailable" class="rounded-circle border border-white border-4 dp" id="newdp" style="display: none;" />
-        <div style="display: none;">
-          <img src="" alt="">
-        </div>
-        <div class="text-block-dp">
-          <form action="POST" action="/uploadp" enctype="multipart/form-data">
-            <div id="fileuploader"><i class="fa fa-solid fa-camera rounded-circle border border-white border-1 dp_upload" id="{{$members['id']}}" style="background-color:black; padding:5px;" aria-hidden="true"></i></div>
-          </form>
-        </div>
-        <div class="row">
-          <div class="col">
-            <h2 class="d-flex justify-content-center">{{$members['name']}}</h2>
+  <div class="body">
+    <div class="container" style="background-color:white;">
+      <div class="main">
+        <div class="cover">
+          @if($members['cp']=='')
+          <img src="/boxed-water-is-better-rXJXsecq8YU-unsplash.jpg" id="oldcp" alt="Not Available" />
+          @else
+          <img src="/uploads/cp/{{$members['cp']}}" id="oldcp" alt="not available" />
+          @endif
+          <div class="text-block">
+            <i class="fa fa-solid fa-camera rounded-circle border border-white border-1 cp_upload" style="background-color:black; padding:5px;" aria-hidden="true"></i>
           </div>
         </div>
-      </div>
-    </div>
-    <br><br><br>
-    <div class="container">
-      <div class="row">
-        <div class=" col-4">
+
+
+        <div class="profile rounded-circle">
+          @if($members['dp']=='')
+          <img src="/blank-profile-picture-973460_1280.png" alt="notavailable" id="olddp" class="rounded-circle border border-white border dp" />
+          @else
+          <img src="/uploads/{{$members['dp']}}" alt="notavailable" id="olddp" class="rounded-circle border border-white border-4 dp" />
+          @endif
+          <img src="/uploads/{{$members['dp']}}" alt="notavailable" class="rounded-circle border border-white border-4 dp" id="newdp" style="display: none;" />
+          <div style="display: none;">
+            <img src="" alt="">
+          </div>
+          <div class="text-block-dp">
+            <form action="POST" action="/uploadp" enctype="multipart/form-data">
+              <div id="fileuploader"><i class="fa fa-solid fa-camera rounded-circle border border-white border-1 dp_upload" id="{{$members['id']}}" style="background-color:black; padding:5px;" aria-hidden="true"></i></div>
+            </form>
+          </div>
           <div class="row">
-            <button type="button" class="btn btn-dark" style="border-radius:50px;">Friends</button>
-          </div>
-          <br>
-          <div class="row" style="background-color:rgba(250, 248, 245)">
-            <div class="col-12">
-              Date of birth <i class="fa fa-pencil" aria-hidden="true"></i>
-              <p>{{$members['dob']}}</p>
-            </div>
-          </div>
-          <div class="row" style="background-color:rgba(250, 248, 245);">
-            <div class="col-12">
-              From <i class="fa fa-pencil" aria-hidden="true"></i>
-              <p>{{$members['place']}}</p>
-            </div>
-          </div>
-          <div class="row" style="background-color:rgba(250, 248, 245);">
-            <div class="col-12">
-              Education <i class="fa fa fa-pencil ed" aria-hidden="true"></i>
-              <p class="education">{{$members['ed']}}</p>
-              <!-- <p> -->
-              <form class="eded" style="display:none;" action="">
-                <div class="row">
-                  <div class="col-8">
-                    <input type="text" class="form-control" style="border-radius: 70px;" name="" id="edid">
-                  </div>
-                  <div class="col-2">
-                    <button type="button" class="can btn"><i class="fa fa-ban"></i></button>
-                  </div>
-                  <div class="col-2">
-                    <button type="submit" class="btn"><i class="fa-regular fa-floppy-disk"></i></button>
-                  </div>
-                </div>
-              </form>
-              <!-- </p> -->
-            </div>
-          </div>
-          <div class="row" style="background-color:rgba(250, 248, 245);">
-            <div class="col-12">
-              Gender <i class="fa fa-pencil" aria-hidden="true"></i>
-              <p>{{$members['gender']}}</p>
-            </div>
-          </div>
-          <div class="row" style="background-color:rgba(250, 248, 245);">
-            <div class="col-12">
-              Interested <i class="fa fa-pencil" aria-hidden="true"></i>
-              <p>{{$members['interested']}}</p>
+            <div class="col">
+              <h2 class="d-flex justify-content-center">{{$members['name']}}</h2>
             </div>
           </div>
         </div>
-        <div class="col-8">
-          <form class="form-floating" enctype="multipart/form-data">
-            @csrf
-            <input type="file" name="" id="postp" style="display:none;" multiple>
-            <textarea name="" class="form-control" id="" cols="30" style="border-radius: 50px; padding: 1px 20px 1px 20px;" placeholder="Write something here..." rows="10"></textarea>
-            <!-- <input type="text" class="form-control" id="floatingInputValue" style="border-radius:150px; height: 70px;"> -->
-            <!-- <label for="floatingInputValue">Write something here....</label> -->
+      </div>
+      <br><br><br>
+      <div class="container">
+        <div class="row">
+          <div class=" col-4">
             <div class="row">
-              <div class="col-6">
-                <button type="button" class="btn btn-dark mt-2 uploadphotos" style="border-radius:50px; width:100%;">Upload Photos</button>
-                <button type="button" class="btn btn-primary modal" style="display:none;" data-toggle="modal" data-target="#exampleModal">
-                  Launch demo modal
-                </button>
+              <button type="button" class="btn btn-dark" style="border-radius:50px;">Friends</button>
+            </div>
+            <br>
+            <div class="row" style="background-color:rgba(250, 248, 245)">
+              <div class="col-12">
+                Date of birth <i class="fa fa-pencil" aria-hidden="true"></i>
+                <p>{{$members['dob']}}</p>
+              </div>
+            </div>
+            <div class="row" style="background-color:rgba(250, 248, 245);">
+              <div class="col-12">
+                From <i class="fa fa-pencil" aria-hidden="true"></i>
+                <p>{{$members['place']}}</p>
+              </div>
+            </div>
+            <div class="row" style="background-color:rgba(250, 248, 245);">
+              <div class="col-12">
+                Education <i class="fa fa fa-pencil ed" aria-hidden="true"></i>
+                <p class="education">{{$members['ed']}}</p>
+                <!-- <p> -->
+                <form class="eded" style="display:none;" action="">
+                  <div class="row">
+                    <div class="col-8">
+                      <input type="text" class="form-control" style="border-radius: 70px;" name="" id="edid">
+                    </div>
+                    <div class="col-2">
+                      <button type="button" class="can btn"><i class="fa fa-ban"></i></button>
+                    </div>
+                    <div class="col-2">
+                      <button type="submit" class="btn"><i class="fa-regular fa-floppy-disk"></i></button>
+                    </div>
+                  </div>
+                </form>
+                <!-- </p> -->
+              </div>
+            </div>
+            <div class="row" style="background-color:rgba(250, 248, 245);">
+              <div class="col-12">
+                Gender <i class="fa fa-pencil" aria-hidden="true"></i>
+                <p>{{$members['gender']}}</p>
+              </div>
+            </div>
+            <div class="row" style="background-color:rgba(250, 248, 245);">
+              <div class="col-12">
+                Interested <i class="fa fa-pencil" aria-hidden="true"></i>
+                <p>{{$members['interested']}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-8">
+            <form class="form-floating" enctype="multipart/form-data">
+              @csrf
+              <input type="file" name="" id="postp" style="display:none;" multiple>
+              <textarea name="" class="form-control" id="" cols="30" style="border-radius: 50px; padding: 1px 20px 1px 20px;" placeholder="Write something here..." rows="10"></textarea>
+              <!-- <input type="text" class="form-control" id="floatingInputValue" style="border-radius:150px; height: 70px;"> -->
+              <!-- <label for="floatingInputValue">Write something here....</label> -->
+              <div class="row">
+                <div class="col-6">
+                  <button type="button" class="btn btn-dark mt-2 uploadphotos" style="border-radius:50px; width:100%;">Upload Photos</button>
+                  <button type="button" class="btn btn-primary modal" style="display:none;" data-toggle="modal" data-target="#exampleModal">
+                    Launch demo modal
+                  </button>
 
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content" style=" border-radius:10px;">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                        <button type="button" class="close" id='cm' data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <form action="">
-                          @csrf
-                          <input type="text" name="" class='form-control mb-4' style="border: none transparent;outline: none;" id="something" placeholder="Something about the post...">
-                          <img src="" alt="xzfdz" id="preview">
-                        </form>
+                  <!-- Modal -->
+                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content" style=" border-radius:10px;">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                          <button type="button" class="close" id='cm' data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <form action="">
+                            @csrf
+                            <input type="text" name="" class='form-control mb-4' style="border: none transparent;outline: none;" id="something" placeholder="Something about the post...">
+                            <img src="" alt="xzfdz" id="preview">
+                          </form>
 
-                      </div>
-                      <br>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" id="discard" data-dismiss="modal">Discard</button>
-                        <button type="button" id="postit" class="btn btn-primary">Post</button>
+                        </div>
+                        <br>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" id="discard" data-dismiss="modal">Discard</button>
+                          <button type="button" id="postit" class="btn btn-primary">Post</button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="col-6">
-                <button type="submit" class="btn btn-dark mt-2" style="border-radius:50px; width:100%;">Post</button>
+                <div class="col-6">
+                  <button type="submit" class="btn btn-dark mt-2" style="border-radius:50px; width:100%;">Post</button>
+                </div>
+              </div>
+            </form>
+            <!-- Button trigger modal -->
+            <br>
+            <ul class="nav nav-tabs">
+              <li class="nav-item">
+                <a class="nav-link active" href="#">Active</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
+              </li>
+            </ul>
+            @foreach($posts as $post)
+            <br>
+
+            <div class="row" id="newpost">
+              <div class="card" style="border: transparent;">
+                <div class="row">
+                  <div class="col-1">
+                    <img src="/uploads/{{$members['dp']}}" id='postsdp' class="rounded-circle" style="height: 50px; width: 50px; object-fit:cover;" alt="">
+                  </div>
+                  <div class="col-10" style="padding-top:10px; margin-left:8px; padding-left: 0px;padding-right: 0px;">
+                    <p style="font-size: 20px;">{{$members['name']}}</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-8 mt-2 mb-2">
+                    {{$post['caption']}}
+                  </div>
+                </div>
+                <?php
+                if ($post['picture'] != '') {
+                ?>
+                  <div style="background: black;">
+                    <img class="card-img-top" src="/uploads/posts/{{$post['picture']}}" style="max-height: 350px; width:100%; object-fit:contain;">
+                  </div>
+                <?php
+                }
+                ?>
+                <div class="row">
+                  <div class="col-6" style="padding-right:0px; height: 50px;">
+                    <button class="btn btn-light btn-lg btn-block" style="width:100%; background: white;"><i class="fa-regular fa-thumbs-up"></i></button>
+                  </div>
+                  <div class="col-6" style="padding-left:0px; height :50px;">
+                    <button class="btn btn-light btn-lg " style="width: 100%; background: white;"><i class="fa fa-commenting" aria-hidden="true"></i></button>
+                  </div>
+                </div>
               </div>
             </div>
-          </form>
-          <!-- Button trigger modal -->
-          <br>
-          <ul class="nav nav-tabs">
-            <li class="nav-item">
-              <a class="nav-link active" href="#">Active</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
-          </ul>
-          @foreach($posts as $post)
-          <br>
-
-          <div class="row" id="newpost">
-            <div class="card" style="border: transparent;">
-              <div class="row">
-                <div class="col-1">
-                  <img src="/uploads/{{$members['dp']}}" id='postsdp' class="rounded-circle" style="height: 50px; width: 50px; object-fit:cover;" alt="">
-                </div>
-                <div class="col-10" style="padding-top:10px; margin-left:8px; padding-left: 0px;padding-right: 0px;">
-                  <p style="font-size: 20px;">{{$members['name']}}</p>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-8 mt-2 mb-2">
-                  {{$post['caption']}}
-                </div>
-              </div>
-              <?php
-              if ($post['picture'] != '') {
-              ?>
-                <div style="background: black;">
-                  <img class="card-img-top" src="/uploads/posts/{{$post['picture']}}" style="max-height: 350px; width:100%; object-fit:contain;">
-                </div>
-              <?php
-              }
-              ?>
-              <div class="row">
-                <div class="col-6" style="padding-right:0px; height: 50px;">
-                  <button class="btn btn-light btn-lg btn-block" style="width:100%; background: white;"><i class="fa-regular fa-thumbs-up"></i></button>
-                </div>
-                <div class="col-6" style="padding-left:0px; height :50px;">
-                  <button class="btn btn-light btn-lg " style="width: 100%; background: white;"><i class="fa fa-commenting" aria-hidden="true"></i></button>
-                </div>
-              </div>
-            </div>
+            @endforeach
           </div>
-          @endforeach
         </div>
       </div>
     </div>
@@ -514,18 +520,32 @@
       })
     })
   })
+  // $("body").click(function(e) {
+  //     console.log(e.target);
+  //   });
   // AJAX call for autocomplete 
   $(document).ready(function() {
-    $("#search-box").keyup(function() {
+
+    $("#search-box").keyup(function(e) {
+      $(".plist").empty();
+      $("#divider").empty();
+      $("#seeall").empty();
       // console.log( $(this).val());
       // return false;
       // $('.stoggle').click();
-      $('.smenu').show();
-      $(document).click(function() {
+      if ($('#search-box').val() == '') {
+        $('.smenu').hide();
+      }
+      if (e.keyCode >= 8 && e.keyCode <= 46 && $('#search-box').val() == '') {
+        console.log('b tapped');
+        return false;
+      }
+
+      $('.body').click(function() {
         $('.smenu').hide();
         $("#search-box").val('');
       })
-      return false;
+      // return false;
       $.ajax({
         type: "POST",
         url: '/search',
@@ -535,30 +555,46 @@
         },
         success: function(data) {
           console.log(data);
-          $('#searchform').addClass('nav-item');
-          $('#searchform').addClass('dropdown');
+          if(data.length==0){
+            $('.smenu').hide();
+          }
+          // $('#searchform').addClass('nav-item');
+          // $('#searchform').addClass('dropdown');
           let c = 0;
+          let namearray = [];
           for (let i = 0; i < data.length; i++) {
             console.log(data[c]['name']);
             let name = data[c]['name'];
-            c++;
-            $("#suggesstion-box").show();
-            $("#usuggestion").html('<li> onClick=selectUser(' + name + ')</li>');
+            // $("#suggesstion-box").show();
+            $("#plist").append('<li><a class="dropdown-item" href="#">' + name + '</a></li>');
+            $("#divider").html('<li><hr class="dropdown-divider"></li>');
+            $("#seeall").html('<li><a class="dropdown-item" href="#">See all results</a></li>');
+            if(data[c]['name']!='')
+            $('.smenu').show();
+
             $("#search-box").css("background", "#FFF");
+
+            namearray[i] = data[c]['id'];
+            console.log(namearray);
+            c++;
           }
+
           // return false;
+          // <li><a class="dropdown-item" href="#">Action</a></li>
         }
+
       });
     });
   });
+
   //To select user name
-  function selectUser(val) {
-    $("#search-box").val(val);
-    $("#suggesstion-box").hide();
-  }
-  $('.stoggle').click(function() {
-    console.log('clicked');
-  })
+  // function selectUser(val) {
+  //   $("#search-box").val(val);
+  //   $("#suggesstion-box").hide();
+  // }
+  // $('.stoggle').click(function() {
+  //   console.log('clicked');
+  // })
 </script>
 
 </html>
