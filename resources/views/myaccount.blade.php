@@ -487,44 +487,6 @@
       }
     })
   })
-
-
-
-
-
-  // $('#postp').off().change(function(e) {
-  //   readURL(this);
-  //   $('.modal').click();
-  //   var files = $(this)[0].files;
-  //   console.log(files);
-  //   var fd = new FormData();
-  //   fd.append('file', files[0]);
-
-
-  //   $('#postit').click(function(e) {
-  //     let capshn = $('#something').val();
-  //     fd.append('nocap', capshn);
-  //     console.log($('#something').val())
-  //     $.ajax({
-  //       url: "/postit",
-  //       method: 'post',
-  //       data: fd,
-  //       contentType: false,
-  //       processData: false,
-  //       success: function(response) {
-  //         console.log(response);
-  //         var nameofpic = response;
-  //         $('#something').val('');
-  //         $('#cm').click();
-  //         $('#newposts').children().append()
-  //       }
-
-  //     })
-  //   })
-  // })
-  // $("body").click(function(e) {
-  //     console.log(e.target);
-  //   });
   // AJAX call for autocomplete 
   
     $('.uploadphotos').click(function(e) {
