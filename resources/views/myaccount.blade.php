@@ -124,16 +124,24 @@
             <a class="nav-link active" aria-current="page" href="/dashboard">Feed</a>
           </li>
           <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="fa-solid fa-user-group"></i>
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button type="button" class="btn btn-dark position-relative">
+            <i class="fa-solid fa-user-group"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                99+
+                <span class="visually-hidden">unread messages</span>
+              </span>
+            </button>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
           <li class="nav-item" style="margin-left:60px;">
             <div class="frmsearch" style="margin-right:80px;">
               <form class="d-flex searchform">
@@ -398,7 +406,6 @@
 </body>
 
 <script>
-
   function readURL(input) {
     if (input.files && input.files[0]) {
       var reader = new FileReader();
@@ -499,100 +506,100 @@
     })
   })
   // AJAX call for autocomplete 
-  
-    $('.uploadphotos').click(function(e) {
-      console.log("upload");
-      $('#postp').click();
-      // console.log("hi");
-    });
 
-    $("#search-box").keyup(function(e) {
-      $(".plist").empty();
-      $("#divider").empty();
-      $("#seeall").empty();
-      if ($('#search-box').val() != '') {
-        $("#search-box").css("background", "#FFF url(/Spinner-5.gif) no-repeat 250px");
-      } else {
-        $("#search-box").css('background', '#FFF');
-      }
-      if ($('#search-box').val() == '') {
-        $('.smenu').hide();
-        console.log('Empty');
-      }
-      if (e.keyCode >= 8 && e.keyCode <= 46 && $('#search-box').val() == '') {
-        console.log('b tapped');
-        console.log('Empty');
-        return false;
-      }
+  $('.uploadphotos').click(function(e) {
+    console.log("upload");
+    $('#postp').click();
+    // console.log("hi");
+  });
 
-      $('.body').click(function() {
-        $('.smenu').hide();
-        $("#search-box").val('');
-        $("#search-box").css('background', '#FFF');
-      })
-      $.ajax({
-        type: "POST",
-        url: '/search',
-        data: 'keyword=' + $(this).val(),
-        beforeSend: function() {
-          // $("#search-box").css("background", "#FFF url(/Spinner-5.gif) no-repeat 250px");
-        },
-        success: function(data) {
-          console.log(data);
-          if (data.length == 0) {
-            $('.smenu').hide();
-          }
-          // $('#searchform').addClass('nav-item');
-          // $('#searchform').addClass('dropdown');
-          let c = 0;
-          let namearray = [];
-          for (let i = 0; i < data.length; i++) {
-            console.log(data[c]['name']);
-            let name = data[c]['name'];
-            // $("#suggesstion-box").show();
-            $("#plist").append('<button type="button" class="btn btn-light dbu"><li><class="dropdown-item" id="' + data[c]['id'] + '">' + name + '</li></button><br>');
-            $("#divider").html('<li><hr class="dropdown-divider"></li>');
-            $("#seeall").html('<li><a class="dropdown-item" href="#">See all results</a></li>');
-            if (data[c]['name'] != '')
-              $('.smenu').show();
+  $("#search-box").keyup(function(e) {
+    $(".plist").empty();
+    $("#divider").empty();
+    $("#seeall").empty();
+    if ($('#search-box').val() != '') {
+      $("#search-box").css("background", "#FFF url(/Spinner-5.gif) no-repeat 250px");
+    } else {
+      $("#search-box").css('background', '#FFF');
+    }
+    if ($('#search-box').val() == '') {
+      $('.smenu').hide();
+      console.log('Empty');
+    }
+    if (e.keyCode >= 8 && e.keyCode <= 46 && $('#search-box').val() == '') {
+      console.log('b tapped');
+      console.log('Empty');
+      return false;
+    }
 
-            $("#search-box").css("background", "#FFF");
+    $('.body').click(function() {
+      $('.smenu').hide();
+      $("#search-box").val('');
+      $("#search-box").css('background', '#FFF');
+    })
+    $.ajax({
+      type: "POST",
+      url: '/search',
+      data: 'keyword=' + $(this).val(),
+      beforeSend: function() {
+        // $("#search-box").css("background", "#FFF url(/Spinner-5.gif) no-repeat 250px");
+      },
+      success: function(data) {
+        console.log(data);
+        if (data.length == 0) {
+          $('.smenu').hide();
+        }
+        // $('#searchform').addClass('nav-item');
+        // $('#searchform').addClass('dropdown');
+        let c = 0;
+        let namearray = [];
+        for (let i = 0; i < data.length; i++) {
+          console.log(data[c]['name']);
+          let name = data[c]['name'];
+          // $("#suggesstion-box").show();
+          $("#plist").append('<button type="button" class="btn btn-light dbu"><li><class="dropdown-item" id="' + data[c]['id'] + '">' + name + '</li></button><br>');
+          $("#divider").html('<li><hr class="dropdown-divider"></li>');
+          $("#seeall").html('<li><a class="dropdown-item" href="#">See all results</a></li>');
+          if (data[c]['name'] != '')
+            $('.smenu').show();
 
-            namearray[i] = data[c]['id'];
-            console.log(namearray);
-            c++;
-          }
-          $('.dbu').click(function(e) {
-            // e.preventDefault();
-            console.log($(this).children().text());
-            console.log($(this).children().children().attr('id'));
-            $('#search-box').attr('hideit', $(this).children().children().attr('id'))
-            console.log($('#search-box').attr('hideit'))
-            $('#search-box').val($(this).children().text());
-            $('.smenu').hide();
-            $('.search').attr('id',$(this).children().children().attr('id'));
-            let clid=$(this).children().children().attr('id');
-            console.log($('.search').attr('id'));
-            $('.search').click(function(){
-              mydata={
-                person: clid,
+          $("#search-box").css("background", "#FFF");
+
+          namearray[i] = data[c]['id'];
+          console.log(namearray);
+          c++;
+        }
+        $('.dbu').click(function(e) {
+          // e.preventDefault();
+          console.log($(this).children().text());
+          console.log($(this).children().children().attr('id'));
+          $('#search-box').attr('hideit', $(this).children().children().attr('id'))
+          console.log($('#search-box').attr('hideit'))
+          $('#search-box').val($(this).children().text());
+          $('.smenu').hide();
+          $('.search').attr('id', $(this).children().children().attr('id'));
+          let clid = $(this).children().children().attr('id');
+          console.log($('.search').attr('id'));
+          $('.search').click(function() {
+            mydata = {
+              person: clid,
+            }
+            $.ajax({
+              url: '/viewpeople',
+              method: 'POST',
+              data: JSON.stringify(mydata),
+              success: function(data) {
+                // console.log(data);
+                location.href = "/showpeople";
               }
-              $.ajax({
-                url:'/viewpeople',
-                method: 'POST',
-                data: JSON.stringify(mydata),
-                success:function(data){
-                  // console.log(data);
-                  location.href="/showpeople";
-                }
-              })
             })
           })
+        })
 
-        }
+      }
 
-      });
     });
+  });
 
   $('#postp').change(function(e) {
     readURL(this);
@@ -627,7 +634,6 @@
   $('.dropdown-item').click(function() {
     console.log($(this).text());
   })
-
 </script>
 
 </html>
