@@ -100,6 +100,13 @@
       z-index: 999;
       height: 100%;
     }
+
+    /* .top-0 {
+    top: 6px;
+    } */
+    .top-0 {
+      top: 6px !important;
+    }
   </style>
 
 </head>
@@ -123,13 +130,12 @@
           <li class="nav-item" style="padding: 0px;">
             <a class="nav-link active" aria-current="page" href="/dashboard">Feed</a>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <li class="nav-item dropdown" style="height:20px;">
+            <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> -->
             <button type="button" class="btn btn-dark position-relative">
-            <i class="fa-solid fa-user-group"></i>
+              <i class="fa-solid fa-user-group"></i>
               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                 99+
-                <span class="visually-hidden">unread messages</span>
               </span>
             </button>
             </a>
@@ -154,6 +160,7 @@
                 <button class="btn btn-outline-success search" id="" type="button">Search</button>
               </div>
             </div>
+
 
 
 
