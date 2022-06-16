@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ViewPeople;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,4 +36,5 @@ Route::post('/preview',[AccountController::class,'preview']);
 Route::post('/postit',[AccountController::class,'postit']);
 Route::post('/notpostit',[AccountController::class,'notpostit']);
 Route::post('/search',[AccountController::class,'search']);
-Route::get('/viewpeople',[AccountController::class,'viewpeople']);
+Route::post('/viewpeople',[ViewPeople::class,'viewpeople']);
+Route::get('/showpeople',[ViewPeople::class,'showpeople']);

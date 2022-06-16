@@ -106,12 +106,12 @@
 
 <body style="background-color:ghostwhite;">
 
-  <span style="display: none;">
+  <!-- <span style="display: none;">
     <form action="/uploadp">@csrf<input type="file" name="dpupload" class="uploadp" id="test"></form>
   </span>
   <span style="display: none;">
     <form action="/uploacp">@csrf<input type="file" name="cpupload" class="uploacp" id="testc"></form>
-  </span>
+  </span> -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Navbar</a>
@@ -181,10 +181,10 @@
     <div class="container" style="background-color:white;">
       <div class="main">
         <div class="cover">
-          @if($members['cp']=='')
+          @if($info['cp']=='')
           <img src="/boxed-water-is-better-rXJXsecq8YU-unsplash.jpg" id="oldcp" alt="Not Available" />
           @else
-          <img src="/uploads/cp/{{$members['cp']}}" id="oldcp" alt="not available" />
+          <img src="/uploads/cp/{{$info['cp']}}" id="oldcp" alt="not available" />
           @endif
           <div class="text-block">
             <i class="fa fa-solid fa-camera rounded-circle border border-white border-1 cp_upload" style="background-color:black; padding:5px;" aria-hidden="true"></i>
@@ -193,23 +193,23 @@
 
 
         <div class="profile rounded-circle">
-          @if($members['dp']=='')
+          @if($info['dp']=='')
           <img src="/blank-profile-picture-973460_1280.png" alt="notavailable" id="olddp" class="rounded-circle border border-white border dp" />
           @else
-          <img src="/uploads/{{$members['dp']}}" alt="notavailable" id="olddp" class="rounded-circle border border-white border-4 dp" />
+          <img src="/uploads/{{$info['dp']}}" alt="notavailable" id="olddp" class="rounded-circle border border-white border-4 dp" />
           @endif
-          <img src="/uploads/{{$members['dp']}}" alt="notavailable" class="rounded-circle border border-white border-4 dp" id="newdp" style="display: none;" />
+          <img src="/uploads/{{$info['dp']}}" alt="notavailable" class="rounded-circle border border-white border-4 dp" id="newdp" style="display: none;" />
           <div style="display: none;">
             <img src="" alt="">
           </div>
           <div class="text-block-dp">
             <form action="POST" action="/uploadp" enctype="multipart/form-data">
-              <div id="fileuploader"><i class="fa fa-solid fa-camera rounded-circle border border-white border-1 dp_upload" id="{{$members['id']}}" style="background-color:black; padding:5px;" aria-hidden="true"></i></div>
+              <div id="fileuploader"><i class="fa fa-solid fa-camera rounded-circle border border-white border-1 dp_upload" id="{{$info['id']}}" style="background-color:black; padding:5px;" aria-hidden="true"></i></div>
             </form>
           </div>
           <div class="row">
             <div class="col">
-              <h2 class="d-flex justify-content-center">{{$members['name']}}</h2>
+              <h2 class="d-flex justify-content-center">{{$info['name']}}</h2>
             </div>
           </div>
         </div>
@@ -219,25 +219,26 @@
         <div class="row">
           <div class=" col-4">
             <div class="row">
-              <button type="button" class="btn btn-dark" style="border-radius:50px;">Friends</button>
+              <button type="button" class="btn btn-dark add_friend" style="border-radius:50px;">Add Friend</button>
+              <button type="button" class="btn btn-dark sent_request" style="border-radius:50px;display:none;" >Friend Request Sent</button>
             </div>
             <br>
             <div class="row" style="background-color:rgba(250, 248, 245)">
               <div class="col-12">
                 Date of birth <i class="fa fa-pencil" aria-hidden="true"></i>
-                <p>{{$members['dob']}}</p>
+                <p>{{$info['dob']}}</p>
               </div>
             </div>
             <div class="row" style="background-color:rgba(250, 248, 245);">
               <div class="col-12">
                 From <i class="fa fa-pencil" aria-hidden="true"></i>
-                <p>{{$members['place']}}</p>
+                <p>{{$info['place']}}</p>
               </div>
             </div>
             <div class="row" style="background-color:rgba(250, 248, 245);">
               <div class="col-12">
                 Education <i class="fa fa fa-pencil ed" aria-hidden="true"></i>
-                <p class="education">{{$members['ed']}}</p>
+                <p class="education">{{$info['ed']}}</p>
                 <!-- <p> -->
                 <form class="eded" style="display:none;" action="">
                   <div class="row">
@@ -258,32 +259,32 @@
             <div class="row" style="background-color:rgba(250, 248, 245);">
               <div class="col-12">
                 Gender <i class="fa fa-pencil" aria-hidden="true"></i>
-                <p>{{$members['gender']}}</p>
+                <p>{{$info['gender']}}</p>
               </div>
             </div>
             <div class="row" style="background-color:rgba(250, 248, 245);">
               <div class="col-12">
                 Interested <i class="fa fa-pencil" aria-hidden="true"></i>
-                <p>{{$members['interested']}}</p>
+                <p>{{$info['interested']}}</p>
               </div>
             </div>
           </div>
-          <div class="col-8">
+          <!-- <div class="col-8">
             <form class="form-floating" enctype="multipart/form-data">
               @csrf
               <input type="file" name="" id="postp" style="display:none;" multiple>
-              <textarea name="" class="form-control" id="" cols="30" style="border-radius: 50px; padding: 1px 20px 1px 20px;" placeholder="Write something here..." rows="10"></textarea>
+              <textarea name="" class="form-control" id="" cols="30" style="border-radius: 50px; padding: 1px 20px 1px 20px;" placeholder="Write something here..." rows="10"></textarea> -->
               <!-- <input type="text" class="form-control" id="floatingInputValue" style="border-radius:150px; height: 70px;"> -->
               <!-- <label for="floatingInputValue">Write something here....</label> -->
-              <div class="row">
+              <!-- <div class="row">
                 <div class="col-6">
                   <button type="button" class="btn btn-dark mt-2 uploadphotos" style="border-radius:50px; width:100%;">Upload Photos</button>
                   <button type="button" class="btn btn-primary modal" style="display:none;" data-toggle="modal" data-target="#exampleModal">
                     Launch demo modal
-                  </button>
+                  </button> -->
 
                   <!-- Modal -->
-                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content" style=" border-radius:10px;">
                         <div class="modal-header">
@@ -314,23 +315,9 @@
                   <button type="submit" class="btn btn-dark mt-2" style="border-radius:50px; width:100%;">Post</button>
                 </div>
               </div>
-            </form>
+            </form> -->
             <!-- Button trigger modal -->
-            <br>
-            <ul class="nav nav-tabs">
-              <li class="nav-item">
-                <a class="nav-link active" href="#">Active</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-              </li>
-            </ul>
+            
             @foreach($posts as $post)
             <br>
 
@@ -338,10 +325,10 @@
               <div class="card" style="border: transparent;">
                 <div class="row">
                   <div class="col-1">
-                    <img src="/uploads/{{$members['dp']}}" id='postsdp' class="rounded-circle" style="height: 50px; width: 50px; object-fit:cover;" alt="">
+                    <img src="/uploads/{{$info['dp']}}" id='postsdp' class="rounded-circle" style="height: 50px; width: 50px; object-fit:cover;" alt="">
                   </div>
                   <div class="col-10" style="padding-top:10px; margin-left:8px; padding-left: 0px;padding-right: 0px;">
-                    <p style="font-size: 20px;">{{$members['name']}}</p>
+                    <p style="font-size: 20px;">{{$info['name']}}</p>
                   </div>
                 </div>
                 <div class="row">
@@ -385,4 +372,94 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     -->
 </body>
+<script>
+    //   $("#search-box").keyup(function(e) {
+    //   $(".plist").empty();
+    //   $("#divider").empty();
+    //   $("#seeall").empty();
+    //   if ($('#search-box').val() != '') {
+    //     $("#search-box").css("background", "#FFF url(/Spinner-5.gif) no-repeat 250px");
+    //   } else {
+    //     $("#search-box").css('background', '#FFF');
+    //   }
+    //   if ($('#search-box').val() == '') {
+    //     $('.smenu').hide();
+    //     console.log('Empty');
+    //   }
+    //   if (e.keyCode >= 8 && e.keyCode <= 46 && $('#search-box').val() == '') {
+    //     console.log('b tapped');
+    //     console.log('Empty');
+    //     return false;
+    //   }
+
+    //   $('.body').click(function() {
+    //     $('.smenu').hide();
+    //     $("#search-box").val('');
+    //     $("#search-box").css('background', '#FFF');
+    //   })
+    //   $.ajax({
+    //     type: "POST",
+    //     url: '/search',
+    //     data: 'keyword=' + $(this).val(),
+    //     beforeSend: function() {
+    //       // $("#search-box").css("background", "#FFF url(/Spinner-5.gif) no-repeat 250px");
+    //     },
+    //     success: function(data) {
+    //       console.log(data);
+    //       if (data.length == 0) {
+    //         $('.smenu').hide();
+    //       }
+    //       // $('#searchform').addClass('nav-item');
+    //       // $('#searchform').addClass('dropdown');
+    //       let c = 0;
+    //       let namearray = [];
+    //       for (let i = 0; i < data.length; i++) {
+    //         console.log(data[c]['name']);
+    //         let name = data[c]['name'];
+    //         // $("#suggesstion-box").show();
+    //         $("#plist").append('<button type="button" class="btn btn-light dbu"><li><class="dropdown-item" id="' + data[c]['id'] + '">' + name + '</li></button><br>');
+    //         $("#divider").html('<li><hr class="dropdown-divider"></li>');
+    //         $("#seeall").html('<li><a class="dropdown-item" href="#">See all results</a></li>');
+    //         if (data[c]['name'] != '')
+    //           $('.smenu').show();
+
+    //         $("#search-box").css("background", "#FFF");
+
+    //         namearray[i] = data[c]['id'];
+    //         console.log(namearray);
+    //         c++;
+    //       }
+    //       $('.dbu').click(function(e) {
+    //         // e.preventDefault();
+    //         console.log($(this).children().text());
+    //         console.log($(this).children().children().attr('id'));
+    //         $('#search-box').attr('hideit', $(this).children().children().attr('id'))
+    //         console.log($('#search-box').attr('hideit'))
+    //         $('#search-box').val($(this).children().text());
+    //         $('.smenu').hide();
+    //         $('.search').attr('id',$(this).children().children().attr('id'));
+    //         let clid=$(this).children().children().attr('id');
+    //         console.log($('.search').attr('id'));
+    //         $('.search').submit(function(){
+    //           mydata={
+    //             person: clid,
+    //           }
+    //           $.ajax({
+    //             url:'/viewpeople',
+    //             method: 'POST',
+    //             data: JSON.stringify(mydata)
+    //           })
+    //         })
+    //       })
+
+    //     }
+
+    //   });
+    // });
+    $('.add_friend').click(function(){
+      console.log('Clicked add friend');
+      $(this).css('display','none');
+      $('.sent_request').css('display','block');
+    })
+</script>
 </html>

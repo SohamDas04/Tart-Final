@@ -132,7 +132,7 @@
                 <input class="form-control me-2 dropdown-toggle stoggle" type="text" placeholder="Search" hideit="" id="search-box" aria-label="Search">
               </div>
               <div class="col-2" style="margin-left:0px; padding-left:2px;">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+                <button class="btn btn-outline-success search" id="" type="button">Search</button>
               </div>
             </div>
 
@@ -552,13 +552,30 @@
             c++;
           }
           $('.dbu').click(function(e) {
-            e.preventDefault();
+            // e.preventDefault();
             console.log($(this).children().text());
             console.log($(this).children().children().attr('id'));
-            $('#search-box').attr('hideit', $(this).attr('id'))
+            $('#search-box').attr('hideit', $(this).children().children().attr('id'))
             console.log($('#search-box').attr('hideit'))
             $('#search-box').val($(this).children().text());
             $('.smenu').hide();
+            $('.search').attr('id',$(this).children().children().attr('id'));
+            let clid=$(this).children().children().attr('id');
+            console.log($('.search').attr('id'));
+            $('.search').click(function(){
+              mydata={
+                person: clid,
+              }
+              $.ajax({
+                url:'/viewpeople',
+                method: 'POST',
+                data: JSON.stringify(mydata),
+                success:function(data){
+                  // console.log(data);
+                  location.href="/showpeople";
+                }
+              })
+            })
           })
 
         }
