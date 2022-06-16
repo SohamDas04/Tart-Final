@@ -104,7 +104,7 @@
 
 </head>
 
-<body style="background-color:ghostwhite;">
+<body style="background-color:ghostwhite;" id="{{session()->get('id')}}" class="{{$info['userid']}}">
 
   <!-- <span style="display: none;">
     <form action="/uploadp">@csrf<input type="file" name="dpupload" class="uploadp" id="test"></form>
@@ -219,8 +219,12 @@
         <div class="row">
           <div class=" col-4">
             <div class="row">
+              @if(session()->get('status')==404)
               <button type="button" class="btn btn-dark add_friend" style="border-radius:50px;">Add Friend</button>
-              <button type="button" class="btn btn-dark sent_request" style="border-radius:50px;display:none;" >Friend Request Sent</button>
+              <button type="button" class="btn btn-dark sent_request" style="border-radius:50px;display:none;">Friend Request Sent</button>
+              @else(session()->get('status')==1)
+              <button type="button" class="btn btn-dark" style="border-radius:50px;">Friend Request Sent</button>
+              @endif
             </div>
             <br>
             <div class="row" style="background-color:rgba(250, 248, 245)">
@@ -274,17 +278,17 @@
               @csrf
               <input type="file" name="" id="postp" style="display:none;" multiple>
               <textarea name="" class="form-control" id="" cols="30" style="border-radius: 50px; padding: 1px 20px 1px 20px;" placeholder="Write something here..." rows="10"></textarea> -->
-              <!-- <input type="text" class="form-control" id="floatingInputValue" style="border-radius:150px; height: 70px;"> -->
-              <!-- <label for="floatingInputValue">Write something here....</label> -->
-              <!-- <div class="row">
+          <!-- <input type="text" class="form-control" id="floatingInputValue" style="border-radius:150px; height: 70px;"> -->
+          <!-- <label for="floatingInputValue">Write something here....</label> -->
+          <!-- <div class="row">
                 <div class="col-6">
                   <button type="button" class="btn btn-dark mt-2 uploadphotos" style="border-radius:50px; width:100%;">Upload Photos</button>
                   <button type="button" class="btn btn-primary modal" style="display:none;" data-toggle="modal" data-target="#exampleModal">
                     Launch demo modal
                   </button> -->
 
-                  <!-- Modal -->
-                  <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <!-- Modal -->
+          <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content" style=" border-radius:10px;">
                         <div class="modal-header">
@@ -316,52 +320,52 @@
                 </div>
               </div>
             </form> -->
-            <!-- Button trigger modal -->
-            
-            @foreach($posts as $post)
-            <br>
+          <!-- Button trigger modal -->
 
-            <div class="row" id="newpost">
-              <div class="card" style="border: transparent;">
-                <div class="row">
-                  <div class="col-1">
-                    <img src="/uploads/{{$info['dp']}}" id='postsdp' class="rounded-circle" style="height: 50px; width: 50px; object-fit:cover;" alt="">
-                  </div>
-                  <div class="col-10" style="padding-top:10px; margin-left:8px; padding-left: 0px;padding-right: 0px;">
-                    <p style="font-size: 20px;">{{$info['name']}}</p>
-                  </div>
+          @foreach($posts as $post)
+          <br>
+
+          <div class="row" id="newpost">
+            <div class="card" style="border: transparent;">
+              <div class="row">
+                <div class="col-1">
+                  <img src="/uploads/{{$info['dp']}}" id='postsdp' class="rounded-circle" style="height: 50px; width: 50px; object-fit:cover;" alt="">
                 </div>
-                <div class="row">
-                  <div class="col-8 mt-2 mb-2">
-                    {{$post['caption']}}
-                  </div>
+                <div class="col-10" style="padding-top:10px; margin-left:8px; padding-left: 0px;padding-right: 0px;">
+                  <p style="font-size: 20px;">{{$info['name']}}</p>
                 </div>
-                <?php
-                if ($post['picture'] != '') {
-                ?>
-                  <div style="background: black;">
-                    <img class="card-img-top" src="/uploads/posts/{{$post['picture']}}" style="max-height: 350px; width:100%; object-fit:contain;">
-                  </div>
-                <?php
-                }
-                ?>
-                <div class="row">
-                  <div class="col-6" style="padding-right:0px; height: 50px;">
-                    <button class="btn btn-light btn-lg btn-block" style="width:100%; background: white;"><i class="fa-regular fa-thumbs-up"></i></button>
-                  </div>
-                  <div class="col-6" style="padding-left:0px; height :50px;">
-                    <button class="btn btn-light btn-lg " style="width: 100%; background: white;"><i class="fa fa-commenting" aria-hidden="true"></i></button>
-                  </div>
+              </div>
+              <div class="row">
+                <div class="col-8 mt-2 mb-2">
+                  {{$post['caption']}}
+                </div>
+              </div>
+              <?php
+              if ($post['picture'] != '') {
+              ?>
+                <div style="background: black;">
+                  <img class="card-img-top" src="/uploads/posts/{{$post['picture']}}" style="max-height: 350px; width:100%; object-fit:contain;">
+                </div>
+              <?php
+              }
+              ?>
+              <div class="row">
+                <div class="col-6" style="padding-right:0px; height: 50px;">
+                  <button class="btn btn-light btn-lg btn-block" style="width:100%; background: white;"><i class="fa-regular fa-thumbs-up"></i></button>
+                </div>
+                <div class="col-6" style="padding-left:0px; height :50px;">
+                  <button class="btn btn-light btn-lg " style="width: 100%; background: white;"><i class="fa fa-commenting" aria-hidden="true"></i></button>
                 </div>
               </div>
             </div>
-            @endforeach
           </div>
+          @endforeach
         </div>
       </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <!-- Optional JavaScript; choose one of the two!
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <!-- Optional JavaScript; choose one of the two!
 
           Option 1: Bootstrap Bundle with Popper
           <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -373,93 +377,110 @@
     -->
 </body>
 <script>
-    //   $("#search-box").keyup(function(e) {
-    //   $(".plist").empty();
-    //   $("#divider").empty();
-    //   $("#seeall").empty();
-    //   if ($('#search-box').val() != '') {
-    //     $("#search-box").css("background", "#FFF url(/Spinner-5.gif) no-repeat 250px");
-    //   } else {
-    //     $("#search-box").css('background', '#FFF');
-    //   }
-    //   if ($('#search-box').val() == '') {
-    //     $('.smenu').hide();
-    //     console.log('Empty');
-    //   }
-    //   if (e.keyCode >= 8 && e.keyCode <= 46 && $('#search-box').val() == '') {
-    //     console.log('b tapped');
-    //     console.log('Empty');
-    //     return false;
-    //   }
+  //   $("#search-box").keyup(function(e) {
+  //   $(".plist").empty();
+  //   $("#divider").empty();
+  //   $("#seeall").empty();
+  //   if ($('#search-box').val() != '') {
+  //     $("#search-box").css("background", "#FFF url(/Spinner-5.gif) no-repeat 250px");
+  //   } else {
+  //     $("#search-box").css('background', '#FFF');
+  //   }
+  //   if ($('#search-box').val() == '') {
+  //     $('.smenu').hide();
+  //     console.log('Empty');
+  //   }
+  //   if (e.keyCode >= 8 && e.keyCode <= 46 && $('#search-box').val() == '') {
+  //     console.log('b tapped');
+  //     console.log('Empty');
+  //     return false;
+  //   }
 
-    //   $('.body').click(function() {
-    //     $('.smenu').hide();
-    //     $("#search-box").val('');
-    //     $("#search-box").css('background', '#FFF');
-    //   })
-    //   $.ajax({
-    //     type: "POST",
-    //     url: '/search',
-    //     data: 'keyword=' + $(this).val(),
-    //     beforeSend: function() {
-    //       // $("#search-box").css("background", "#FFF url(/Spinner-5.gif) no-repeat 250px");
-    //     },
-    //     success: function(data) {
-    //       console.log(data);
-    //       if (data.length == 0) {
-    //         $('.smenu').hide();
-    //       }
-    //       // $('#searchform').addClass('nav-item');
-    //       // $('#searchform').addClass('dropdown');
-    //       let c = 0;
-    //       let namearray = [];
-    //       for (let i = 0; i < data.length; i++) {
-    //         console.log(data[c]['name']);
-    //         let name = data[c]['name'];
-    //         // $("#suggesstion-box").show();
-    //         $("#plist").append('<button type="button" class="btn btn-light dbu"><li><class="dropdown-item" id="' + data[c]['id'] + '">' + name + '</li></button><br>');
-    //         $("#divider").html('<li><hr class="dropdown-divider"></li>');
-    //         $("#seeall").html('<li><a class="dropdown-item" href="#">See all results</a></li>');
-    //         if (data[c]['name'] != '')
-    //           $('.smenu').show();
+  //   $('.body').click(function() {
+  //     $('.smenu').hide();
+  //     $("#search-box").val('');
+  //     $("#search-box").css('background', '#FFF');
+  //   })
+  //   $.ajax({
+  //     type: "POST",
+  //     url: '/search',
+  //     data: 'keyword=' + $(this).val(),
+  //     beforeSend: function() {
+  //       // $("#search-box").css("background", "#FFF url(/Spinner-5.gif) no-repeat 250px");
+  //     },
+  //     success: function(data) {
+  //       console.log(data);
+  //       if (data.length == 0) {
+  //         $('.smenu').hide();
+  //       }
+  //       // $('#searchform').addClass('nav-item');
+  //       // $('#searchform').addClass('dropdown');
+  //       let c = 0;
+  //       let namearray = [];
+  //       for (let i = 0; i < data.length; i++) {
+  //         console.log(data[c]['name']);
+  //         let name = data[c]['name'];
+  //         // $("#suggesstion-box").show();
+  //         $("#plist").append('<button type="button" class="btn btn-light dbu"><li><class="dropdown-item" id="' + data[c]['id'] + '">' + name + '</li></button><br>');
+  //         $("#divider").html('<li><hr class="dropdown-divider"></li>');
+  //         $("#seeall").html('<li><a class="dropdown-item" href="#">See all results</a></li>');
+  //         if (data[c]['name'] != '')
+  //           $('.smenu').show();
 
-    //         $("#search-box").css("background", "#FFF");
+  //         $("#search-box").css("background", "#FFF");
 
-    //         namearray[i] = data[c]['id'];
-    //         console.log(namearray);
-    //         c++;
-    //       }
-    //       $('.dbu').click(function(e) {
-    //         // e.preventDefault();
-    //         console.log($(this).children().text());
-    //         console.log($(this).children().children().attr('id'));
-    //         $('#search-box').attr('hideit', $(this).children().children().attr('id'))
-    //         console.log($('#search-box').attr('hideit'))
-    //         $('#search-box').val($(this).children().text());
-    //         $('.smenu').hide();
-    //         $('.search').attr('id',$(this).children().children().attr('id'));
-    //         let clid=$(this).children().children().attr('id');
-    //         console.log($('.search').attr('id'));
-    //         $('.search').submit(function(){
-    //           mydata={
-    //             person: clid,
-    //           }
-    //           $.ajax({
-    //             url:'/viewpeople',
-    //             method: 'POST',
-    //             data: JSON.stringify(mydata)
-    //           })
-    //         })
-    //       })
+  //         namearray[i] = data[c]['id'];
+  //         console.log(namearray);
+  //         c++;
+  //       }
+  //       $('.dbu').click(function(e) {
+  //         // e.preventDefault();
+  //         console.log($(this).children().text());
+  //         console.log($(this).children().children().attr('id'));
+  //         $('#search-box').attr('hideit', $(this).children().children().attr('id'))
+  //         console.log($('#search-box').attr('hideit'))
+  //         $('#search-box').val($(this).children().text());
+  //         $('.smenu').hide();
+  //         $('.search').attr('id',$(this).children().children().attr('id'));
+  //         let clid=$(this).children().children().attr('id');
+  //         console.log($('.search').attr('id'));
+  //         $('.search').submit(function(){
+  //           mydata={
+  //             person: clid,
+  //           }
+  //           $.ajax({
+  //             url:'/viewpeople',
+  //             method: 'POST',
+  //             data: JSON.stringify(mydata)
+  //           })
+  //         })
+  //       })
 
-    //     }
+  //     }
 
-    //   });
-    // });
-    $('.add_friend').click(function(){
-      console.log('Clicked add friend');
-      $(this).css('display','none');
-      $('.sent_request').css('display','block');
+  //   });
+  // });
+  $('.add_friend').click(function() {
+    console.log('Clicked add friend');
+    console.log($('body').attr('id'));
+    let acting_id = $('body').attr('id');
+    let re_id = $('body').attr('class');
+    $(this).css('display', 'none');
+    mydata = {
+      senderid: acting_id,
+      receiverid: re_id
+    }
+    $.ajax({
+      url: "/requestsend",
+      method: "POST",
+      data: JSON.stringify(mydata),
+      success: function(data) {
+        console.log(data);
+        
+        $('.sent_request').css('display', 'block');
+      }
     })
+  })
 </script>
+
 </html>

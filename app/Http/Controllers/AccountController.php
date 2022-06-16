@@ -9,6 +9,7 @@ use App\Models\post;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\School;
+use App\Models\friendrequest;
 
 use function GuzzleHttp\json_encode;
 
@@ -131,6 +132,20 @@ class AccountController extends Controller
             
 
             
+        }
+    }
+    public function sendrequest(Request $req){
+        if ($req->ajax()) {
+            $data = stripslashes(file_get_contents("php://input"));
+            $mydata = json_decode($data, true);
+            $sending_id=$mydata['senderid'];
+            $receiving_id=$mydata['receiverid'];
+            $datab= new friendrequest;
+            $datab->from=$sending_id;
+            $datab->to=$receiving_id;
+            $datab->status=1;
+            $datab->save();
+            return 'Request Sent';
         }
     }
 }

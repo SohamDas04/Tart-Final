@@ -38,3 +38,4 @@ Route::post('/notpostit',[AccountController::class,'notpostit']);
 Route::post('/search',[AccountController::class,'search']);
 Route::post('/viewpeople',[ViewPeople::class,'viewpeople']);
 Route::get('/showpeople',[ViewPeople::class,'showpeople']);
+Route::post('/requestsend',[AccountController::class,'sendrequest']);

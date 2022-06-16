@@ -123,6 +123,17 @@
           <li class="nav-item" style="padding: 0px;">
             <a class="nav-link active" aria-current="page" href="/dashboard">Feed</a>
           </li>
+          <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa-solid fa-user-group"></i>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
           <li class="nav-item" style="margin-left:60px;">
             <div class="frmsearch" style="margin-right:80px;">
               <form class="d-flex searchform">
