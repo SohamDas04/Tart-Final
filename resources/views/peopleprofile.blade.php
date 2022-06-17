@@ -273,7 +273,7 @@
               </div>
             </div>
           </div>
-          <!-- <div class="col-8">
+          <!-- 
             <form class="form-floating" enctype="multipart/form-data">
               @csrf
               <input type="file" name="" id="postp" style="display:none;" multiple>
@@ -324,7 +324,7 @@
 
           @foreach($posts as $post)
           <br>
-
+          <div class="col-8">
           <div class="row" id="newpost">
             <div class="card" style="border: transparent;">
               <div class="row">

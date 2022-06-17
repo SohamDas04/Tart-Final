@@ -16,7 +16,7 @@ use function GuzzleHttp\json_encode;
 class AccountController extends Controller
 {
     //
-    public function myaccount()
+    public function myaccount(Request $req)
     {
 
         $uid = session()->get('id');
@@ -32,8 +32,28 @@ class AccountController extends Controller
             ->where('userid', $uid)
             ->get();
         $poststable = json_decode(json_encode($posts), true);
+        $request=DB::table('friendrequests')
+        ->where('to',$uid)
+        ->where('status',1)
+        ->get();
+        $frequest=json_decode(json_encode($request), true);
+        
+        $req->session()->regenerate();
+        $req->session()->put('freqnum',count($frequest));
+        $dp=array();
+        for($i=0;$i<count($frequest);$i++){
+            // dd($frequest[$i]['from']);
+            $infos = DB::table('information')
+            ->where('userid', $frequest[$i]['from'])
+            ->get();
+            $inarray=json_decode(json_encode($infos), true);
+            // dd($inarray);
+            $req->session()->regenerate();
+            $req->session()->put($i,$inarray[0]['dp']);
+        }
+        // dd($dp);
         // dd($poststable);
-        return view('myaccount', ['members' => $getit[0]],['posts'=>$poststable]);
+        return view('myaccount', ['members' => $getit[0]],['posts'=>$poststable],['senders'=>$frequest],['dp'=>$dp]);
     }
     public function uploadp(Request $req)
     {
@@ -147,5 +167,9 @@ class AccountController extends Controller
             $datab->save();
             return 'Request Sent';
         }
+    }
+    public function notifyrequest(Request $req){
+        $uid = session()->get('id');
+
     }
 }

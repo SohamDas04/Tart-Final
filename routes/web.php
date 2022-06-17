@@ -39,3 +39,4 @@ Route::post('/search',[AccountController::class,'search']);
 Route::post('/viewpeople',[ViewPeople::class,'viewpeople']);
 Route::get('/showpeople',[ViewPeople::class,'showpeople']);
 Route::post('/requestsend',[AccountController::class,'sendrequest']);
+Route::post('/notifyrequest',[AccountController::class,'notifyrequest']);

@@ -136,16 +136,32 @@
           </li>
           <li class="nav-item dropdown">
             <!-- <class="nav-link" href="#" id="navbarDropdown" > -->
-            <a button type="button" class="btn btn-dark position-relative dropdown-toggle dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="border-top-width: 68.111;margin-top: 2px;">
+            <a button type="button" class="btn btn-dark position-relative dropdown-toggle " data-bs-toggle="dropdown" aria-expanded="false" style="border-top-width: 68.111;margin-top: 2px;">
               <i class=" fa-solid fa-user-group"></i>
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                99+
+              @if(session()->get('freqnum')>0)
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-light" style="color:black;">
+              {{session()->get('freqnum')}}+
               </span>
+              
+              <!-- <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
+                1
+              </span> -->
+              @endif
               </button>
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
+              @for($i=0;$i< session()->get('freqnum');$i++)
+              <div class="row">
+                <div class="col-4">
+                  @if(session()->get($i)!=null)
+                  <img src="/uploads/{{session()->get($i)}}" class="rounded-circle" alt="" style="height:40px; width: 40px;">
+                  @else
+                  <img src="/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" class="rounded-circle" alt="">
+                  @endif
+                </div>
+              </div>
+              @endfor 
+              <li><a class="dropdown-item">Another action</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
@@ -161,7 +177,7 @@
                 <input class="form-control me-2 dropdown-toggle stoggle" type="text" placeholder="Search" hideit="" id="search-box" aria-label="Search">
               </div>
               <div class="col-2" style="margin-left:0px; padding-left:2px;">
-                <button class="btn btn-outline-success search" id="" type="button">Search</button>
+                <button class="btn btn-outline-light search " id="" type="button">Search</button>
               </div>
             </div>
 
