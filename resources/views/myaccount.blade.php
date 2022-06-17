@@ -105,7 +105,11 @@
     top: 6px;
     } */
     .top-0 {
-      top: 6px !important;
+      top: 9px !important;
+    }
+
+    .start-100 {
+      left: 74% !important;
     }
   </style>
 
@@ -130,14 +134,14 @@
           <li class="nav-item" style="padding: 0px;">
             <a class="nav-link active" aria-current="page" href="/dashboard">Feed</a>
           </li>
-          <li class="nav-item dropdown" style="height:20px;">
-            <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> -->
-            <button type="button" class="btn btn-dark position-relative">
-              <i class="fa-solid fa-user-group"></i>
+          <li class="nav-item dropdown">
+            <!-- <class="nav-link" href="#" id="navbarDropdown" > -->
+            <a button type="button" class="btn btn-dark position-relative dropdown-toggle dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="border-top-width: 68.111;margin-top: 2px;">
+              <i class=" fa-solid fa-user-group"></i>
               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                 99+
               </span>
-            </button>
+              </button>
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="#">Action</a></li>
