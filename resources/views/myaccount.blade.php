@@ -161,36 +161,36 @@
                   </div>
                   @if(session()->get($i)==null)
                   <div class="col-6" style="margin-left:10px;padding-left:0px; padding-right:0px;margin-top:17px;  height: 40px;">
-                    <a href="" style="color: black;">Soham Das</a>
+                    <a href="" style="color: black;">{{session()->get('name'.$i)}}</a>
                   </div>
                   @else
                   <div class="col-6" style="margin-left:10px;padding-left:0px; padding-right:0px;margin-top:10px;  height: 40px;">
-                    <a href="" style="color: black;">Soham Das</a>
+                    <a href="" style="color: black;">{{session()->get('name'.$i)}}</a>
                   </div>
                   @endif
                   <div class="col-1">
                     <button type="button" class="btn btn-light" style="padding-left: 0px;
-    padding-top: 0px;
-    border-bottom-width: 0px;
-    padding-right: 0px;
-    border-right-width: 0px;
-    border-top-width: 0px;
-    padding-bottom: 0px;
-    height: 40px;
-    width: 52.11111px;">Accept</button>
+                    padding-top: 0px;
+                    border-bottom-width: 0px;
+                    padding-right: 0px;
+                    border-right-width: 0px;
+                    border-top-width: 0px;
+                    padding-bottom: 0px;
+                    height: 40px;
+                    width: 52.11111px;">Accept</button>
                   </div>
                   <div class="col-1">
                     <button type="button" class="btn btn-light" style="padding-left: 0px;
-    padding-top: 0px;
-    border-bottom-width: 0px;
-    padding-right: 0px;
-    border-right-width: 0px;
-    border-top-width: 0px;
-    padding-bottom: 0px;
-    margin-left:20px;
-    margin-right:4px;
-    height: 40px;
-    width: 52.11111px;">Delete</button>
+                    padding-top: 0px;
+                    border-bottom-width: 0px;
+                    padding-right: 0px;
+                    border-right-width: 0px;
+                    border-top-width: 0px;
+                    padding-bottom: 0px;
+                    margin-left:20px;
+                    margin-right:4px;
+                    height: 40px;
+                    width: 52.11111px;">Delete</button>
                   </div>
                 </div>
                 @endfor
@@ -212,38 +212,13 @@
                 <button class="btn btn-outline-light search " id="" type="button">Search</button>
               </div>
             </div>
-
-
-
-
-
-            <!-- <a class="nav-link dropdown-toggle stoggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown
-            </a> -->
             <ul class="dropdown-menu smenu" aria-labelledby="navbarDropdown">
               <div id="plist" class="plist"></div>
-              <!-- <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li> -->
-
               <div id="divider"></div>
-              <!-- <li>
-                <hr class="dropdown-divider">
-              </li> -->
               <div id="seeall"></div>
-              <!-- <li><a class="dropdown-item" href="#">See all results</a></li> -->
             </ul>
 
           </li>
-
-
-
-
-          <!-- <div id="suggesstion-box">
-              <ul id="usuggestion">
-
-              </ul>
-            </div> -->
-
           </form>
       </div>
       </li>

@@ -47,7 +47,9 @@ class AccountController extends Controller
             ->where('userid', $frequest[$i]['from'])
             ->get();
             $inarray=json_decode(json_encode($infos), true);
-            // dd($inarray);
+            // dd($inarray[0]['name']);
+            $req->session()->regenerate();
+            $req->session()->put('name'.$i,$inarray[0]['name']);
             $req->session()->regenerate();
             $req->session()->put($i,$inarray[0]['dp']);
         }
