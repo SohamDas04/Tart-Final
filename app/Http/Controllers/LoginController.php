@@ -25,9 +25,13 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) { 
 
             $query=User::select('id')->where('email', $credentials['email'])->get();
+            $queryforname=User::select('name')->where('email', $credentials['email'])->get();
             $id=$query[0]['id'];
+            $name=$queryforname[0]['name'];
             $request->session()->regenerate();
             $request->session()->put('id', $id);
+            $request->session()->regenerate();
+            $request->session()->put('name', $name);
             // dd($request->session()->get('id'));
            return redirect()->intended('dashboard');
         }

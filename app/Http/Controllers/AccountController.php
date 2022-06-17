@@ -160,7 +160,11 @@ class AccountController extends Controller
             $mydata = json_decode($data, true);
             $sending_id=$mydata['senderid'];
             $receiving_id=$mydata['receiverid'];
+            $sending_name=$mydata['sendername'];
+            $receiving_name=$mydata['receivername'];
             $datab= new friendrequest;
+            $datab->nameofsender=$sending_name;
+            $datab->nameofreceiver=$receiving_name;
             $datab->from=$sending_id;
             $datab->to=$receiving_id;
             $datab->status=1;

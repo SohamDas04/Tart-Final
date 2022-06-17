@@ -20,6 +20,8 @@ class CreateFriendrequestsTable extends Migration
             $table->integer('to');
             $table->integer('status')->default(0);
             $table->integer('viewstatus')->default(0);
+            $table->string('nameofsender');
+            $table->string('nameofreceiver');
         });
     }
 

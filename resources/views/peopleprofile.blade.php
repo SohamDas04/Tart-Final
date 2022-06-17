@@ -104,7 +104,7 @@
 
 </head>
 
-<body style="background-color:ghostwhite;" id="{{session()->get('id')}}" class="{{$info['userid']}}">
+<body style="background-color:ghostwhite;" id="{{session()->get('id')}}" class="{{$info['userid']}}" name="{{$info['name']}}" nameofsend="{{session()->get('name')}}">
 
   <!-- <span style="display: none;">
     <form action="/uploadp">@csrf<input type="file" name="dpupload" class="uploadp" id="test"></form>
@@ -465,11 +465,18 @@
     console.log($('body').attr('id'));
     let acting_id = $('body').attr('id');
     let re_id = $('body').attr('class');
+    let re_name = $('body').attr('name');
+    let acting_name = $('body').attr('nameofsend');
+    console.log(acting_name);
     $(this).css('display', 'none');
     mydata = {
       senderid: acting_id,
-      receiverid: re_id
+      receiverid: re_id,
+      sendername: acting_name,
+      receivername:re_name
     }
+    console.log(mydata);
+    // return false;
     $.ajax({
       url: "/requestsend",
       method: "POST",

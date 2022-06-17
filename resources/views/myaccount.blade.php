@@ -140,32 +140,64 @@
               <i class=" fa-solid fa-user-group"></i>
               @if(session()->get('freqnum')>0)
               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-light" style="color:black;">
-              {{session()->get('freqnum')}}+
+                {{session()->get('freqnum')}}+
               </span>
-              
+
               <!-- <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
                 1
               </span> -->
               @endif
               </button>
             </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="width:400px;">
               @for($i=0;$i< session()->get('freqnum');$i++)
-              <div class="row">
-                <div class="col-4">
-                  @if(session()->get($i)!=null)
-                  <img src="/uploads/{{session()->get($i)}}" class="rounded-circle" alt="" style="height:40px; width: 40px;">
+                <div class="row">
+                  <div class="col-2" style="padding-right: 0px;">
+                    @if(session()->get($i)!=null)
+                    <img src="/uploads/{{session()->get($i)}}" class="rounded-circle" alt="" style="height:40px; width: 40px; margin-left:8px;">
+                    @else
+                    <img src="/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" class="rounded-circle" alt="">
+                    @endif
+                  </div>
+                  @if(session()->get($i)==null)
+                  <div class="col-6" style="margin-left:10px;padding-left:0px; padding-right:0px;margin-top:17px;  height: 40px;">
+                    <a href="" style="color: black;">Soham Das</a>
+                  </div>
                   @else
-                  <img src="/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" class="rounded-circle" alt="">
+                  <div class="col-6" style="margin-left:10px;padding-left:0px; padding-right:0px;margin-top:10px;  height: 40px;">
+                    <a href="" style="color: black;">Soham Das</a>
+                  </div>
                   @endif
+                  <div class="col-1">
+                    <button type="button" class="btn btn-light" style="padding-left: 0px;
+    padding-top: 0px;
+    border-bottom-width: 0px;
+    padding-right: 0px;
+    border-right-width: 0px;
+    border-top-width: 0px;
+    padding-bottom: 0px;
+    height: 40px;
+    width: 52.11111px;">Accept</button>
+                  </div>
+                  <div class="col-1">
+                    <button type="button" class="btn btn-light" style="padding-left: 0px;
+    padding-top: 0px;
+    border-bottom-width: 0px;
+    padding-right: 0px;
+    border-right-width: 0px;
+    border-top-width: 0px;
+    padding-bottom: 0px;
+    margin-left:20px;
+    margin-right:4px;
+    height: 40px;
+    width: 52.11111px;">Delete</button>
+                  </div>
                 </div>
-              </div>
-              @endfor 
-              <li><a class="dropdown-item">Another action</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+                @endfor
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
           </li>
           <li class="nav-item" style="margin-left:60px;">
