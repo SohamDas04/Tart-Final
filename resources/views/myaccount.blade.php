@@ -680,10 +680,10 @@
       targetu: target
     }
     $.ajax({
-      url:'/acceptrequest',
-      method:'POST',
+      url: '/acceptrequest',
+      method: 'POST',
       data: JSON.stringify(mydata),
-      success: function(data){
+      success: function(data) {
         console.log(data);
         $(this).parent().parent().remove();
       }
@@ -700,10 +700,10 @@
       targetu: target
     }
     $.ajax({
-      url:'/deleterequest',
-      method:'POST',
+      url: '/deleterequest',
+      method: 'POST',
       data: JSON.stringify(mydata),
-      success: function(data){
+      success: function(data) {
         console.log(data);
         $(this).parent().parent().remove();
       }
