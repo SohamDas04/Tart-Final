@@ -40,3 +40,4 @@ Route::post('/viewpeople',[ViewPeople::class,'viewpeople']);
 Route::get('/showpeople',[ViewPeople::class,'showpeople']);
 Route::post('/requestsend',[AccountController::class,'sendrequest']);
 Route::post('/respondtorequest',[AccountController::class,'respondtorequest']);
+Route::post('/viewstatus',[AccountController::class,'viewstatus']);

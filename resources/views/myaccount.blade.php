@@ -134,13 +134,13 @@
           <li class="nav-item" style="padding: 0px;">
             <a class="nav-link active" aria-current="page" href="/dashboard">Feed</a>
           </li>
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown showflist">
             <!-- <class="nav-link" href="#" id="navbarDropdown" > -->
             <a button type="button" class="btn btn-dark position-relative dropdown-toggle " data-bs-toggle="dropdown" aria-expanded="false" style="border-top-width: 68.111;margin-top: 2px;">
               <i class=" fa-solid fa-user-group"></i>
-              @if(session()->get('freqnum')>0)
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-light" style="color:black;">
-                {{session()->get('freqnum')}}+
+              @if(session()->get('unseen')>0)
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-light tohide" style="color:black;">
+                {{session()->get('unseen')}}+
               </span>
 
               <!-- <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
@@ -197,7 +197,9 @@
                 <li>
                   <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                @if(session()->get('freqnum')==0)
+                <li><a class="dropdown-item" href="#">You have no friend request</a></li>
+                @endif
             </ul>
           </li>
           <li class="nav-item" style="margin-left:60px;">
@@ -673,6 +675,22 @@
   })
   $('.deletereq').click(function(){
     console.log($(this).attr('id'));
+  })
+  $('.showflist').click(function(){
+    console.log('Friend Request List Viewed');
+    mydata={
+      view: 1
+    }
+    $.ajax({
+      url: "/viewstatus",
+      method: "POST",
+      data: JSON.stringify(mydata),
+      success: function(data){
+        console.log(data);
+        $('.tohide').css('display','none');
+      }
+    })
+
   })
 </script>
 

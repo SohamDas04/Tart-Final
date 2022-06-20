@@ -38,9 +38,16 @@ class AccountController extends Controller
         ->get();
         $frequest=json_decode(json_encode($request), true);
         // dd($frequest);
-        
         $req->session()->regenerate();
         $req->session()->put('freqnum',count($frequest));
+        $unseen_request=DB::table('friendrequests')
+        ->where('to',$uid)
+        ->where('status',1)
+        ->where('viewstatus',0)
+        ->get();
+        $unseen_array=json_decode(json_encode($unseen_request), true);
+        $req->session()->regenerate();
+        $req->session()->put('unseen',count($unseen_array));
         $dp=array();
         for($i=0;$i<count($frequest);$i++){
             // dd($frequest[$i]['from']);
@@ -178,8 +185,16 @@ class AccountController extends Controller
             return 'Request Sent';
         }
     }
-    public function notifyrequest(Request $req){
+    public function viewstatus(Request $req){
         $uid = session()->get('id');
-
+        if ($req->ajax()) {
+            $data = stripslashes(file_get_contents("php://input"));
+            $mydata = json_decode($data, true);
+            $newstatus=$mydata['view'];
+            DB::table('friendrequests')
+            ->where('to', $uid)
+            ->update(array('viewstatus' => $newstatus));
+            return $newstatus;
+        }
     }
 }
