@@ -116,7 +116,6 @@
 </head>
 
 <body style="background-color:ghostwhite;">
-
   <span style="display: none;">
     <form action="/uploadp">@csrf<input type="file" name="dpupload" class="uploadp" id="test"></form>
   </span>
@@ -274,7 +273,7 @@
         <div class="row">
           <div class=" col-4">
             <div class="row">
-              <button type="button" class="btn btn-dark" style="border-radius:50px;">Friends</button>
+              <button type="button" class="btn btn-dark" style="border-radius:50px;">Friends List</button>
             </div>
             <br>
             <div class="row" style="background-color:rgba(250, 248, 245)">
@@ -415,7 +414,19 @@
                 ?>
                 <div class="row">
                   <div class="col-6" style="padding-right:0px; height: 50px;">
-                    <button class="btn btn-light btn-lg btn-block" style="width:100%; background: white;"><i class="fa-regular fa-thumbs-up"></i></button>
+                  <?php
+                    $uid=session()->get('id');
+                    if (!strpos("$uid",$post['likeid'])){
+                  ?>
+                    <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-regular fa-thumbs-up"></i></button>
+                  <?php 
+                    }
+                    else{
+                  ?>
+                    <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-solid fa-thumbs-up"></i></button>
+                    <?php 
+                    }
+                    ?>
                   </div>
                   <div class="col-6" style="padding-left:0px; height :50px;">
                     <button class="btn btn-light btn-lg " style="width: 100%; background: white;"><i class="fa fa-commenting" aria-hidden="true"></i></button>
@@ -724,6 +735,29 @@
       }
     })
 
+  })
+  $('.likeb').click(function() {
+    console.log('Like button clicked');
+    let p = $(this).attr('id');
+    console.log(p);
+    mydata = {
+      post: p
+    }
+    $.ajax({
+      url: "/like",
+      method: "POST",
+      data: JSON.stringify(mydata),
+      success: function(data) {
+        console.log(data);
+        if (data == '1') {
+          $(this).children().removeClass('fa-regular');
+          $(this).children().addClass('fa-solid');
+        } else {
+          $(this).children().removeClass('fa-solid');
+          $(this).children().addClass('fa-regular');
+        }
+      }
+    })
   })
 </script>
 

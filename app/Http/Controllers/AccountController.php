@@ -28,45 +28,45 @@ class AccountController extends Controller
         // dd($info['name']);
         $getit = json_decode(json_encode($info), true);
         // dd($getit[0]);
-        $posts=DB::table('posts')
+        $posts = DB::table('posts')
             ->where('userid', $uid)
             ->get();
         $poststable = json_decode(json_encode($posts), true);
-        $request=DB::table('friendrequests')
-        ->where('to',$uid)
-        ->where('status',1)
-        ->get();
-        $frequest=json_decode(json_encode($request), true);
+        $request = DB::table('friendrequests')
+            ->where('to', $uid)
+            ->where('status', 1)
+            ->get();
+        $frequest = json_decode(json_encode($request), true);
         // dd($frequest);
         $req->session()->regenerate();
-        $req->session()->put('freqnum',count($frequest));
-        $unseen_request=DB::table('friendrequests')
-        ->where('to',$uid)
-        ->where('status',1)
-        ->where('viewstatus',0)
-        ->get();
-        $unseen_array=json_decode(json_encode($unseen_request), true);
+        $req->session()->put('freqnum', count($frequest));
+        $unseen_request = DB::table('friendrequests')
+            ->where('to', $uid)
+            ->where('status', 1)
+            ->where('viewstatus', 0)
+            ->get();
+        $unseen_array = json_decode(json_encode($unseen_request), true);
         $req->session()->regenerate();
-        $req->session()->put('unseen',count($unseen_array));
-        $dp=array();
-        for($i=0;$i<count($frequest);$i++){
+        $req->session()->put('unseen', count($unseen_array));
+        $dp = array();
+        for ($i = 0; $i < count($frequest); $i++) {
             // dd($frequest[$i]['from']);
             $infos = DB::table('information')
-            ->where('userid', $frequest[$i]['from'])
-            ->get();
-            $inarray=json_decode(json_encode($infos), true);
+                ->where('userid', $frequest[$i]['from'])
+                ->get();
+            $inarray = json_decode(json_encode($infos), true);
             // dd($inarray[0]['name']);
             $req->session()->regenerate();
-            $req->session()->put('name'.$i,$inarray[0]['name']);
+            $req->session()->put('name' . $i, $inarray[0]['name']);
             $req->session()->regenerate();
-            $req->session()->put('idsender'.$i,$frequest[$i]['from']);
+            $req->session()->put('idsender' . $i, $frequest[$i]['from']);
             $req->session()->regenerate();
-            $req->session()->put($i,$inarray[0]['dp']);
+            $req->session()->put($i, $inarray[0]['dp']);
         }
         // dd(session()->get('idsender1'));
         // dd($dp);
         // dd($poststable);
-        return view('myaccount', ['members' => $getit[0]],['posts'=>$poststable],['senders'=>$frequest],['dp'=>$dp]);
+        return view('myaccount', ['members' => $getit[0]], ['posts' => $poststable], ['senders' => $frequest], ['dp' => $dp]);
     }
     public function uploadp(Request $req)
     {
@@ -105,7 +105,7 @@ class AccountController extends Controller
     }
     public function senddata(Request $req)
     {
-        
+
         if ($req->ajax()) {
             $uid = session()->get('id');
             $data = stripslashes(file_get_contents("php://input"));
@@ -150,74 +150,118 @@ class AccountController extends Controller
         if ($req->ajax()) {
             $data = stripslashes(file_get_contents("php://input"));
             $mydata = json_decode($data, true);
-            $dir="uploads/posts";
-            $file=$mydata['todel'];
-            unlink($dir.'/'.$file);
+            $dir = "uploads/posts";
+            $file = $mydata['todel'];
+            unlink($dir . '/' . $file);
             return $file;
         }
     }
-    public function search(Request $req){
-        if ($req->ajax()){
-            $user=User::where('name', $_POST["keyword"])
-            ->orWhere('name', 'like', '%' . $_POST["keyword"] . '%')->get();
+    public function search(Request $req)
+    {
+        if ($req->ajax()) {
+            $user = User::where('name', $_POST["keyword"])
+                ->orWhere('name', 'like', '%' . $_POST["keyword"] . '%')->get();
             // dd($user);
             return $user;
-            
-
-            
         }
     }
-    public function sendrequest(Request $req){
+    public function sendrequest(Request $req)
+    {
         if ($req->ajax()) {
             $data = stripslashes(file_get_contents("php://input"));
             $mydata = json_decode($data, true);
-            $sending_id=$mydata['senderid'];
-            $receiving_id=$mydata['receiverid'];
-            $sending_name=$mydata['sendername'];
-            $receiving_name=$mydata['receivername'];
-            $datab= new friendrequest;
-            $datab->nameofsender=$sending_name;
-            $datab->nameofreceiver=$receiving_name;
-            $datab->from=$sending_id;
-            $datab->to=$receiving_id;
-            $datab->status=1;
+            $sending_id = $mydata['senderid'];
+            $receiving_id = $mydata['receiverid'];
+            $sending_name = $mydata['sendername'];
+            $receiving_name = $mydata['receivername'];
+            $datab = new friendrequest;
+            $datab->nameofsender = $sending_name;
+            $datab->nameofreceiver = $receiving_name;
+            $datab->from = $sending_id;
+            $datab->to = $receiving_id;
+            $datab->status = 1;
             $datab->save();
             return 'Request Sent';
         }
     }
-    public function viewstatus(Request $req){
+    public function viewstatus(Request $req)
+    {
         $uid = session()->get('id');
         if ($req->ajax()) {
             $data = stripslashes(file_get_contents("php://input"));
             $mydata = json_decode($data, true);
-            $newstatus=$mydata['view'];
+            $newstatus = $mydata['view'];
             DB::table('friendrequests')
-            ->where('to', $uid)
-            ->update(array('viewstatus' => $newstatus));
+                ->where('to', $uid)
+                ->update(array('viewstatus' => $newstatus));
             return $newstatus;
         }
     }
-    public function acceptrequest(Request $req){
+    public function acceptrequest(Request $req)
+    {
         $uid = session()->get('id');
         if ($req->ajax()) {
             $data = stripslashes(file_get_contents("php://input"));
             $mydata = json_decode($data, true);
-            $target=$mydata['targetu'];
+            $target = $mydata['targetu'];
             DB::table('friendrequests')
-            ->where('from',$target)
-            ->where('to', $uid)
-            ->update(array('status' => 2));
+                ->where('from', $target)
+                ->where('to', $uid)
+                ->update(array('status' => 2));
             return 'Now friends';
         }
     }
-    public function deleterequest(Request $req){
+    public function deleterequest(Request $req)
+    {
         $uid = session()->get('id');
         if ($req->ajax()) {
             $data = stripslashes(file_get_contents("php://input"));
             $mydata = json_decode($data, true);
-            $target=$mydata['targetu'];
-            friendrequest::where('from', $target)->where('to',$uid)->delete();
+            $target = $mydata['targetu'];
+            friendrequest::where('from', $target)->where('to', $uid)->delete();
             return 'deleted';
+        }
+    }
+    public function like(Request $req)
+    {
+        $uid = session()->get('id');
+        if ($req->ajax()) {
+            $data = stripslashes(file_get_contents("php://input"));
+            $mydata = json_decode($data, true);
+            $postid = $mydata['post'];
+            $posts = DB::table('posts')
+                ->where('id', $postid)
+                ->get();
+            $postsarray = json_decode(json_encode($posts), true);
+            // dd($postid);
+            $num_of_likes = $postsarray[0]['likes'];
+            $peoplelikes = $postsarray[0]['likename'];
+            $idlikes = $postsarray[0]['likeid'];
+            $info = DB::table('information')
+                ->where('userid', $uid)
+                ->get();
+            $infoarray = json_decode(json_encode($info), true);
+            $name = $infoarray[0]['name'];
+            $arrayid = explode(",", $idlikes);
+            // $arrayname=explode(",",$peoplelikes);
+            if (!in_array("$uid", $arrayid)) {
+                $newidlikes = $idlikes . $uid . ',';
+                $newnumlikes = $num_of_likes + 1;
+                $newnamelikes = $peoplelikes . $name . ',';
+                DB::table('friendrequests')
+                    ->where('id', $postid)
+                    ->update(array('likes' => $newnumlikes,'likeid'=>$newidlikes,'likename'=>$newnamelikes));
+                    return 1;
+            }
+            else{
+                // $arrayuid=array("$uid");
+                $newidlikes=str_replace($uid.',', '', $idlikes);
+                $newnumlikes = $num_of_likes - 1;
+                DB::table('friendrequests')
+                    ->where('id', $postid)
+                    ->update(array('likes' => $newnumlikes,'likeid'=>$newidlikes));
+                return 2;
+            }
         }
     }
 }

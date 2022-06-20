@@ -43,3 +43,4 @@ Route::post('/respondtorequest',[AccountController::class,'respondtorequest']);
 Route::post('/viewstatus',[AccountController::class,'viewstatus']);
 Route::post('/acceptrequest',[AccountController::class,'acceptrequest']);
 Route::post('/deleterequest',[AccountController::class,'deleterequest']);
+Route::post('/like',[AccountController::class,'like']);
