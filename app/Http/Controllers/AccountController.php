@@ -235,6 +235,7 @@ class AccountController extends Controller
             $postsarray = json_decode(json_encode($posts), true);
             // dd($postid);
             $num_of_likes = $postsarray[0]['likes'];
+            // return $num_of_likes;
             $peoplelikes = $postsarray[0]['likename'];
             $idlikes = $postsarray[0]['likeid'];
             $info = DB::table('information')
@@ -243,23 +244,23 @@ class AccountController extends Controller
             $infoarray = json_decode(json_encode($info), true);
             $name = $infoarray[0]['name'];
             $arrayid = explode(",", $idlikes);
+            // return $arrayid;
             // $arrayname=explode(",",$peoplelikes);
             if (!in_array("$uid", $arrayid)) {
                 $newidlikes = $idlikes . $uid . ',';
                 $newnumlikes = $num_of_likes + 1;
                 $newnamelikes = $peoplelikes . $name . ',';
-                DB::table('friendrequests')
+                DB::table('posts')
                     ->where('id', $postid)
-                    ->update(array('likes' => $newnumlikes,'likeid'=>$newidlikes,'likename'=>$newnamelikes));
-                    return 1;
-            }
-            else{
+                    ->update(array('likes' => $newnumlikes, 'likeid' => $newidlikes, 'likename' => $newnamelikes));
+                return 1;
+            } else {
                 // $arrayuid=array("$uid");
-                $newidlikes=str_replace($uid.',', '', $idlikes);
+                $newidlikes = str_replace($uid . ',', '', $idlikes);
                 $newnumlikes = $num_of_likes - 1;
-                DB::table('friendrequests')
+                DB::table('posts')
                     ->where('id', $postid)
-                    ->update(array('likes' => $newnumlikes,'likeid'=>$newidlikes));
+                    ->update(array('likes' => $newnumlikes, 'likeid' => $newidlikes));
                 return 2;
             }
         }
