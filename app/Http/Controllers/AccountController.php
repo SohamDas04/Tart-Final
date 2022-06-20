@@ -37,6 +37,7 @@ class AccountController extends Controller
         ->where('status',1)
         ->get();
         $frequest=json_decode(json_encode($request), true);
+        // dd($frequest);
         
         $req->session()->regenerate();
         $req->session()->put('freqnum',count($frequest));
@@ -51,8 +52,11 @@ class AccountController extends Controller
             $req->session()->regenerate();
             $req->session()->put('name'.$i,$inarray[0]['name']);
             $req->session()->regenerate();
+            $req->session()->put('idsender'.$i,$frequest[$i]['from']);
+            $req->session()->regenerate();
             $req->session()->put($i,$inarray[0]['dp']);
         }
+        // dd(session()->get('idsender1'));
         // dd($dp);
         // dd($poststable);
         return view('myaccount', ['members' => $getit[0]],['posts'=>$poststable],['senders'=>$frequest],['dp'=>$dp]);

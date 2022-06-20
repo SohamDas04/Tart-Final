@@ -169,7 +169,7 @@
                   </div>
                   @endif
                   <div class="col-1">
-                    <button type="button" class="btn btn-light" style="padding-left: 0px;
+                    <button type="button" class="btn btn-light acceptreq" style="padding-left: 0px;
                     padding-top: 0px;
                     border-bottom-width: 0px;
                     padding-right: 0px;
@@ -177,10 +177,10 @@
                     border-top-width: 0px;
                     padding-bottom: 0px;
                     height: 40px;
-                    width: 52.11111px;">Accept</button>
+                    width: 52.11111px;"  id="{{session()->get('idsender'.$i)}}">Accept</button>
                   </div>
                   <div class="col-1">
-                    <button type="button" class="btn btn-light" style="padding-left: 0px;
+                    <button type="button" class="btn btn-light deletereq" style="padding-left: 0px;
                     padding-top: 0px;
                     border-bottom-width: 0px;
                     padding-right: 0px;
@@ -190,7 +190,7 @@
                     margin-left:20px;
                     margin-right:4px;
                     height: 40px;
-                    width: 52.11111px;">Delete</button>
+                    width: 52.11111px;" id="{{session()->get('idsender'.$i)}}">Delete</button>
                   </div>
                 </div>
                 @endfor
@@ -202,7 +202,7 @@
           </li>
           <li class="nav-item" style="margin-left:60px;">
             <div class="frmsearch" style="margin-right:80px;">
-              <form class="d-flex searchform">
+              <form class="d-flex searchform" autocomplete="off">
           <li class="nav-item dropdown mt-0 pt-0">
             <div class="row mt-0 pt-0">
               <div class="col-10" style="margin-right:0px; padding-right:0px;">
@@ -667,6 +667,12 @@
   })
   $('.dropdown-item').click(function() {
     console.log($(this).text());
+  })
+  $('.acceptreq').click(function(){
+    console.log($(this).attr('id'));
+  })
+  $('.deletereq').click(function(){
+    console.log($(this).attr('id'));
   })
 </script>
 

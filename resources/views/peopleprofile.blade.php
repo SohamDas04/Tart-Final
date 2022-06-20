@@ -222,8 +222,10 @@
               @if(session()->get('status')==404)
               <button type="button" class="btn btn-dark add_friend" style="border-radius:50px;">Add Friend</button>
               <button type="button" class="btn btn-dark sent_request" style="border-radius:50px;display:none;">Friend Request Sent</button>
-              @else(session()->get('status'))
+              @elseif(session()->get('status')==1)
               <button type="button" class="btn btn-dark" style="border-radius:50px;">Friend Request Sent</button>
+              @elseif(session()->get('status')==2)
+              <button type="button" class="btn btn-dark" style="border-radius:50px;">Respond</button>
               @endif
             </div>
             <br>

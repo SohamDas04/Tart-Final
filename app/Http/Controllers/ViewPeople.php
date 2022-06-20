@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\friendrequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use function GuzzleHttp\json_encode;
@@ -38,16 +39,29 @@ class ViewPeople extends Controller
         $idarray = ['acting_user' => $uid];
         $frequest = DB::table('friendrequests')
             ->where('from', $uid)
-            ->where('to',$id)
+            ->where('to', $id)
             ->get();
-        $reqf=json_decode(json_encode($frequest), true);
-        if(!empty($reqf[0]['status'])){
-        $req->session()->regenerate();
-        $req->session()->put('status', $reqf[0]['status']);
-        }
-        else{
+        // $frequest=friendrequest::whereIn('');
+        // $requi=
+        $reqf = json_decode(json_encode($frequest), true);
+        // if(empty($reqf))
+        // dd($reqf);
+        if (!empty($reqf[0])) {
             $req->session()->regenerate();
-            $req->session()->put('status', 404);
+            $req->session()->put('status', 1);
+        } else {
+            $frequest = DB::table('friendrequests')
+                ->where('to', $uid)
+                ->where('from', $id)
+                ->get();
+            $reqf = json_decode(json_encode($frequest), true);
+            if (!empty($reqf[0])) {
+                $req->session()->regenerate();
+                $req->session()->put('status', 2);
+            } else {
+                $req->session()->regenerate();
+                $req->session()->put('status', 404);
+            }
         }
         return view('peopleprofile', ['info' => $getit[0]], ['posts' => $poststable], ['status' => $reqf]);
     }
