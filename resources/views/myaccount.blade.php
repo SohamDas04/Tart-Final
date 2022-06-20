@@ -404,7 +404,7 @@
                   </div>
                 </div>
                 <?php
-                if ($post['picture'] != '') {
+                if($post['picture'] != '') {
                 ?>
                   <div style="background: black;">
                     <img class="card-img-top" src="/uploads/posts/{{$post['picture']}}" style="max-height: 350px; width:100%; object-fit:contain;">
@@ -416,7 +416,9 @@
                   <div class="col-6" style="padding-right:0px; height: 50px;">
                   <?php
                     $uid=session()->get('id');
-                    if (!strpos("$uid",$post['likeid'])){
+                    if(!empty($post['likeid'])){
+                    if (!strpos($uid,$post['likeid']))
+                    {
                   ?>
                     <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-regular fa-thumbs-up"></i></button>
                   <?php 
@@ -424,6 +426,11 @@
                     else{
                   ?>
                     <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-solid fa-thumbs-up"></i></button>
+                    <?php 
+                    }}
+                    else{
+                    ?>
+                    <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-regular fa-thumbs-up"></i></button>
                     <?php 
                     }
                     ?>
