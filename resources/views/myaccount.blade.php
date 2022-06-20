@@ -177,7 +177,7 @@
                     border-top-width: 0px;
                     padding-bottom: 0px;
                     height: 40px;
-                    width: 52.11111px;"  id="{{session()->get('idsender'.$i)}}">Accept</button>
+                    width: 52.11111px;" id="{{session()->get('idsender'.$i)}}">Accept</button>
                   </div>
                   <div class="col-1">
                     <button type="button" class="btn btn-light deletereq" style="padding-left: 0px;
@@ -670,24 +670,57 @@
   $('.dropdown-item').click(function() {
     console.log($(this).text());
   })
-  $('.acceptreq').click(function(){
+  $('.acceptreq').click(function() {
     console.log($(this).attr('id'));
+    console.log('User wants to accept this person as a friend');
+    let target = $(this).attr('id');
+    $(this).parent().parent().remove();
+    // return false;
+    mydata = {
+      targetu: target
+    }
+    $.ajax({
+      url:'/acceptrequest',
+      method:'POST',
+      data: JSON.stringify(mydata),
+      success: function(data){
+        console.log(data);
+        $(this).parent().parent().remove();
+      }
+    })
   })
-  $('.deletereq').click(function(){
+  $('.deletereq').click(function() {
     console.log($(this).attr('id'));
+    console.log('User wants to delete this person as a friend');
+    let target = $(this).attr('id');
+    // return false;
+    $(this).parent().parent().remove();
+    // return false;
+    mydata = {
+      targetu: target
+    }
+    $.ajax({
+      url:'/deleterequest',
+      method:'POST',
+      data: JSON.stringify(mydata),
+      success: function(data){
+        console.log(data);
+        $(this).parent().parent().remove();
+      }
+    })
   })
-  $('.showflist').click(function(){
+  $('.showflist').click(function() {
     console.log('Friend Request List Viewed');
-    mydata={
+    mydata = {
       view: 1
     }
     $.ajax({
       url: "/viewstatus",
       method: "POST",
       data: JSON.stringify(mydata),
-      success: function(data){
+      success: function(data) {
         console.log(data);
-        $('.tohide').css('display','none');
+        $('.tohide').css('display', 'none');
       }
     })
 

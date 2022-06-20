@@ -197,4 +197,27 @@ class AccountController extends Controller
             return $newstatus;
         }
     }
+    public function acceptrequest(Request $req){
+        $uid = session()->get('id');
+        if ($req->ajax()) {
+            $data = stripslashes(file_get_contents("php://input"));
+            $mydata = json_decode($data, true);
+            $target=$mydata['targetu'];
+            DB::table('friendrequests')
+            ->where('from',$target)
+            ->where('to', $uid)
+            ->update(array('status' => 2));
+            return 'Now friends';
+        }
+    }
+    public function deleterequest(Request $req){
+        $uid = session()->get('id');
+        if ($req->ajax()) {
+            $data = stripslashes(file_get_contents("php://input"));
+            $mydata = json_decode($data, true);
+            $target=$mydata['targetu'];
+            friendrequest::where('from', $target)->where('to',$uid)->delete();
+            return 'deleted';
+        }
+    }
 }

@@ -226,6 +226,8 @@
               <button type="button" class="btn btn-dark" style="border-radius:50px;">Friend Request Sent</button>
               @elseif(session()->get('status')==2)
               <button type="button" class="btn btn-dark" style="border-radius:50px;">Respond</button>
+              @elseif(session()->get('status')==3)
+              <button type="button" class="btn btn-dark" style="border-radius:50px;">Friends  <i class="fa-solid fa-check"></i></button>
               @endif
             </div>
             <br>
