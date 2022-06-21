@@ -406,12 +406,22 @@
                 <?php
                 if ($post['picture'] != '') {
                 ?>
-                  <div style="background: black;">
+                  <div style="background: black;" class="imagesofposts">
                     <img class="card-img-top" src="/uploads/posts/{{$post['picture']}}" style="max-height: 350px; width:100%; object-fit:contain;">
                   </div>
                 <?php
                 }
                 ?>
+                <div class="row mt-1">
+                  <div class="col-4 zerolikes">
+                    <?php if($post['likes']==0){ 
+                    ?>
+                    Be the first to like this <i class="fa-regular fa-thumbs-up"></i>
+                    <?php
+                    }
+                    ?>
+                  </div>
+                </div>
                 <div class="row">
                   <div class="col-6" style="padding-right:0px; height: 50px;">
                     <?php
@@ -763,7 +773,14 @@
           // return false;
           $(th).children().removeClass('fa-regular');
           $(th).children().addClass('fa-solid');
-        } else {
+          $('.zerolikes').css('display','none');
+        }
+        else if(data==2){
+          $(th).children().removeClass('fa-solid');
+          $(th).children().addClass('fa-regular');
+          $('.imagesofposts').after('<div class="row mt-1"><div class="col-4 zerolikes">Be the first to like this <i class="fa-regular fa-thumbs-up"></i></div></div>');
+        }
+         else {
           $(th).children().removeClass('fa-solid');
           $(th).children().addClass('fa-regular');
         }

@@ -262,7 +262,13 @@ class AccountController extends Controller
                 DB::table('posts')
                     ->where('id', $postid)
                     ->update(array('likes' => $newnumlikes, 'likeid' => $newidlikes));
+                $tocheckforcount = DB::table('posts')
+                    ->where('id', $postid)
+                    ->get();
+                $count=json_decode(json_encode($tocheckforcount), true);
+                if($count[0]['likes']==0){
                 return 2;
+                }
             }
         }
     }
