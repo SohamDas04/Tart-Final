@@ -414,9 +414,15 @@
                 ?>
                 <div class="row mt-1">
                   <div class="col-4 zerolikes">
-                    <?php if($post['likes']==0){ 
+                    <?php if ($post['likes'] == 0) {
                     ?>
-                    Be the first to like this <i class="fa-regular fa-thumbs-up"></i>
+                      Be the first to like this <i class="fa-regular fa-thumbs-up"></i>
+                    <?php
+                    } else {
+                    ?>
+                      <div>
+                        <i class="fa-regular fa-thumbs-up"></i> {{$post['likes']}}
+                      </div>
                     <?php
                     }
                     ?>
@@ -427,7 +433,7 @@
                     <?php
                     $uid = session()->get('id');
                     if (!empty($post['likeid'])) {
-                      if (!str_contains($post['likeid'],$uid)) {
+                      if (!str_contains($post['likeid'], $uid)) {
                     ?>
                         <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-regular fa-thumbs-up"></i></button>
                       <?php
@@ -755,7 +761,7 @@
     console.log('Like button clicked');
     let p = $(this).attr('id');
     console.log(p);
-    let th= this;
+    let th = this;
     // $(this).children().removeClass('fa-regular');
     // $(this).children().addClass('fa-solid');
     // return false;
@@ -773,14 +779,12 @@
           // return false;
           $(th).children().removeClass('fa-regular');
           $(th).children().addClass('fa-solid');
-          $('.zerolikes').css('display','none');
-        }
-        else if(data==2){
+          $('.zerolikes').css('display', 'none');
+        } else if (data == 2) {
           $(th).children().removeClass('fa-solid');
           $(th).children().addClass('fa-regular');
           $('.imagesofposts').after('<div class="row mt-1"><div class="col-4 zerolikes">Be the first to like this <i class="fa-regular fa-thumbs-up"></i></div></div>');
-        }
-         else {
+        } else {
           $(th).children().removeClass('fa-solid');
           $(th).children().addClass('fa-regular');
         }
