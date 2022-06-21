@@ -357,7 +357,7 @@
                     <?php
                     $uid = session()->get('id');
                     if (!empty($post['likeid'])) {
-                      if (strpos($uid, $post['likeid'])) {
+                      if (!str_contains($post['likeid'],$uid)) {
                     ?>
                         <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-regular fa-thumbs-up"></i></button>
                       <?php
