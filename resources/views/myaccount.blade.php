@@ -412,15 +412,19 @@
                 <?php
                 }
                 ?>
-                <div class="row mt-1">
-                  <div class="col-4 zerolikes">
-                    <?php if ($post['likes'] == 0) {
-                    ?>
+                <div class="row mt-1 likenumzone">
+                  <div class="col-4">
+                    <div class="zerolikes2" style="display: none;">
                       Be the first to like this <i class="fa-regular fa-thumbs-up"></i>
+                    </div>
+                    <?php if ($post['likes'] == 0) {
+                    ?><div class="zerolikes">
+                        Be the first to like this <i class="fa-regular fa-thumbs-up"></i>
+                      </div>
                     <?php
                     } else {
                     ?>
-                      <div>
+                      <div class="somelikes">
                         <i class="fa-regular fa-thumbs-up"></i> {{$post['likes']}}
                       </div>
                     <?php
@@ -462,10 +466,8 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <!-- Optional JavaScript; choose one of the two!
-
           Option 1: Bootstrap Bundle with Popper
           <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
           Option 2: Separate Popper and Bootstrap JS
           
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
@@ -486,7 +488,6 @@
   }
   $('#test').change(function(e) {
     var files = $('.uploadp')[0].files;
-
     var fd = new FormData();
     // Append data 
     fd.append('file', files[0]);
@@ -504,18 +505,15 @@
         $("#olddp").attr("src", filesrc);
         $("#postsdp").attr("src", filesrc);
       }
-
     })
   })
   $('.dp_upload').click(function(e) {
     console.log('Edit Profile photo');
     $('.uploadp').click();
-
   })
   $('#testc').change(function(e) {
     var files = $('.uploacp')[0].files;
     console.log(files);
-
     var fd = new FormData();
     // Append data 
     fd.append('file', files[0]);
@@ -534,13 +532,11 @@
         let filesrc = "/uploads/cp/" + response;
         $("#oldcp").attr("src", filesrc);
       }
-
     })
   })
   $('.cp_upload').click(function(e) {
     console.log('Edit Cover photo');
     $('.uploacp').click();
-
   })
   $('.ed').click(function(e) {
     console.log("Educate");
@@ -574,13 +570,11 @@
     })
   })
   // AJAX call for autocomplete 
-
   $('.uploadphotos').click(function(e) {
     console.log("upload");
     $('#postp').click();
     // console.log("hi");
   });
-
   $("#search-box").keyup(function(e) {
     $(".plist").empty();
     $("#divider").empty();
@@ -599,7 +593,6 @@
       console.log('Empty');
       return false;
     }
-
     $('.body').click(function() {
       $('.smenu').hide();
       $("#search-box").val('');
@@ -630,9 +623,7 @@
           $("#seeall").html('<li><a class="dropdown-item" href="#">See all results</a></li>');
           if (data[c]['name'] != '')
             $('.smenu').show();
-
           $("#search-box").css("background", "#FFF");
-
           namearray[i] = data[c]['id'];
           console.log(namearray);
           c++;
@@ -663,12 +654,9 @@
             })
           })
         })
-
       }
-
     });
   });
-
   $('#postp').change(function(e) {
     readURL(this);
     $('.modal').click();
@@ -676,8 +664,6 @@
     console.log(files);
     var fd = new FormData();
     fd.append('file', files[0]);
-
-
     $('#postit').click(function(e) {
       let capshn = $('#something').val();
       fd.append('nocap', capshn);
@@ -695,7 +681,6 @@
           $('#cm').click();
           $('#newposts').children().append()
         }
-
       })
     })
   })
@@ -755,19 +740,19 @@
         $('.tohide').css('display', 'none');
       }
     })
-
   })
   $('.likeb').click(function() {
     console.log('Like button clicked');
     let p = $(this).attr('id');
     console.log(p);
     let th = this;
-    // $(this).children().removeClass('fa-regular');
-    // $(this).children().addClass('fa-solid');
-    // return false;
     mydata = {
       post: p
     }
+    let zone = $(th).parent().parent().parent().children().next().next().next();
+    console.log($(th).parent().parent().parent().children().next().next().next().attr('class'));
+    console.log($(zone).children().children().attr('class'));
+    // return false;
     $.ajax({
       url: "/like",
       method: "POST",
@@ -779,11 +764,14 @@
           // return false;
           $(th).children().removeClass('fa-regular');
           $(th).children().addClass('fa-solid');
-          $('.zerolikes').css('display', 'none');
+          $(zone).children().find('.zerolikes').css('display', 'none');
         } else if (data == 2) {
           $(th).children().removeClass('fa-solid');
           $(th).children().addClass('fa-regular');
-          $('.imagesofposts').after('<div class="row mt-1"><div class="col-4 zerolikes">Be the first to like this <i class="fa-regular fa-thumbs-up"></i></div></div>');
+          console.log($(zone).children().children());
+          $(zone).children().find('.zerolikes2').css('display', 'block')
+          $(zone).children().find('.somelikes').css('display', 'none')
+          $(zone).children().find('.zerolikes2').html('<div class="zerolikes">Be the first to like this <i class="fa-regular fa-thumbs-up"></i></div>');
         } else {
           $(th).children().removeClass('fa-solid');
           $(th).children().addClass('fa-regular');
