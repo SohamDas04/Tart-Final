@@ -421,10 +421,13 @@
                     ?><div class="zerolikes">
                         Be the first to like this <i class="fa-regular fa-thumbs-up"></i>
                       </div>
+                      <div class="somelikes" id="0" style="display:none;">
+                        <i class="fa-regular fa-thumbs-up"></i> {{$post['likes']}}
+                      </div>
                     <?php
                     } else {
                     ?>
-                      <div class="somelikes">
+                      <div class="somelikes" id="{{$post['likes']}}">
                         <i class="fa-regular fa-thumbs-up"></i> {{$post['likes']}}
                       </div>
                     <?php
@@ -752,6 +755,9 @@
     let zone = $(th).parent().parent().parent().children().next().next().next();
     console.log($(th).parent().parent().parent().children().next().next().next().attr('class'));
     console.log($(zone).children().children().attr('class'));
+    console.log($(zone).children().find('.somelikes').attr('id'));
+    let num=parseInt($(zone).children().find('.somelikes').attr('id'));
+    console.log(num)
     // return false;
     $.ajax({
       url: "/like",
@@ -765,16 +771,26 @@
           $(th).children().removeClass('fa-regular');
           $(th).children().addClass('fa-solid');
           $(zone).children().find('.zerolikes').css('display', 'none');
+          let newnum=num+1;
+          if(newnum!=1){
+          $(zone).children().find('.somelikes').attr('id',newnum.toString())
+          }
+          $(zone).children().find('.somelikes').html('<i class="fa-regular fa-thumbs-up"></i>'+" "+newnum.toString());
+          $(zone).children().find('.somelikes').css('display','block');
         } else if (data == 2) {
           $(th).children().removeClass('fa-solid');
           $(th).children().addClass('fa-regular');
           console.log($(zone).children().children());
           $(zone).children().find('.zerolikes2').css('display', 'block')
           $(zone).children().find('.somelikes').css('display', 'none')
+          $(zone).children().find('.somelikes').attr('id',"0")
           $(zone).children().find('.zerolikes2').html('<div class="zerolikes">Be the first to like this <i class="fa-regular fa-thumbs-up"></i></div>');
         } else {
           $(th).children().removeClass('fa-solid');
           $(th).children().addClass('fa-regular');
+          let newnum=num-1;
+          $(zone).children().find('.somelikes').html('<i class="fa-regular fa-thumbs-up"></i>'+" "+newnum.toString());
+          $(zone).children().find('.somelikes').attr('id',newnum.toString())
         }
       }
     })
