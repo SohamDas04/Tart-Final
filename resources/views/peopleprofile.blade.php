@@ -221,13 +221,12 @@
             <div class="row">
               @if(session()->get('status')==404)
               <button type="button" class="btn btn-dark add_friend" style="border-radius:50px;">Add Friend</button>
-              <button type="button" class="btn btn-dark sent_request" style="border-radius:50px;display:none;">Friend Request Sent</button>
               @elseif(session()->get('status')==1)
               <button type="button" class="btn btn-dark" style="border-radius:50px;">Friend Request Sent</button>
               @elseif(session()->get('status')==2)
               <button type="button" class="btn btn-dark" style="border-radius:50px;">Respond</button>
               @elseif(session()->get('status')==3)
-              <button type="button" class="btn btn-dark" style="border-radius:50px;">Friends  <i class="fa-solid fa-check"></i></button>
+              <button type="button" class="btn btn-dark" style="border-radius:50px;">Friends <i class="fa-solid fa-check"></i></button>
               @endif
             </div>
             <br>
@@ -329,47 +328,64 @@
           @foreach($posts as $post)
           <br>
           <div class="col-8">
-          <div class="row" id="newpost">
-            <div class="card" style="border: transparent;">
-              <div class="row">
-                <div class="col-1">
-                  <img src="/uploads/{{$info['dp']}}" id='postsdp' class="rounded-circle" style="height: 50px; width: 50px; object-fit:cover;" alt="">
+            <div class="row" id="newpost">
+              <div class="card" style="border: transparent;">
+                <div class="row">
+                  <div class="col-1">
+                    <img src="/uploads/{{$info['dp']}}" id='postsdp' class="rounded-circle" style="height: 50px; width: 50px; object-fit:cover;" alt="">
+                  </div>
+                  <div class="col-10" style="padding-top:10px; margin-left:8px; padding-left: 0px;padding-right: 0px;">
+                    <p style="font-size: 20px;">{{$info['name']}}</p>
+                  </div>
                 </div>
-                <div class="col-10" style="padding-top:10px; margin-left:8px; padding-left: 0px;padding-right: 0px;">
-                  <p style="font-size: 20px;">{{$info['name']}}</p>
+                <div class="row">
+                  <div class="col-8 mt-2 mb-2">
+                    {{$post['caption']}}
+                  </div>
+                </div>
+                <?php
+                if ($post['picture'] != '') {
+                ?>
+                  <div style="background: black;">
+                    <img class="card-img-top" src="/uploads/posts/{{$post['picture']}}" style="max-height: 350px; width:100%; object-fit:contain;">
+                  </div>
+                <?php
+                }
+                ?>
+                <div class="row">
+                  <div class="col-6" style="padding-right:0px; height: 50px;">
+                    <?php
+                    $uid = session()->get('id');
+                    if (!empty($post['likeid'])) {
+                      if (strpos($uid, $post['likeid'])) {
+                    ?>
+                        <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-regular fa-thumbs-up"></i></button>
+                      <?php
+                      } else {
+                      ?>
+                        <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-solid fa-thumbs-up"></i></button>
+                      <?php
+                      }
+                    } else {
+                      ?>
+                      <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-regular fa-thumbs-up"></i></button>
+                    <?php
+                    }
+                    ?>
+                  </div>
+                  <div class="col-6" style="padding-left:0px; height :50px;">
+                    <button class="btn btn-light btn-lg " style="width: 100%; background: white;"><i class="fa fa-commenting" aria-hidden="true"></i></button>
+                  </div>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-8 mt-2 mb-2">
-                  {{$post['caption']}}
-                </div>
-              </div>
-              <?php
-              if ($post['picture'] != '') {
-              ?>
-                <div style="background: black;">
-                  <img class="card-img-top" src="/uploads/posts/{{$post['picture']}}" style="max-height: 350px; width:100%; object-fit:contain;">
-                </div>
-              <?php
-              }
-              ?>
-              <div class="row">
-                <div class="col-6" style="padding-right:0px; height: 50px;">
-                  <button class="btn btn-light btn-lg btn-block" style="width:100%; background: white;"><i class="fa-regular fa-thumbs-up"></i></button>
-                </div>
-                <div class="col-6" style="padding-left:0px; height :50px;">
-                  <button class="btn btn-light btn-lg " style="width: 100%; background: white;"><i class="fa fa-commenting" aria-hidden="true"></i></button>
-                </div>
-              </div>
-            </div> 
+            </div>
+            @endforeach
           </div>
-          @endforeach
         </div>
       </div>
     </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-  <!-- Optional JavaScript; choose one of the two!
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- Optional JavaScript; choose one of the two!
 
           Option 1: Bootstrap Bundle with Popper
           <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -381,7 +397,7 @@
     -->
 </body>
 <script>
-$("#search-box").keyup(function(e) {
+  $("#search-box").keyup(function(e) {
     $(".plist").empty();
     $("#divider").empty();
     $("#seeall").empty();
@@ -482,7 +498,7 @@ $("#search-box").keyup(function(e) {
       senderid: acting_id,
       receiverid: re_id,
       sendername: acting_name,
-      receivername:re_name
+      receivername: re_name
     }
     console.log(mydata);
     // return false;
@@ -492,8 +508,37 @@ $("#search-box").keyup(function(e) {
       data: JSON.stringify(mydata),
       success: function(data) {
         console.log(data);
-        
+
         $('.sent_request').css('display', 'block');
+      }
+    })
+  })
+  $('.likeb').click(function() {
+    console.log('Like button clicked');
+    let p = $(this).attr('id');
+    console.log(p);
+    let th = this;
+    // $(this).children().removeClass('fa-regular');
+    // $(this).children().addClass('fa-solid');
+    // return false;
+    mydata = {
+      post: p
+    }
+    $.ajax({
+      url: "/like",
+      method: "POST",
+      data: JSON.stringify(mydata),
+      success: function(data) {
+        console.log(data);
+        if (data == 1) {
+          console.log('entering');
+          // return false;
+          $(th).children().removeClass('fa-regular');
+          $(th).children().addClass('fa-solid');
+        } else {
+          $(th).children().removeClass('fa-solid');
+          $(th).children().addClass('fa-regular');
+        }
       }
     })
   })

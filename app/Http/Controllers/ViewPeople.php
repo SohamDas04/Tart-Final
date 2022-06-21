@@ -47,8 +47,22 @@ class ViewPeople extends Controller
         // if(empty($reqf))
         // dd($reqf);
         if (!empty($reqf[0])) {
+            if ($reqf[0]['status'] == 1){
             $req->session()->regenerate();
             $req->session()->put('status', 1);
+            }
+            if ($reqf[0]['status'] == 2) {
+                $req->session()->regenerate();
+                $req->session()->put('status', 3);
+                return view('peopleprofile', ['info' => $getit[0]], ['posts' => $poststable], ['status' => $reqf]);
+            }
+            if (!empty($reqf[0])) {
+                $req->session()->regenerate();
+                $req->session()->put('status', 2);
+            } else {
+                $req->session()->regenerate();
+                $req->session()->put('status', 404);
+            }
         } else {
             $frequest = DB::table('friendrequests')
                 ->where('to', $uid)
