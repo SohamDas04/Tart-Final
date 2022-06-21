@@ -352,49 +352,63 @@
                 <?php
                 }
                 ?>
-                <div class="row mt-1">
-                  <div class="col-4 zerolikes">
-                    <?php if($post['likes']==0){ 
+                <div class="row mt-1 likenumzone">
+                  <div class="col-4">
+                    <div class="zerolikes2" style="display: none;">
+                      Be the first to like this <i class="fa-regular fa-thumbs-up"></i>
+                    </div>
+                    <?php if ($post['likes'] == 0) {
+                    ?><div class="zerolikes">
+                        Be the first to like this <i class="fa-regular fa-thumbs-up"></i>
+                      </div>
+                      <div class="somelikes" id="0" style="display:none;">
+                        <i class="fa-regular fa-thumbs-up"></i> {{$post['likes']}}
+                      </div>
+                    <?php
+                    } else {
                     ?>
-                    Be the first to like this <i class="fa-regular fa-thumbs-up"></i>
+                      <div class="somelikes" id="{{$post['likes']}}">
+                        <i class="fa-regular fa-thumbs-up"></i> {{$post['likes']}}
+                      </div>
                     <?php
                     }
                     ?>
                   </div>
-                <div class="row">
-                  <div class="col-6" style="padding-right:0px; height: 50px;">
-                    <?php
-                    $uid = session()->get('id');
-                    if (!empty($post['likeid'])) {
-                      if (!str_contains($post['likeid'],$uid)) {
-                    ?>
+                  </div>
+                  <div class="row">
+                    <div class="col-6" style="padding-right:0px; height: 50px;">
+                      <?php
+                      $uid = session()->get('id');
+                      if (!empty($post['likeid'])) {
+                        if (!str_contains($post['likeid'], $uid)) {
+                      ?>
+                          <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-regular fa-thumbs-up"></i></button>
+                        <?php
+                        } else {
+                        ?>
+                          <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-solid fa-thumbs-up"></i></button>
+                        <?php
+                        }
+                      } else {
+                        ?>
                         <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-regular fa-thumbs-up"></i></button>
                       <?php
-                      } else {
-                      ?>
-                        <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-solid fa-thumbs-up"></i></button>
-                      <?php
                       }
-                    } else {
                       ?>
-                      <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-regular fa-thumbs-up"></i></button>
-                    <?php
-                    }
-                    ?>
-                  </div>
-                  <div class="col-6" style="padding-left:0px; height :50px;">
-                    <button class="btn btn-light btn-lg " style="width: 100%; background: white;"><i class="fa fa-commenting" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="col-6" style="padding-left:0px; height :50px;">
+                      <button class="btn btn-light btn-lg " style="width: 100%; background: white;"><i class="fa fa-commenting" aria-hidden="true"></i></button>
+                    </div>
                   </div>
                 </div>
               </div>
+              @endforeach
             </div>
-            @endforeach
           </div>
         </div>
       </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <!-- Optional JavaScript; choose one of the two!
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+      <!-- Optional JavaScript; choose one of the two!
 
           Option 1: Bootstrap Bundle with Popper
           <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -527,12 +541,16 @@
     let p = $(this).attr('id');
     console.log(p);
     let th = this;
-    // $(this).children().removeClass('fa-regular');
-    // $(this).children().addClass('fa-solid');
-    // return false;
     mydata = {
       post: p
     }
+    let zone = $(th).parent().parent().parent().children().next().next().next();
+    console.log($(th).parent().parent().parent().children().next().next().next().attr('class'));
+    console.log($(zone).children().children().attr('class'));
+    console.log($(zone).children().find('.somelikes').attr('id'));
+    let num = parseInt($(zone).children().find('.somelikes').attr('id'));
+    console.log(num)
+    // return false;
     $.ajax({
       url: "/like",
       method: "POST",
@@ -544,16 +562,27 @@
           // return false;
           $(th).children().removeClass('fa-regular');
           $(th).children().addClass('fa-solid');
-          $('.zerolikes').css('display','none');
-        }
-        else if(data==2){
+          $(zone).children().find('.zerolikes').css('display', 'none');
+          let newnum = num + 1;
+          if (newnum != 1) {
+            $(zone).children().find('.somelikes').attr('id', newnum.toString())
+          }
+          $(zone).children().find('.somelikes').html('<i class="fa-regular fa-thumbs-up"></i>' + " " + newnum.toString());
+          $(zone).children().find('.somelikes').css('display', 'block');
+        } else if (data == 2) {
           $(th).children().removeClass('fa-solid');
           $(th).children().addClass('fa-regular');
-          $('.imagesofposts').after('<div class="row mt-1"><div class="col-4 zerolikes">Be the first to like this <i class="fa-regular fa-thumbs-up"></i></div></div>');
-        } 
-        else {
+          console.log($(zone).children().children());
+          $(zone).children().find('.zerolikes2').css('display', 'block')
+          $(zone).children().find('.somelikes').css('display', 'none')
+          $(zone).children().find('.somelikes').attr('id', "0")
+          $(zone).children().find('.zerolikes2').html('<div class="zerolikes">Be the first to like this <i class="fa-regular fa-thumbs-up"></i></div>');
+        } else {
           $(th).children().removeClass('fa-solid');
           $(th).children().addClass('fa-regular');
+          let newnum = num - 1;
+          $(zone).children().find('.somelikes').html('<i class="fa-regular fa-thumbs-up"></i>' + " " + newnum.toString());
+          $(zone).children().find('.somelikes').attr('id', newnum.toString())
         }
       }
     })
