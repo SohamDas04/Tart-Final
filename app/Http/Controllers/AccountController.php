@@ -226,6 +226,7 @@ class AccountController extends Controller
     {
         $uid = session()->get('id');
         if ($req->ajax()) {
+            // return 1;
             $data = stripslashes(file_get_contents("php://input"));
             $mydata = json_decode($data, true);
             $postid = $mydata['post'];

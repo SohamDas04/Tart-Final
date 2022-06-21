@@ -404,7 +404,7 @@
                   </div>
                 </div>
                 <?php
-                if($post['picture'] != '') {
+                if ($post['picture'] != '') {
                 ?>
                   <div style="background: black;">
                     <img class="card-img-top" src="/uploads/posts/{{$post['picture']}}" style="max-height: 350px; width:100%; object-fit:contain;">
@@ -414,24 +414,22 @@
                 ?>
                 <div class="row">
                   <div class="col-6" style="padding-right:0px; height: 50px;">
-                  <?php
-                    $uid=session()->get('id');
-                    if(!empty($post['likeid'])){
-                    if (!strpos($uid,$post['likeid']))
-                    {
-                  ?>
-                    <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-regular fa-thumbs-up"></i></button>
-                  <?php 
-                    }
-                    else{
-                  ?>
-                    <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-solid fa-thumbs-up"></i></button>
-                    <?php 
-                    }}
-                    else{
+                    <?php
+                    $uid = session()->get('id');
+                    if (!empty($post['likeid'])) {
+                      if (strpos($uid, $post['likeid'])) {
                     ?>
-                    <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-regular fa-thumbs-up"></i></button>
-                    <?php 
+                        <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-regular fa-thumbs-up"></i></button>
+                      <?php
+                      } else {
+                      ?>
+                        <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-solid fa-thumbs-up"></i></button>
+                      <?php
+                      }
+                    } else {
+                      ?>
+                      <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-regular fa-thumbs-up"></i></button>
+                    <?php
                     }
                     ?>
                   </div>
@@ -747,6 +745,10 @@
     console.log('Like button clicked');
     let p = $(this).attr('id');
     console.log(p);
+    let th= this;
+    // $(this).children().removeClass('fa-regular');
+    // $(this).children().addClass('fa-solid');
+    // return false;
     mydata = {
       post: p
     }
@@ -756,12 +758,14 @@
       data: JSON.stringify(mydata),
       success: function(data) {
         console.log(data);
-        if (data == '1') {
-          $(this).children().removeClass('fa-regular');
-          $(this).children().addClass('fa-solid');
+        if (data == 1) {
+          console.log('entering');
+          // return false;
+          $(th).children().removeClass('fa-regular');
+          $(th).children().addClass('fa-solid');
         } else {
-          $(this).children().removeClass('fa-solid');
-          $(this).children().addClass('fa-regular');
+          $(th).children().removeClass('fa-solid');
+          $(th).children().addClass('fa-regular');
         }
       }
     })
