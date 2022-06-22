@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Information;
 use App\Models\User;
 use App\Models\post;
+use App\Models\Comment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\School;
@@ -309,9 +310,18 @@ class AccountController extends Controller
         }
     }
     public function comment(Request $req){
+        $uid = session()->get('id');
         if ($req->ajax()) {
             $data = stripslashes(file_get_contents("php://input"));
             $mydata = json_decode($data, true);
+            $id=$mydata['id'];
+            $comment=$mydata['material'];
+            $datab=new Comment;
+            $datab->postid=$id;
+            $datab->comment=$comment;
+            $datab->idcommentor=$uid;
+            $datab->save();
+            
         }
     }
 }

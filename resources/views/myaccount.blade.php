@@ -496,15 +496,31 @@
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-
+                          <div class="card" style="width: 18rem;border-radius:20px;">
+                            <div class="card-body" style="padding:5px;">
+                              <div class="row">
+                                <div class="col-2">
+                                  <img src="/uploads/1654604596_is.jpeg" id='postsdp' class="rounded-circle" style="height: 30px; width: 30px; object-fit:cover;" alt="">
+                                </div>
+                                <div class="col-10" style="padding-left: 0px;">
+                                  <p style="font-size: 18px;">Soham Das</p>
+                                </div>
+                              </div>
+                              <div class="row" style="margin-left: 8px;margin-right: 8px;">
+                                <div class="col-10">
+                                  Hey! This is a comment and this is for testing and this is absolutely static and I've got nothing else to say but still i gotta test this.
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                         <div class="modal-footer" style="margin:1px; padding:0px;">
                           <div class="row">
                             <div class="col-10" style="padding-left: 5px;">
-                              <input type="text" name="" placeholder="Write a comment.." class="form-control commentcontent" id="" style="width: 400px; margin-left:1px;">
+                              <input type="text" name="" placeholder="Write a comment.." class="form-control commentcontent" id="" style="width: 400px; margin-left:1px;" minlength="1">
                             </div>
                             <div class="col-2">
-                              <button type="button" class="btn btn-primary postcomment" id="{{$post['id']}}" >Post</button>
+                              <button type="button" class="btn btn-primary postcomment" id="{{$post['id']}}">Post</button>
                             </div>
                           </div>
 
@@ -877,13 +893,25 @@
     console.log('Clicked on comments');
     $(this).parent().parent().find('.commentsection').modal('show');
   })
-  $('.postcomment').click(function(){
+  $('.postcomment').click(function() {
     console.log('User wants to post the written comment');
-    let th=this;
-    let postid=$(this).attr('id');
-    let comment=$(this).parent().parent().find('.col-10').children().val();
+    let th = this;
+    let postid = $(this).attr('id');
+    let comment = $(this).parent().parent().find('.col-10').children().val();
     console.log(comment);
     console.log(postid);
+    mydata = {
+      id: postid,
+      material: comment,
+    }
+    $.ajax({
+      method: 'POST',
+      url: '/comment',
+      data: JSON.stringify(mydata),
+      success: function(data) {
+        console.log(data);
+      }
+    })
   })
 </script>
 
