@@ -330,7 +330,10 @@
               <!-- <input type="text" class="form-control" id="floatingInputValue" style="border-radius:150px; height: 70px;"> -->
               <!-- <label for="floatingInputValue">Write something here....</label> -->
               <div class="row">
+                <!-- <button type="button" class="btn btn-dark mt-2 a">a Modal</button>
+              <button type="button" class="btn btn-dark mt-2 b">b Modal</button> -->
                 <div class="col-6">
+
                   <button type="button" class="btn btn-dark mt-2 uploadphotos" style="border-radius:50px; width:100%;">Upload Photos</button>
                   <button type="button" class="btn btn-primary modal" style="display:none;" data-toggle="modal" data-target="#exampleModal">
                     Launch demo modal
@@ -412,16 +415,16 @@
                 <?php
                 }
                 ?>
-                <div class="row mt-1 likenumzone">
+                <div class="row mt-1 likenumzone" postid="{{$post['id']}}">
                   <div class="col-4">
                     <div class="zerolikes2" style="display: none;">
                       Be the first to like this <i class="fa-regular fa-thumbs-up"></i>
                     </div>
                     <?php if ($post['likes'] == 0) {
-                    ?><div class="zerolikes">
+                    ?><div class="zerolikes" >
                         Be the first to like this <i class="fa-regular fa-thumbs-up"></i>
                       </div>
-                      <div class="somelikes" id="0" style="display:none;">
+                      <div class="somelikes" id="0" style="display:none;" >
                         <i class="fa-regular fa-thumbs-up"></i> {{$post['likes']}}
                       </div>
                     <?php
@@ -433,6 +436,36 @@
                     <?php
                     }
                     ?>
+                  </div>
+                </div>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary likelist" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display:none;">
+                  Launch demo modal
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade " id="itsdifferent" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Likes <i class="fa-solid fa-thumbs-up"></i></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body likepeople">
+                          <!-- <div class="row">
+                            <div class="col-1" style="padding:0;">
+                              <img src="/uploads/1654858329_is.jpeg" alt="" style="max-width:40px;">
+                            </div>
+                            <div class="col-5" style="padding:0;">
+                              Soham Das
+                            </div>
+                          </div> -->
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="row">
@@ -756,7 +789,7 @@
     console.log($(th).parent().parent().parent().children().next().next().next().attr('class'));
     console.log($(zone).children().children().attr('class'));
     console.log($(zone).children().find('.somelikes').attr('id'));
-    let num=parseInt($(zone).children().find('.somelikes').attr('id'));
+    let num = parseInt($(zone).children().find('.somelikes').attr('id'));
     console.log(num)
     // return false;
     $.ajax({
@@ -771,29 +804,51 @@
           $(th).children().removeClass('fa-regular');
           $(th).children().addClass('fa-solid');
           $(zone).children().find('.zerolikes').css('display', 'none');
-          let newnum=num+1;
-          if(newnum!=1){
-          $(zone).children().find('.somelikes').attr('id',newnum.toString())
+          let newnum = num + 1;
+          if (newnum != 1) {
+            $(zone).children().find('.somelikes').attr('id', newnum.toString())
           }
-          $(zone).children().find('.somelikes').html('<i class="fa-regular fa-thumbs-up"></i>'+" "+newnum.toString());
-          $(zone).children().find('.somelikes').css('display','block');
+          $(zone).children().find('.somelikes').html('<i class="fa-regular fa-thumbs-up"></i>' + " " + newnum.toString());
+          $(zone).children().find('.somelikes').css('display', 'block');
         } else if (data == 2) {
           $(th).children().removeClass('fa-solid');
           $(th).children().addClass('fa-regular');
           console.log($(zone).children().children());
           $(zone).children().find('.zerolikes2').css('display', 'block')
           $(zone).children().find('.somelikes').css('display', 'none')
-          $(zone).children().find('.somelikes').attr('id',"0")
+          $(zone).children().find('.somelikes').attr('id', "0")
           $(zone).children().find('.zerolikes2').html('<div class="zerolikes">Be the first to like this <i class="fa-regular fa-thumbs-up"></i></div>');
         } else {
           $(th).children().removeClass('fa-solid');
           $(th).children().addClass('fa-regular');
-          let newnum=num-1;
-          $(zone).children().find('.somelikes').html('<i class="fa-regular fa-thumbs-up"></i>'+" "+newnum.toString());
-          $(zone).children().find('.somelikes').attr('id',newnum.toString())
+          let newnum = num - 1;
+          $(zone).children().find('.somelikes').html('<i class="fa-regular fa-thumbs-up"></i>' + " " + newnum.toString());
+          $(zone).children().find('.somelikes').attr('id', newnum.toString())
         }
       }
     })
+  })
+  $('.likenumzone').click(function() {
+    console.log('People who have liked the post');
+    // $('.likelist').click()
+    console.log($(this).attr('postid'));
+    let postid=$(this).attr('postid');
+    mydata={
+      id: postid
+    }
+    // return false;
+    let th=this;
+    $.ajax({
+      url: '/likelist',
+      method: "POST",
+      data: JSON.stringify(mydata),
+      success: function(data){
+        console.log(data);
+        $(th).parent().find('#itsdifferent').modal('show');
+        $(th).parent().find('#itsdifferent').children().children().find('.likepeople').html(data);
+      }
+    })
+
   })
 </script>
 

@@ -265,11 +265,47 @@ class AccountController extends Controller
                 $tocheckforcount = DB::table('posts')
                     ->where('id', $postid)
                     ->get();
-                $count=json_decode(json_encode($tocheckforcount), true);
-                if($count[0]['likes']==0){
-                return 2;
+                $count = json_decode(json_encode($tocheckforcount), true);
+                if ($count[0]['likes'] == 0) {
+                    return 2;
                 }
             }
+        }
+    }
+    public function likelist(Request $req)
+    {
+        if ($req->ajax()) {
+            $data = stripslashes(file_get_contents("php://input"));
+            $mydata = json_decode($data, true);
+            $id = $mydata['id'];
+            $posts = DB::table('posts')
+                ->where('id', $id)
+                ->get();
+            $postsarray = json_decode(json_encode($posts), true);
+            $likeids = $postsarray[0]['likeid'];
+            $likeidarray = explode(",", $likeids);
+            $userarray = array();
+            $i = 0;
+            $html="";
+            foreach ($likeidarray as $ids) {
+                if ($ids != "") {
+                    $user = DB::table('information')
+                        ->where('userid', $ids)
+                        ->get();
+                    $userj = json_decode(json_encode($user), true);
+                    if($userj[0]['dp']!=null){
+                    $html=$html."<div class='row' id='".strval($userj[0]['userid'])."' style='margin-top:4px;'><div class='col-1' style='padding:0;'><img src='/uploads/".$userj[0]['dp']."' alt='' style='max-width:40px; height:40px'></div><div class='col-5' style='padding:0;margin-top:10px;' >".$userj[0]['name']."</div></div>";
+                    }
+                    else{
+                        $html=$html."<div class='row' id='".strval($userj[0]['userid'])."' style='margin-top:4px;'><div class='col-1' style='padding:0;'><img src='/blank-profile-picture-973460_1280.png' alt='' style='max-width:40px; height:40px;'></div><div class='col-5' style='padding:0; margin-top:10px;'>".$userj[0]['name']."</div></div>";
+                    }
+                    // return strval($userj[0]['userid']);
+                    // $name=
+                    // $html=$html."<div class='row' id='".(string)$userj[0]['uid']."'><div class='col-1' style='padding:0;'><img src='/uploads/".$userj[0]['dp']."' alt='' style='max-width:40px;'></div><div class='col-5' style='padding:0;'>".$userj[0]['name']."</div></div>";
+                    // $html=$html."<div class='row' id='".(string)$userj[0]['uid']."'><div class='col-1' style='padding:0;'><img src='/uploads/".$userj[0]['dp']."' alt='' style='max-width:40px;'></div><div class='col-5' style='padding:0;'>".$userj[0]['name']."</div></div>";
+                }
+            }
+            return $html;
         }
     }
 }
