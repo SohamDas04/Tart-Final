@@ -352,7 +352,7 @@
                 <?php
                 }
                 ?>
-                <div class="row mt-1 likenumzone">
+                <div class="row mt-1 likenumzone" postid="{{$post['id']}}">
                   <div class="col-4">
                     <div class="zerolikes2" style="display: none;">
                       Be the first to like this <i class="fa-regular fa-thumbs-up"></i>
@@ -374,41 +374,70 @@
                     }
                     ?>
                   </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-6" style="padding-right:0px; height: 50px;">
-                      <?php
-                      $uid = session()->get('id');
-                      if (!empty($post['likeid'])) {
-                        if (!str_contains($post['likeid'], $uid)) {
-                      ?>
-                          <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-regular fa-thumbs-up"></i></button>
-                        <?php
-                        } else {
-                        ?>
-                          <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-solid fa-thumbs-up"></i></button>
-                        <?php
-                        }
-                      } else {
-                        ?>
-                        <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-regular fa-thumbs-up"></i></button>
-                      <?php
-                      }
-                      ?>
-                    </div>
-                    <div class="col-6" style="padding-left:0px; height :50px;">
-                      <button class="btn btn-light btn-lg " style="width: 100%; background: white;"><i class="fa fa-commenting" aria-hidden="true"></i></button>
+                </div>
+                <button type="button" class="btn btn-primary likelist" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display:none;">
+                  Launch demo modal
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade " id="itsdifferent" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Likes <i class="fa-solid fa-thumbs-up"></i></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body likepeople">
+                        <!-- <div class="row">
+                            <div class="col-1" style="padding:0;">
+                              <img src="/uploads/1654858329_is.jpeg" alt="" style="max-width:40px;">
+                            </div>
+                            <div class="col-5" style="padding:0;">
+                              Soham Das
+                            </div>
+                          </div> -->
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                      </div>
                     </div>
                   </div>
                 </div>
+                <div class="row">
+                  <div class="col-6" style="padding-right:0px; height: 50px;">
+                    <?php
+                    $uid = session()->get('id');
+                    if (!empty($post['likeid'])) {
+                      if (!str_contains($post['likeid'], $uid)) {
+                    ?>
+                        <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-regular fa-thumbs-up"></i></button>
+                      <?php
+                      } else {
+                      ?>
+                        <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-solid fa-thumbs-up"></i></button>
+                      <?php
+                      }
+                    } else {
+                      ?>
+                      <button class="btn btn-light btn-lg btn-block likeb" style="width:100%; background: white;" id="{{$post['id']}}"><i class="fa-regular fa-thumbs-up"></i></button>
+                    <?php
+                    }
+                    ?>
+                  </div>
+                  <div class="col-6" style="padding-left:0px; height :50px;">
+                    <button class="btn btn-light btn-lg " style="width: 100%; background: white;"><i class="fa fa-commenting" aria-hidden="true"></i></button>
+                  </div>
+                </div>
               </div>
-              @endforeach
             </div>
+            @endforeach
           </div>
         </div>
       </div>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-      <!-- Optional JavaScript; choose one of the two!
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- Optional JavaScript; choose one of the two!
 
           Option 1: Bootstrap Bundle with Popper
           <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -586,6 +615,28 @@
         }
       }
     })
+  })
+  $('.likenumzone').click(function() {
+    console.log('People who have liked the post');
+    // $('.likelist').click()
+    console.log($(this).attr('postid'));
+    let postid = $(this).attr('postid');
+    mydata = {
+      id: postid
+    }
+    // return false;
+    let th = this;
+    $.ajax({
+      url: '/likelist',
+      method: "POST",
+      data: JSON.stringify(mydata),
+      success: function(data) {
+        console.log(data);
+        $(th).parent().find('#itsdifferent').modal('show');
+        $(th).parent().find('#itsdifferent').children().children().find('.likepeople').html(data);
+      }
+    })
+
   })
 </script>
 
