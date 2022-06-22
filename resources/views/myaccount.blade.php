@@ -116,35 +116,6 @@
 </head>
 
 <body style="background-color:ghostwhite;">
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display:none;">
-    Launch demo modal
-  </button>
-
-  <!-- Modal -->
-  <div class="modal fade commentsection" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          
-        </div>
-        <div class="modal-footer" style="margin:1px; padding:0px;">
-        <div class="row">
-          <div class="col-10" style="padding-left: 5px;">
-          <input type="text" name="" placeholder="Write a comment.." class="form-control" id="" style="width: 400px; margin-left:1px;">
-          </div>
-          <div class="col-2" >
-          <button type="button" class="btn btn-primary">Post</button>
-          </div>
-        </div>
-        
-        </div>
-      </div>
-    </div>
-  </div>
   <span style="display: none;">
     <form action="/uploadp">@csrf<input type="file" name="dpupload" class="uploadp" id="test"></form>
   </span>
@@ -419,7 +390,6 @@
             </ul>
             @foreach($posts as $post)
             <br>
-
             <div class="row" id="newpost">
               <div class="card" style="border: transparent;">
                 <div class="row">
@@ -517,6 +487,30 @@
                     <?php
                     }
                     ?>
+                  </div>
+                  <div class="modal fade commentsection" id="{{$post['id']}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                        </div>
+                        <div class="modal-footer" style="margin:1px; padding:0px;">
+                          <div class="row">
+                            <div class="col-10" style="padding-left: 5px;">
+                              <input type="text" name="" placeholder="Write a comment.." class="form-control commentcontent" id="" style="width: 400px; margin-left:1px;">
+                            </div>
+                            <div class="col-2">
+                              <button type="button" class="btn btn-primary postcomment" id="{{$post['id']}}" >Post</button>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   <div class="col-6" style="padding-left:0px; height :50px;">
                     <button class="btn btn-light btn-lg comment" style="width: 100%; background: white;"><i class="fa fa-commenting" aria-hidden="true"></i></button>
@@ -881,8 +875,15 @@
   })
   $('.comment').click(function() {
     console.log('Clicked on comments');
-    $('.commentsection').modal('show');
-
+    $(this).parent().parent().find('.commentsection').modal('show');
+  })
+  $('.postcomment').click(function(){
+    console.log('User wants to post the written comment');
+    let th=this;
+    let postid=$(this).attr('id');
+    let comment=$(this).parent().parent().find('.col-10').children().val();
+    console.log(comment);
+    console.log(postid);
   })
 </script>
 

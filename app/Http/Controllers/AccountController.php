@@ -308,4 +308,10 @@ class AccountController extends Controller
             return $html;
         }
     }
+    public function comment(Request $req){
+        if ($req->ajax()) {
+            $data = stripslashes(file_get_contents("php://input"));
+            $mydata = json_decode($data, true);
+        }
+    }
 }

@@ -45,3 +45,4 @@ Route::post('/acceptrequest',[AccountController::class,'acceptrequest']);
 Route::post('/deleterequest',[AccountController::class,'deleterequest']);
 Route::post('/like',[AccountController::class,'like']);
 Route::post('/likelist',[AccountController::class,'likelist']);
+Route::post('/comment',[AccountController::class,'comment']);
