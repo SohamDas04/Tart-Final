@@ -116,6 +116,35 @@
 </head>
 
 <body style="background-color:ghostwhite;">
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display:none;">
+    Launch demo modal
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade commentsection" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          
+        </div>
+        <div class="modal-footer" style="margin:1px; padding:0px;">
+        <div class="row">
+          <div class="col-10" style="padding-left: 5px;">
+          <input type="text" name="" placeholder="Write a comment.." class="form-control" id="" style="width: 400px; margin-left:1px;">
+          </div>
+          <div class="col-2" >
+          <button type="button" class="btn btn-primary">Post</button>
+          </div>
+        </div>
+        
+        </div>
+      </div>
+    </div>
+  </div>
   <span style="display: none;">
     <form action="/uploadp">@csrf<input type="file" name="dpupload" class="uploadp" id="test"></form>
   </span>
@@ -421,10 +450,10 @@
                       Be the first to like this <i class="fa-regular fa-thumbs-up"></i>
                     </div>
                     <?php if ($post['likes'] == 0) {
-                    ?><div class="zerolikes" >
+                    ?><div class="zerolikes">
                         Be the first to like this <i class="fa-regular fa-thumbs-up"></i>
                       </div>
-                      <div class="somelikes" id="0" style="display:none;" >
+                      <div class="somelikes" id="0" style="display:none;">
                         <i class="fa-regular fa-thumbs-up"></i> {{$post['likes']}}
                       </div>
                     <?php
@@ -452,7 +481,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body likepeople">
-                          <!-- <div class="row">
+                        <!-- <div class="row">
                             <div class="col-1" style="padding:0;">
                               <img src="/uploads/1654858329_is.jpeg" alt="" style="max-width:40px;">
                             </div>
@@ -490,7 +519,7 @@
                     ?>
                   </div>
                   <div class="col-6" style="padding-left:0px; height :50px;">
-                    <button class="btn btn-light btn-lg " style="width: 100%; background: white;"><i class="fa fa-commenting" aria-hidden="true"></i></button>
+                    <button class="btn btn-light btn-lg comment" style="width: 100%; background: white;"><i class="fa fa-commenting" aria-hidden="true"></i></button>
                   </div>
                 </div>
               </div>
@@ -832,22 +861,27 @@
     console.log('People who have liked the post');
     // $('.likelist').click()
     console.log($(this).attr('postid'));
-    let postid=$(this).attr('postid');
-    mydata={
+    let postid = $(this).attr('postid');
+    mydata = {
       id: postid
     }
     // return false;
-    let th=this;
+    let th = this;
     $.ajax({
       url: '/likelist',
       method: "POST",
       data: JSON.stringify(mydata),
-      success: function(data){
+      success: function(data) {
         console.log(data);
         $(th).parent().find('#itsdifferent').modal('show');
         $(th).parent().find('#itsdifferent').children().children().find('.likepeople').html(data);
       }
     })
+
+  })
+  $('.comment').click(function() {
+    console.log('Clicked on comments');
+    $('.commentsection').modal('show');
 
   })
 </script>
