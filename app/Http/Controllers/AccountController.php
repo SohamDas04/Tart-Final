@@ -393,6 +393,7 @@ class AccountController extends Controller
             $comment = DB::table('comments')
                 ->where('postid', $id)
                 ->get();
+            // return $id;
             $commentarray = json_decode(json_encode($comment), true);
            $html='';
             $no_of_comments=count($commentarray);
@@ -446,7 +447,7 @@ class AccountController extends Controller
                   </div>
                   <div class='row' style='margin-left: 4px;margin-right: 4x;'>
                     <div class='col-12' style='padding-left: 6px;'>
-                      " . $commentarray[0]['comment'] . "
+                      " . $commentarray[$i]['comment'] . "
                     </div>
                   </div>
                 </div>

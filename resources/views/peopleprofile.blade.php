@@ -221,7 +221,7 @@
             <div class="row">
               @if(session()->get('status')==404)
               <button type="button" class="btn btn-dark add_friend" style="border-radius:50px;">Add Friend</button>
-              <button type="button" class="btn btn-dark sent_request" style="border-radius:50px ;display:none;">Friend Request Sent</button>              
+              <button type="button" class="btn btn-dark sent_request" style="border-radius:50px ;display:none;">Friend Request Sent</button>
               @elseif(session()->get('status')==1)
               <button type="button" class="btn btn-dark" style="border-radius:50px;">Friend Request Sent</button>
               @elseif(session()->get('status')==2)
@@ -426,8 +426,56 @@
                     }
                     ?>
                   </div>
+                  <div class="modal fade commentsection" id="{{$post['id']}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+                    <div class="modal-dialog modal-dialog-scrollable" >
+                      <div class="modal-content" style="min-height:700px;">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Comments <i class="fa-solid fa-comment-dots"></i></h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body bodyofcomments" id="commentmodal_{{$post['id']}}">
+                          <!-- <div class="card itsacomment" style="width: 28rem;border-radius:20px;margin-top:3px;">
+                            <div class="card-body" style="padding:5px;">
+                              <div class="row">
+                                <div class="col-2" style="padding-right: 0px; margin-right:0px; width:57px;">
+                                  <img src="/uploads/1654604596_is.jpeg" id='postsdp' class="rounded-circle" style="height: 30px; width: 30px; object-fit:cover;margin-left: 10px;" alt="">
+                                </div>
+                                <div class="col-8" style="padding-left: 0px; margin-left:0px;">
+                                  <p style="font-size: 18px;">Soham Das</p>
+                                </div>
+                              </div>
+                              <div class="row" style="margin-left: 4px;margin-right: 4x;">
+                                <div class="col-12" style="padding-left: 6px;">
+                                  Hey! This is a comment and this is for testing and this is absolutely static and I've got nothing else to say but still i gotta test this.
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-2" style="margin-left: 25px; margin-top:10px;padding-right:0px;">
+                              <i class="fa-regular fa-thumbs-up"></i>
+                              </div>
+                              <div class="col-4" style="margin-top: 10px;padding-left: 0px;">
+                                Reply
+                              </div>
+                            </div>
+                          </div> -->
+                        </div>
+                        <div class="modal-footer" style="margin:1px; padding:0px;">
+                          <div class="row">
+                            <div class="col-10" style="padding-left: 5px;">
+                              <input type="text" name="" placeholder="Write a comment.." class="form-control commentcontent" id="" style="width: 400px; margin-left:1px; border-radius:20px;" minlength="1">
+                            </div>
+                            <div class="col-2">
+                              <button type="button" class="btn btn-primary postcomment" id="{{$post['id']}}" style="border-radius:20px;">Post</button>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <div class="col-6" style="padding-left:0px; height :50px;">
-                    <button class="btn btn-light btn-lg " style="width: 100%; background: white;"><i class="fa fa-commenting" aria-hidden="true"></i></button>
+                    <button class="btn btn-light btn-lg comment" style="width: 100%; background: white;" id="{{$post['id']}}"><i class="fa fa-commenting" aria-hidden="true"></i></button>
                   </div>
                 </div>
               </div>
@@ -638,6 +686,53 @@
       }
     })
 
+  })
+  $('.comment').click(function() {
+    console.log('Clicked on comments');
+    $(this).parent().parent().find('.commentsection').modal('show');
+    console.log($(this).attr('id'));
+    let postid = $(this).attr('id');
+    mydata = {
+      id: postid
+    }
+    console.log(mydata);
+    // return false;
+    $.ajax({
+      url: '/viewcomments',
+      method: 'POST',
+      data: JSON.stringify(mydata),
+      success: function(data) {
+        console.log(data);
+        $("#commentmodal_" + postid).html(data);
+
+      }
+    })
+  })
+  $('.postcomment').click(function() {
+    console.log('User wants to post the written comment');
+    let th = this;
+    let postid = $(this).attr('id');
+    let comment = $(this).parent().parent().find('.col-10').children().val();
+    let bodyofcomment = $(th).parent().parent().parent().parent().children().next();
+    console.log(bodyofcomment);
+    // return false;
+    console.log(comment);
+    console.log(postid);
+    mydata = {
+      id: postid,
+      material: comment,
+    }
+    $.ajax({
+      method: 'POST',
+      url: '/comment',
+      data: JSON.stringify(mydata),
+      success: function(data) {
+        console.log(data);
+        $("#commentmodal_" + postid).append(data);
+        $(th).parent().parent().children().children().val('');
+
+      }
+    })
   })
 </script>
 
