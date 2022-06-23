@@ -488,39 +488,39 @@
                     }
                     ?>
                   </div>
-                  <div class="modal fade commentsection" id="{{$post['id']}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-scrollable">
-                      <div class="modal-content">
+                  <div class="modal fade commentsection" id="{{$post['id']}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+                    <div class="modal-dialog modal-dialog-scrollable" >
+                      <div class="modal-content" style="min-height:700px;">
                         <div class="modal-header">
                           <h5 class="modal-title" id="exampleModalLabel">Comments <i class="fa-solid fa-comment-dots"></i></h5>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
-                          <div class="card" style="width: 18rem;border-radius:20px;">
+                        <div class="modal-body bodyofcomments" id="commentmodal_{{$post['id']}}">
+                          <!-- <div class="card itsacomment" style="width: 28rem;border-radius:20px;margin-top:3px;">
                             <div class="card-body" style="padding:5px;">
                               <div class="row">
-                                <div class="col-2">
-                                  <img src="/uploads/1654604596_is.jpeg" id='postsdp' class="rounded-circle" style="height: 30px; width: 30px; object-fit:cover;" alt="">
+                                <div class="col-2" style="padding-right: 0px; margin-right:0px; width:57px;">
+                                  <img src="/uploads/1654604596_is.jpeg" id='postsdp' class="rounded-circle" style="height: 30px; width: 30px; object-fit:cover;margin-left: 10px;" alt="">
                                 </div>
-                                <div class="col-10" style="padding-left: 0px;">
+                                <div class="col-8" style="padding-left: 0px; margin-left:0px;">
                                   <p style="font-size: 18px;">Soham Das</p>
                                 </div>
                               </div>
-                              <div class="row" style="margin-left: 8px;margin-right: 8px;">
-                                <div class="col-10">
+                              <div class="row" style="margin-left: 4px;margin-right: 4x;">
+                                <div class="col-12" style="padding-left: 6px;">
                                   Hey! This is a comment and this is for testing and this is absolutely static and I've got nothing else to say but still i gotta test this.
                                 </div>
                               </div>
                             </div>
                             <div class="row">
-                              <div class="col-2" style="margin-left: 27px; margin-top:20px;padding-right:0px;">
+                              <div class="col-2" style="margin-left: 25px; margin-top:10px;padding-right:0px;">
                               <i class="fa-regular fa-thumbs-up"></i>
                               </div>
-                              <div class="col-4" style="margin-top: 20px;padding-left: 0px;">
+                              <div class="col-4" style="margin-top: 10px;padding-left: 0px;">
                                 Reply
                               </div>
                             </div>
-                          </div>
+                          </div> -->
                         </div>
                         <div class="modal-footer" style="margin:1px; padding:0px;">
                           <div class="row">
@@ -906,6 +906,9 @@
     let th = this;
     let postid = $(this).attr('id');
     let comment = $(this).parent().parent().find('.col-10').children().val();
+    let bodyofcomment=$(th).parent().parent().parent().parent().children().next();
+    console.log(bodyofcomment);
+    // return false;
     console.log(comment);
     console.log(postid);
     mydata = {
@@ -918,6 +921,9 @@
       data: JSON.stringify(mydata),
       success: function(data) {
         console.log(data);
+        $("#commentmodal_"+postid).append(data);
+        $(th).parent().parent().children().children().val('');
+        
       }
     })
   })

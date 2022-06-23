@@ -287,18 +287,17 @@ class AccountController extends Controller
             $likeidarray = explode(",", $likeids);
             $userarray = array();
             $i = 0;
-            $html="";
+            $html = "";
             foreach ($likeidarray as $ids) {
                 if ($ids != "") {
                     $user = DB::table('information')
                         ->where('userid', $ids)
                         ->get();
                     $userj = json_decode(json_encode($user), true);
-                    if($userj[0]['dp']!=null){
-                    $html=$html."<div class='row' id='".strval($userj[0]['userid'])."' style='margin-top:4px;'><div class='col-1' style='padding:0;'><img src='/uploads/".$userj[0]['dp']."' alt='' style='max-width:40px; height:40px'></div><div class='col-5' style='padding:0;margin-top:10px;' >".$userj[0]['name']."</div></div>";
-                    }
-                    else{
-                        $html=$html."<div class='row' id='".strval($userj[0]['userid'])."' style='margin-top:4px;'><div class='col-1' style='padding:0;'><img src='/blank-profile-picture-973460_1280.png' alt='' style='max-width:40px; height:40px;'></div><div class='col-5' style='padding:0; margin-top:10px;'>".$userj[0]['name']."</div></div>";
+                    if ($userj[0]['dp'] != null) {
+                        $html = $html . "<div class='row' id='" . strval($userj[0]['userid']) . "' style='margin-top:4px;'><div class='col-1' style='padding:0;'><img src='/uploads/" . $userj[0]['dp'] . "' alt='' style='max-width:40px; height:40px'></div><div class='col-5' style='padding:0;margin-top:10px;' >" . $userj[0]['name'] . "</div></div>";
+                    } else {
+                        $html = $html . "<div class='row' id='" . strval($userj[0]['userid']) . "' style='margin-top:4px;'><div class='col-1' style='padding:0;'><img src='/blank-profile-picture-973460_1280.png' alt='' style='max-width:40px; height:40px;'></div><div class='col-5' style='padding:0; margin-top:10px;'>" . $userj[0]['name'] . "</div></div>";
                     }
                     // return strval($userj[0]['userid']);
                     // $name=
@@ -309,19 +308,80 @@ class AccountController extends Controller
             return $html;
         }
     }
-    public function comment(Request $req){
+    public function comment(Request $req)
+    {
         $uid = session()->get('id');
         if ($req->ajax()) {
             $data = stripslashes(file_get_contents("php://input"));
             $mydata = json_decode($data, true);
-            $id=$mydata['id'];
-            $comment=$mydata['material'];
-            $datab=new Comment;
-            $datab->postid=$id;
-            $datab->comment=$comment;
-            $datab->idcommentor=$uid;
+            $id = $mydata['id'];
+            $comment = $mydata['material'];
+            $datab = new Comment;
+            $datab->postid = $id;
+            $datab->comment = $comment;
+            $datab->idcommentor = $uid;
             $datab->save();
-            
+            $info = DB::table('information')
+                ->where('userid', $uid)
+                ->get();
+            $infoarray = json_decode(json_encode($info), true);
+            if ($infoarray[0]['dp'] != null) {
+                $html = "<div class='card itsacomment' style='width: 28rem;border-radius:20px; margin-top:3px;' id='".$infoarray[0]['userid']."' postid='".$id."'>
+            <div class='card-body' style='padding:5px;'>
+              <div class='row'>
+                <div class='col-2' style='padding-right: 0px; margin-right:0px; width:57px;'>
+                  <img src='/uploads/".$infoarray[0]['dp']."' id='postsdp' class='rounded-circle' style='height: 30px; width: 30px; object-fit:cover;margin-left: 10px;' alt=''>
+                </div>
+                <div class='col-8' style='padding-left: 0px; margin-left:0px;'>
+                  <p style='font-size: 18px;'>".$infoarray[0]['name']."</p>
+                </div>
+              </div>
+              <div class='row' style='margin-left: 4px;margin-right: 4x;'>
+                <div class='col-12' style='padding-left: 6px;'>
+                  ".$comment."
+                </div>
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-2' style='margin-left: 25px; margin-top:10px;padding-right:0px;'>
+              <i class='fa-regular fa-thumbs-up'></i>
+              </div>
+              <div class='col-4' style='margin-top: 10px;padding-left: 0px;'>
+                Reply
+              </div>
+            </div>
+          </div>
+        </div>";
+            }
+            else{
+                $html="<div class='card itsacomment' style='width: 28rem;border-radius:20px; margin-top:3px;' id='".$infoarray[0]['userid']."'>
+                <div class='card-body' style='padding:5px;'>
+                  <div class='row'>
+                    <div class='col-2' style='padding-right: 0px; margin-right:0px; width:57px;'>
+                      <img src='/blank-profile-picture-973460_1280.png' id='postsdp' class='rounded-circle' style='height: 30px; width: 30px; object-fit:cover;margin-left: 10px;' alt=''>
+                    </div>
+                    <div class='col-8' style='padding-left: 0px; margin-left:0px;'>
+                      <p style='font-size: 18px;'>".$infoarray[0]['name']."</p>
+                    </div>
+                  </div>
+                  <div class='row' style='margin-left: 4px;margin-right: 4x;'>
+                    <div class='col-12' style='padding-left: 6px;'>
+                      ".$comment."
+                    </div>
+                  </div>
+                </div>
+                <div class='row'>
+                  <div class='col-2' style='margin-left: 25px; margin-top:10px;padding-right:0px;'>
+                  <i class='fa-regular fa-thumbs-up'></i>
+                  </div>
+                  <div class='col-4' style='margin-top: 10px;padding-left: 0px;'>
+                    Reply
+                  </div>
+                </div>
+              </div>
+            </div>";
+            }
+            return $html;
         }
     }
 }
