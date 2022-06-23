@@ -326,19 +326,19 @@ class AccountController extends Controller
                 ->get();
             $infoarray = json_decode(json_encode($info), true);
             if ($infoarray[0]['dp'] != null) {
-                $html = "<div class='card itsacomment' style='width: 28rem;border-radius:20px; margin-top:3px;' id='".$infoarray[0]['userid']."' postid='".$id."'>
+                $html = "<div class='card itsacomment' style='width: 28rem;border-radius:20px; margin-top:3px;' id='" . $infoarray[0]['userid'] . "' postid='" . $id . "'>
             <div class='card-body' style='padding:5px;'>
               <div class='row'>
                 <div class='col-2' style='padding-right: 0px; margin-right:0px; width:57px;'>
-                  <img src='/uploads/".$infoarray[0]['dp']."' id='postsdp' class='rounded-circle' style='height: 30px; width: 30px; object-fit:cover;margin-left: 10px;' alt=''>
+                  <img src='/uploads/" . $infoarray[0]['dp'] . "' id='postsdp' class='rounded-circle' style='height: 30px; width: 30px; object-fit:cover;margin-left: 10px;' alt=''>
                 </div>
                 <div class='col-8' style='padding-left: 0px; margin-left:0px;'>
-                  <p style='font-size: 18px;'>".$infoarray[0]['name']."</p>
+                  <p style='font-size: 18px;'>" . $infoarray[0]['name'] . "</p>
                 </div>
               </div>
               <div class='row' style='margin-left: 4px;margin-right: 4x;'>
                 <div class='col-12' style='padding-left: 6px;'>
-                  ".$comment."
+                  " . $comment . "
                 </div>
               </div>
             </div>
@@ -352,21 +352,20 @@ class AccountController extends Controller
             </div>
           </div>
         </div>";
-            }
-            else{
-                $html="<div class='card itsacomment' style='width: 28rem;border-radius:20px; margin-top:3px;' id='".$infoarray[0]['userid']."'>
+            } else {
+                $html = "<div class='card itsacomment' style='width: 28rem;border-radius:20px; margin-top:3px;' id='" . $infoarray[0]['userid'] . "'>
                 <div class='card-body' style='padding:5px;'>
                   <div class='row'>
                     <div class='col-2' style='padding-right: 0px; margin-right:0px; width:57px;'>
                       <img src='/blank-profile-picture-973460_1280.png' id='postsdp' class='rounded-circle' style='height: 30px; width: 30px; object-fit:cover;margin-left: 10px;' alt=''>
                     </div>
                     <div class='col-8' style='padding-left: 0px; margin-left:0px;'>
-                      <p style='font-size: 18px;'>".$infoarray[0]['name']."</p>
+                      <p style='font-size: 18px;'>" . $infoarray[0]['name'] . "</p>
                     </div>
                   </div>
                   <div class='row' style='margin-left: 4px;margin-right: 4x;'>
                     <div class='col-12' style='padding-left: 6px;'>
-                      ".$comment."
+                      " . $comment . "
                     </div>
                   </div>
                 </div>
@@ -381,6 +380,88 @@ class AccountController extends Controller
               </div>
             </div>";
             }
+            return $html;
+        }
+    }
+    public function viewcomments(Request $req)
+    {
+        $uid = session()->get('id');
+        if ($req->ajax()) {
+            $data = stripslashes(file_get_contents("php://input"));
+            $mydata = json_decode($data, true);
+            $id = $mydata['id'];
+            $comment = DB::table('comments')
+                ->where('postid', $id)
+                ->get();
+            $commentarray = json_decode(json_encode($comment), true);
+           $html='';
+            $no_of_comments=count($commentarray);
+            for($i=0;$i<$no_of_comments;$i++){
+            
+            $posts = DB::table('posts')
+                ->where('id', $commentarray[$i]['postid'])
+                ->get();
+            $postsarray = json_decode(json_encode($posts), true);
+            $info = DB::table('information')
+                ->where('userid', $postsarray[0]['userid'])
+                ->get();
+            $infoarray = json_decode(json_encode($info), true);
+            if ($infoarray[0]['dp'] != null) {
+                $html = $html."<div class='card itsacomment' style='width: 28rem;border-radius:20px; margin-top:3px;' id='" . $infoarray[0]['userid'] . "' postid='" . $id . "'>
+            <div class='card-body' style='padding:5px;'>
+              <div class='row'>
+                <div class='col-2' style='padding-right: 0px; margin-right:0px; width:57px;'>
+                  <img src='/uploads/" . $infoarray[0]['dp'] . "' id='postsdp' class='rounded-circle' style='height: 30px; width: 30px; object-fit:cover;margin-left: 10px;' alt=''>
+                </div>
+                <div class='col-8' style='padding-left: 0px; margin-left:0px;'>
+                  <p style='font-size: 18px;'>" . $infoarray[0]['name'] . "</p>
+                </div>
+              </div>
+              <div class='row' style='margin-left: 4px;margin-right: 4x;'>
+                <div class='col-12' style='padding-left: 6px;'>
+                  " . $commentarray[$i]['comment'] . "
+                </div>
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-2' style='margin-left: 25px; margin-top:10px;padding-right:0px;'>
+              <i class='fa-regular fa-thumbs-up'></i>
+              </div>
+              <div class='col-4' style='margin-top: 10px;padding-left: 0px;'>
+                Reply
+              </div>
+            </div>
+          </div>
+        </div>";
+            } else {
+                $html = $html."<div class='card itsacomment' style='width: 28rem;border-radius:20px; margin-top:3px;' id='" . $infoarray[0]['userid'] . "'>
+                <div class='card-body' style='padding:5px;'>
+                  <div class='row'>
+                    <div class='col-2' style='padding-right: 0px; margin-right:0px; width:57px;'>
+                      <img src='/blank-profile-picture-973460_1280.png' id='postsdp' class='rounded-circle' style='height: 30px; width: 30px; object-fit:cover;margin-left: 10px;' alt=''>
+                    </div>
+                    <div class='col-8' style='padding-left: 0px; margin-left:0px;'>
+                      <p style='font-size: 18px;'>" . $infoarray[0]['name'] . "</p>
+                    </div>
+                  </div>
+                  <div class='row' style='margin-left: 4px;margin-right: 4x;'>
+                    <div class='col-12' style='padding-left: 6px;'>
+                      " . $commentarray[0]['comment'] . "
+                    </div>
+                  </div>
+                </div>
+                <div class='row'>
+                  <div class='col-2' style='margin-left: 25px; margin-top:10px;padding-right:0px;'>
+                  <i class='fa-regular fa-thumbs-up'></i>
+                  </div>
+                  <div class='col-4' style='margin-top: 10px;padding-left: 0px;'>
+                    Reply
+                  </div>
+                </div>
+              </div>
+            </div>";
+            }
+        }
             return $html;
         }
     }

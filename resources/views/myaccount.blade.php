@@ -537,7 +537,7 @@
                     </div>
                   </div>
                   <div class="col-6" style="padding-left:0px; height :50px;">
-                    <button class="btn btn-light btn-lg comment" style="width: 100%; background: white;"><i class="fa fa-commenting" aria-hidden="true"></i></button>
+                    <button class="btn btn-light btn-lg comment" style="width: 100%; background: white;" id="{{$post['id']}}"><i class="fa fa-commenting" aria-hidden="true"></i></button>
                   </div>
                 </div>
               </div>
@@ -900,6 +900,21 @@
   $('.comment').click(function() {
     console.log('Clicked on comments');
     $(this).parent().parent().find('.commentsection').modal('show');
+    console.log($(this).attr('id'));
+    let postid=$(this).attr('id');
+    mydata={
+      id: postid
+    }
+    $.ajax({
+      url:'/viewcomments',
+      method: 'POST',
+      data:JSON.stringify(mydata),
+      success: function(data){
+        console.log(data);
+        $("#commentmodal_"+postid).html(data);
+
+      }
+    })
   })
   $('.postcomment').click(function() {
     console.log('User wants to post the written comment');
