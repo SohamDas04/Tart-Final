@@ -492,7 +492,7 @@
                     <div class="modal-dialog modal-dialog-scrollable">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                          <h5 class="modal-title" id="exampleModalLabel">Comments <i class="fa-solid fa-comment-dots"></i></h5>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -512,15 +512,23 @@
                                 </div>
                               </div>
                             </div>
+                            <div class="row">
+                              <div class="col-2" style="margin-left: 27px; margin-top:20px;padding-right:0px;">
+                              <i class="fa-regular fa-thumbs-up"></i>
+                              </div>
+                              <div class="col-4" style="margin-top: 20px;padding-left: 0px;">
+                                Reply
+                              </div>
+                            </div>
                           </div>
                         </div>
                         <div class="modal-footer" style="margin:1px; padding:0px;">
                           <div class="row">
                             <div class="col-10" style="padding-left: 5px;">
-                              <input type="text" name="" placeholder="Write a comment.." class="form-control commentcontent" id="" style="width: 400px; margin-left:1px;" minlength="1">
+                              <input type="text" name="" placeholder="Write a comment.." class="form-control commentcontent" id="" style="width: 400px; margin-left:1px; border-radius:20px;" minlength="1">
                             </div>
                             <div class="col-2">
-                              <button type="button" class="btn btn-primary postcomment" id="{{$post['id']}}">Post</button>
+                              <button type="button" class="btn btn-primary postcomment" id="{{$post['id']}}" style="border-radius:20px;">Post</button>
                             </div>
                           </div>
 
