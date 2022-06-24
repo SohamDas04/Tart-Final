@@ -730,7 +730,6 @@
         console.log(data);
         $("#commentmodal_" + postid).append(data);
         $(th).parent().parent().children().children().val('');
-
       }
     })
   })

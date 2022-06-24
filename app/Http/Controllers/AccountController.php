@@ -238,7 +238,7 @@ class AccountController extends Controller
             // dd($postid);
             $num_of_likes = $postsarray[0]['likes'];
             // return $num_of_likes;
-            $peoplelikes = $postsarray[0]['likename'];
+            // $peoplelikes = $postsarray[0]['likename'];
             $idlikes = $postsarray[0]['likeid'];
             $info = DB::table('information')
                 ->where('userid', $uid)
@@ -251,10 +251,10 @@ class AccountController extends Controller
             if (!in_array("$uid", $arrayid)) {
                 $newidlikes = $idlikes . $uid . ',';
                 $newnumlikes = $num_of_likes + 1;
-                $newnamelikes = $peoplelikes . $name . ',';
+                // $newnamelikes = $peoplelikes . $name . ',';
                 DB::table('posts')
                     ->where('id', $postid)
-                    ->update(array('likes' => $newnumlikes, 'likeid' => $newidlikes, 'likename' => $newnamelikes));
+                    ->update(array('likes' => $newnumlikes, 'likeid' => $newidlikes));
                 return 1;
             } else {
                 // $arrayuid=array("$uid");
@@ -370,10 +370,10 @@ class AccountController extends Controller
                   </div>
                 </div>
                 <div class='row'>
-                  <div class='col-2' style='margin-left: 25px; margin-top:10px;padding-right:0px;'>
+                  <div class='col-2 likecomment' id='".$datab->id."' style='margin-left: 25px; margin-top:10px;padding-right:0px;'>
                   <i class='fa-regular fa-thumbs-up'></i>
                   </div>
-                  <div class='col-4' style='margin-top: 10px;padding-left: 0px;'>
+                  <div class='col-4 replycomment' id='".$datab->id."' style='margin-top: 10px;padding-left: 0px;'>
                     Reply
                   </div>
                 </div>
@@ -407,6 +407,7 @@ class AccountController extends Controller
                 ->where('userid', $postsarray[0]['userid'])
                 ->get();
             $infoarray = json_decode(json_encode($info), true);
+            
             if ($infoarray[0]['dp'] != null) {
                 $html = $html."<div class='card itsacomment' style='width: 28rem;border-radius:20px; margin-top:3px;' id='" . $infoarray[0]['userid'] . "' postid='" . $id . "'>
             <div class='card-body' style='padding:5px;'>
@@ -425,10 +426,10 @@ class AccountController extends Controller
               </div>
             </div>
             <div class='row'>
-              <div class='col-2' style='margin-left: 25px; margin-top:10px;padding-right:0px;'>
+              <div class='col-2 likecomment' id='".$commentarray[$i]['id'] ."' style='margin-left: 25px; margin-top:10px;padding-right:0px;'>
               <i class='fa-regular fa-thumbs-up'></i>
               </div>
-              <div class='col-4' style='margin-top: 10px;padding-left: 0px;'>
+              <div class='col-4 replycomment' id='".$commentarray[$i]['id'] ."' style='margin-top: 10px;padding-left: 0px;'>
                 Reply
               </div>
             </div>
@@ -452,10 +453,10 @@ class AccountController extends Controller
                   </div>
                 </div>
                 <div class='row'>
-                  <div class='col-2' style='margin-left: 25px; margin-top:10px;padding-right:0px;'>
+                  <div class='col-2 likecomment' id='".$commentarray[$i]['id'] ."' style='margin-left: 25px; margin-top:10px;padding-right:0px;'>
                   <i class='fa-regular fa-thumbs-up'></i>
                   </div>
-                  <div class='col-4' style='margin-top: 10px;padding-left: 0px;'>
+                  <div class='col-4 replycomment' id='".$commentarray[$i]['id'] ."' style='margin-top: 10px;padding-left: 0px;'>
                     Reply
                   </div>
                 </div>
@@ -466,4 +467,53 @@ class AccountController extends Controller
             return $html;
         }
     }
+    public function likecomment(Request $req){
+      $uid = session()->get('id');
+        if ($req->ajax()) {
+            // return 1;
+            $data = stripslashes(file_get_contents("php://input"));
+            $mydata = json_decode($data, true);
+            $commentid = $mydata['id'];
+            $comments = DB::table('comments')
+                ->where('id', $commentid)
+                ->get();
+            $commentsarray = json_decode(json_encode($comments), true);
+            // dd($postid);
+            $num_of_likes = $commentsarray[0]['likes'];
+            // return $num_of_likes;
+            // $peoplelikes = $postsarray[0]['likename'];
+            $idlikes = $commentsarray[0]['likeid'];
+            $info = DB::table('information')
+                ->where('userid', $uid)
+                ->get();
+            $infoarray = json_decode(json_encode($info), true);
+            $name = $infoarray[0]['name'];
+            $arrayid = explode(",", $idlikes);
+            // return $arrayid;
+            // $arrayname=explode(",",$peoplelikes);
+            if (!in_array("$uid", $arrayid)) {
+                $newidlikes = $idlikes . $uid . ',';
+                $newnumlikes = $num_of_likes + 1;
+                // $newnamelikes = $peoplelikes . $name . ',';
+                DB::table('comments')
+                    ->where('id', $commentid)
+                    ->update(array('likes' => $newnumlikes, 'likeid' => $newidlikes));
+                return 1;
+            } else {
+                // $arrayuid=array("$uid");
+                $newidlikes = str_replace($uid . ',', '', $idlikes);
+                $newnumlikes = $num_of_likes - 1;
+                DB::table('comments')
+                    ->where('id', $commentid)
+                    ->update(array('likes' => $newnumlikes, 'likeid' => $newidlikes));
+                $tocheckforcount = DB::table('comments')
+                    ->where('id', $commentid)
+                    ->get();
+                $count = json_decode(json_encode($tocheckforcount), true);
+                if ($count[0]['likes'] == 0) {
+                    return 2;
+                }
+            }
+        }
+  }
 }

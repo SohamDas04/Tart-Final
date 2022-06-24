@@ -488,8 +488,8 @@
                     }
                     ?>
                   </div>
-                  <div class="modal fade commentsection" id="{{$post['id']}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
-                    <div class="modal-dialog modal-dialog-scrollable" >
+                  <div class="modal fade commentsection" id="{{$post['id']}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable">
                       <div class="modal-content" style="min-height:700px;">
                         <div class="modal-header">
                           <h5 class="modal-title" id="exampleModalLabel">Comments <i class="fa-solid fa-comment-dots"></i></h5>
@@ -897,51 +897,84 @@
     })
 
   })
-  $('.comment').click(function() {
-    console.log('Clicked on comments');
-    $(this).parent().parent().find('.commentsection').modal('show');
-    console.log($(this).attr('id'));
-    let postid=$(this).attr('id');
-    mydata={
-      id: postid
-    }
-    $.ajax({
-      url:'/viewcomments',
-      method: 'POST',
-      data:JSON.stringify(mydata),
-      success: function(data){
-        console.log(data);
-        $("#commentmodal_"+postid).html(data);
 
-      }
-    })
-  })
-  $('.postcomment').click(function() {
-    console.log('User wants to post the written comment');
-    let th = this;
-    let postid = $(this).attr('id');
-    let comment = $(this).parent().parent().find('.col-10').children().val();
-    let bodyofcomment=$(th).parent().parent().parent().parent().children().next();
-    console.log(bodyofcomment);
-    // return false;
-    console.log(comment);
-    console.log(postid);
-    mydata = {
-      id: postid,
-      material: comment,
-    }
-    $.ajax({
-      method: 'POST',
-      url: '/comment',
-      data: JSON.stringify(mydata),
-      success: function(data) {
-        console.log(data);
-        $("#commentmodal_"+postid).append(data);
-        $(th).parent().parent().children().children().val('');
-        
-      }
-    })
-  })
+  $('.comment').click(function(){
+        console.log('Clicked on comments');
+        $(this).parent().parent().find('.commentsection').modal('show');
+        console.log($(this).attr('id'));
+        let postid = $(this).attr('id');
+        mydata = {
+          id: postid
+        }
+        $.ajax({
+          url: '/viewcomments',
+          method: 'POST',
+          data: JSON.stringify(mydata),
+          success: function(data) {
+            console.log(data);
+            $("#commentmodal_" + postid).html(data);
+            $('.likecomment').click(function() {
+              console.log('wants to like comment')
+              console.log($(this).attr('id'));
+              let comid = $(this).attr('id');
+              mydata = {
+                id: comid
+              }
+              // $(this).children().removeClass('fa-regular');
+              // $(this).children().addClass('fa-solid');
+              let th=this;
+              $.ajax({
+                url: "/likecomment",
+                method: "POST",
+                data: JSON.stringify(mydata),
+                success: function(data) {
+                  console.log(data);
+                  if (data == 1) {
+                    console.log('entering');
+                    // return false;
+                    $(th).children().removeClass('fa-regular');
+                    $(th).children().addClass('fa-solid');
+                  } else if (data == 2) {
+                    $(th).children().removeClass('fa-solid');
+                    $(th).children().addClass('fa-regular');
+                  } else {
+                    $(th).children().removeClass('fa-solid');
+                    $(th).children().addClass('fa-regular');
+                  }
+
+                }
+              })
+            })
+          }
+        })
+      })
+
+
+        $('.postcomment').click(function() {
+          console.log('User wants to post the written comment');
+          let th = this;
+          let postid = $(this).attr('id');
+          let comment = $(this).parent().parent().find('.col-10').children().val();
+          let bodyofcomment = $(th).parent().parent().parent().parent().children().next();
+          console.log(bodyofcomment);
+          // return false;
+          console.log(comment);
+          console.log(postid);
+          mydata = {
+            id: postid,
+            material: comment,
+          }
+          $.ajax({
+            method: 'POST',
+            url: '/comment',
+            data: JSON.stringify(mydata),
+            success: function(data) {
+              console.log(data);
+              $("#commentmodal_" + postid).append(data);
+              $(th).parent().parent().children().children().val('');
+
+            }
+          })
+        })
 </script>
-
 </html>

@@ -20,7 +20,7 @@ class CreatePostsTable extends Migration
             $table->string('picture')->nullable()->change();
             $table->integer('likes')->default(0)->change();
             $table->string('likeid')->nullable()->change();
-            $table->string('likename')->nullable()->change();
+            // $table->string('likename')->nullable()->change();
             $table->integer('comments')->default(0)->change();
             $table->string('commentid')->nullable()->change();
             $table->string('commentname')->nullable()->change();

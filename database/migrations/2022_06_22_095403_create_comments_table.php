@@ -18,6 +18,7 @@ class CreateCommentsTable extends Migration
             $table->timestamps();
             $table->integer('postid');
             $table->integer('idcommentor');
+            $table->integer('likes');
             $table->string('comment');
         });
     }
