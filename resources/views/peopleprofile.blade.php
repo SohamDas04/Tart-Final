@@ -426,8 +426,8 @@
                     }
                     ?>
                   </div>
-                  <div class="modal fade commentsection" id="{{$post['id']}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
-                    <div class="modal-dialog modal-dialog-scrollable" >
+                  <div class="modal fade commentsection" id="{{$post['id']}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable">
                       <div class="modal-content" style="min-height:700px;">
                         <div class="modal-header">
                           <h5 class="modal-title" id="exampleModalLabel">Comments <i class="fa-solid fa-comment-dots"></i></h5>
@@ -704,7 +704,38 @@
       success: function(data) {
         console.log(data);
         $("#commentmodal_" + postid).html(data);
+        $('.likecomment').click(function() {
+          console.log('wants to like comment')
+          console.log($(this).attr('id'));
+          let comid = $(this).attr('id');
+          mydata = {
+            id: comid
+          }
+          // $(this).children().removeClass('fa-regular');
+          // $(this).children().addClass('fa-solid');
+          let th = this;
+          $.ajax({
+            url: "/likecomment",
+            method: "POST",
+            data: JSON.stringify(mydata),
+            success: function(data) {
+              console.log(data);
+              if (data == 1) {
+                console.log('entering');
+                // return false;
+                $(th).children().removeClass('fa-regular');
+                $(th).children().addClass('fa-solid');
+              } else if (data == 2) {
+                $(th).children().removeClass('fa-solid');
+                $(th).children().addClass('fa-regular');
+              } else {
+                $(th).children().removeClass('fa-solid');
+                $(th).children().addClass('fa-regular');
+              }
 
+            }
+          })
+        })
       }
     })
   })
@@ -730,6 +761,47 @@
         console.log(data);
         $("#commentmodal_" + postid).append(data);
         $(th).parent().parent().children().children().val('');
+        $.ajax({
+          url: '/viewcomments',
+          method: 'POST',
+          data: JSON.stringify(mydata),
+          success: function(data) {
+            console.log(data);
+            $("#commentmodal_" + postid).html(data);
+            $('.likecomment').click(function() {
+              console.log('wants to like comment')
+              console.log($(this).attr('id'));
+              let comid = $(this).attr('id');
+              mydata = {
+                id: comid
+              }
+              // $(this).children().removeClass('fa-regular');
+              // $(this).children().addClass('fa-solid');
+              let th = this;
+              $.ajax({
+                url: "/likecomment",
+                method: "POST",
+                data: JSON.stringify(mydata),
+                success: function(data) {
+                  console.log(data);
+                  if (data == 1) {
+                    console.log('entering');
+                    // return false;
+                    $(th).children().removeClass('fa-regular');
+                    $(th).children().addClass('fa-solid');
+                  } else if (data == 2) {
+                    $(th).children().removeClass('fa-solid');
+                    $(th).children().addClass('fa-regular');
+                  } else {
+                    $(th).children().removeClass('fa-solid');
+                    $(th).children().addClass('fa-regular');
+                  }
+
+                }
+              })
+            })
+          }
+        })
       }
     })
   })
