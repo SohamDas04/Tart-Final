@@ -574,4 +574,7 @@ class AccountController extends Controller
       }
     }
   }
+  public function getmodalcomment(Request $req){
+    
+  }
 }

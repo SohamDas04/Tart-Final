@@ -48,3 +48,4 @@ Route::post('/likelist',[AccountController::class,'likelist']);
 Route::post('/comment',[AccountController::class,'comment']);
 Route::post('/viewcomments',[AccountController::class,'viewcomments']);
 Route::post('/likecomment',[AccountController::class,'likecomment']);
+Route::post('/getmodaldata',[AccountController::class,'getmodalcomment']);
