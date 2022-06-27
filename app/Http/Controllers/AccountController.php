@@ -406,9 +406,11 @@ class AccountController extends Controller
         $info = DB::table('information')
           ->where('userid', $postsarray[0]['userid'])
           ->get();
+        
         $infoarray = json_decode(json_encode($info), true);
         if ($commentarray[$i]['likes'] == 0) {
           if ($infoarray[0]['dp'] != null) {
+            $nlikes=$commentarray[$i]['likes']>0?strval($commentarray[$i]['likes']):"";
             $html = $html . "<div class='card itsacomment' style='width: 28rem;border-radius:20px; margin-top:3px;' id='" . $infoarray[0]['userid'] . "' postid='" . $id . "'>
             <div class='card-body' style='padding:5px;'>
               <div class='row'>
@@ -426,8 +428,8 @@ class AccountController extends Controller
               </div>
             </div>
             <div class='row'>
-              <div class='col-2 likecomment' id='" . $commentarray[$i]['id'] . "' style='margin-left: 25px; margin-top:10px;padding-right:0px;'>
-              <i class='fa-regular fa-thumbs-up'></i>
+              <div class='col-2 likecomment' id='" . $commentarray[$i]['id'] . "' style='margin-left: 25px; margin-top:10px;padding-right:0px;display:inline-block;'>
+              <i class='fa-regular fa-thumbs-up'></i> <div class='clikes' style='display:inline-block;' nolikes='$nlikes'>".$nlikes."</div>
               </div>
               <div class='col-4 replycomment' id='" . $commentarray[$i]['id'] . "' style='margin-top: 10px;padding-left: 0px;'>
                 Reply
@@ -436,6 +438,7 @@ class AccountController extends Controller
           </div>
         </div>";
           } else {
+            $nlikes=$commentarray[$i]['likes']>0?strval($commentarray[$i]['likes']):"";
             $html = $html . "<div class='card itsacomment' style='width: 28rem;border-radius:20px; margin-top:3px;' id='" . $infoarray[0]['userid'] . "'>
                 <div class='card-body' style='padding:5px;'>
                   <div class='row'>
@@ -453,8 +456,8 @@ class AccountController extends Controller
                   </div>
                 </div>
                 <div class='row'>
-                  <div class='col-2 likecomment' id='" . $commentarray[$i]['id'] . "' style='margin-left: 25px; margin-top:10px;padding-right:0px;'>
-                  <i class='fa-regular fa-thumbs-up'></i>
+                  <div class='col-2 likecomment' id='" . $commentarray[$i]['id'] . "' style='margin-left: 25px; margin-top:10px;padding-right:0px;display:inline-block;'>
+                  <i class='fa-regular fa-thumbs-up'></i> <div class='clikes' style='display:inline-block;' nolikes='$nlikes'>".$nlikes."</div>
                   </div>
                   <div class='col-4 replycomment' id='" . $commentarray[$i]['id'] . "' style='margin-top: 10px;padding-left: 0px;'>
                     Reply
@@ -465,6 +468,7 @@ class AccountController extends Controller
           }
         } else {
           if ($infoarray[0]['dp'] != null) {
+            $nlikes=$commentarray[$i]['likes']>0?strval($commentarray[$i]['likes']):"";
             $html = $html . "<div class='card itsacomment' style='width: 28rem;border-radius:20px; margin-top:3px;' id='" . $infoarray[0]['userid'] . "' postid='" . $id . "'>
             <div class='card-body' style='padding:5px;'>
               <div class='row'>
@@ -482,8 +486,8 @@ class AccountController extends Controller
               </div>
             </div>
             <div class='row'>
-              <div class='col-2 likecomment' id='" . $commentarray[$i]['id'] . "' style='margin-left: 25px; margin-top:10px;padding-right:0px;'>
-              <i class='fa-solid fa-thumbs-up'></i>
+              <div class='col-2 likecomment' id='" . $commentarray[$i]['id'] . "' style='margin-left: 25px; margin-top:10px;padding-right:0px;display:inline-block;'>
+              <i class='fa-solid fa-thumbs-up'></i> <div class='clikes' style='display:inline-block;' nolikes='$nlikes'>".$nlikes."</div>
               </div>
               <div class='col-4 replycomment' id='" . $commentarray[$i]['id'] . "' style='margin-top: 10px;padding-left: 0px;'>
                 Reply
@@ -492,6 +496,7 @@ class AccountController extends Controller
           </div>
         </div>";
           } else {
+            $nlikes=$commentarray[$i]['likes']>0?strval($commentarray[$i]['likes']):"";
             $html = $html . "<div class='card itsacomment' style='width: 28rem;border-radius:20px; margin-top:3px;' id='" . $infoarray[0]['userid'] . "'>
                 <div class='card-body' style='padding:5px;'>
                   <div class='row'>
@@ -509,8 +514,8 @@ class AccountController extends Controller
                   </div>
                 </div>
                 <div class='row'>
-                  <div class='col-2 likecomment' id='" . $commentarray[$i]['id'] . "' style='margin-left: 25px; margin-top:10px;padding-right:0px;'>
-                  <i class='fa-solid fa-thumbs-up'></i>
+                  <div class='col-2 likecomment' id='" . $commentarray[$i]['id'] . "' style='margin-left: 25px; margin-top:10px;padding-right:0px;display:inline-block;' >
+                  <i class='fa-solid fa-thumbs-up'> </i> <div style='display:inline-block;'>".$nlikes."</div>
                   </div>
                   <div class='col-4 replycomment' id='" . $commentarray[$i]['id'] . "' style='margin-top: 10px;padding-left: 0px;'>
                     Reply
@@ -556,6 +561,7 @@ class AccountController extends Controller
         DB::table('comments')
           ->where('id', $commentid)
           ->update(array('likes' => $newnumlikes, 'likeid' => $newidlikes));
+        
         return 1;
       } else {
         // $arrayuid=array("$uid");
