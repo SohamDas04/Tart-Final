@@ -695,8 +695,6 @@
     mydata = {
       id: postid
     }
-    console.log(mydata);
-    // return false;
     $.ajax({
       url: '/viewcomments',
       method: 'POST',
@@ -706,14 +704,25 @@
         $("#commentmodal_" + postid).html(data);
         $('.likecomment').click(function() {
           console.log('wants to like comment')
-          console.log($(this).attr('id'));
+          // console.log($(this).attr('id'));
           let comid = $(this).attr('id');
+          console.log($(this).children().next().text())
+          // return false;
+          if ($(this).children().next().text() != '') {
+            var nnc = parseInt($(this).children().next().text());
+          } else {
+            var nnc = 0;
+          }
+          // console.log(nnc);
+          // return false;
           mydata = {
             id: comid
           }
           // $(this).children().removeClass('fa-regular');
           // $(this).children().addClass('fa-solid');
           let th = this;
+          console.log(nnc);
+          // return false;
           $.ajax({
             url: "/likecomment",
             method: "POST",
@@ -725,12 +734,22 @@
                 // return false;
                 $(th).children().removeClass('fa-regular');
                 $(th).children().addClass('fa-solid');
+                if ($(th).children().text() != '') {
+                  let nl = nnc + 1;
+                  $(th).children().next().text(toString(nl))
+                } else {
+                  $(th).children().next().text('1')
+                }
               } else if (data == 2) {
                 $(th).children().removeClass('fa-solid');
                 $(th).children().addClass('fa-regular');
+                // let nl = nnc + 1;
+                $(th).children().text('');
               } else {
                 $(th).children().removeClass('fa-solid');
                 $(th).children().addClass('fa-regular');
+                let nl = nnc - 1;
+                $(th).children().next().text(toString(nl))
               }
 
             }
@@ -739,6 +758,8 @@
       }
     })
   })
+
+
   $('.postcomment').click(function() {
     console.log('User wants to post the written comment');
     let th = this;
@@ -770,14 +791,25 @@
             $("#commentmodal_" + postid).html(data);
             $('.likecomment').click(function() {
               console.log('wants to like comment')
-              console.log($(this).attr('id'));
+              // console.log($(this).attr('id'));
               let comid = $(this).attr('id');
+              console.log($(this).children().next().text())
+              // return false;
+              if ($(this).children().next().text() != '') {
+                var nnc = parseInt($(this).children().next().text());
+              } else {
+                var nnc = 0;
+              }
+              // console.log(nnc);
+              // return false;
               mydata = {
                 id: comid
               }
               // $(this).children().removeClass('fa-regular');
               // $(this).children().addClass('fa-solid');
               let th = this;
+              console.log(nnc);
+              // return false;
               $.ajax({
                 url: "/likecomment",
                 method: "POST",
@@ -789,12 +821,22 @@
                     // return false;
                     $(th).children().removeClass('fa-regular');
                     $(th).children().addClass('fa-solid');
+                    if ($(th).children().text() != '') {
+                      let nl = nnc + 1;
+                      $(th).children().next().text(toString(nl))
+                    } else {
+                      $(th).children().next().text('1')
+                    }
                   } else if (data == 2) {
                     $(th).children().removeClass('fa-solid');
                     $(th).children().addClass('fa-regular');
+                    // let nl = nnc + 1;
+                    $(th).children().text('');
                   } else {
                     $(th).children().removeClass('fa-solid');
                     $(th).children().addClass('fa-regular');
+                    let nl = nnc - 1;
+                    $(th).children().next().text(toString(nl))
                   }
 
                 }
