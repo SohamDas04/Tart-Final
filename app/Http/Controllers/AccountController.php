@@ -404,7 +404,7 @@ class AccountController extends Controller
           ->get();
         $postsarray = json_decode(json_encode($posts), true);
         $info = DB::table('information')
-          ->where('userid', $postsarray[0]['userid'])
+          ->where('userid', $commentarray[$i]['idcommentor'])
           ->get();
         
         $infoarray = json_decode(json_encode($info), true);
