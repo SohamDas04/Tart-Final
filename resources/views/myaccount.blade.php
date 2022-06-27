@@ -492,7 +492,8 @@
                     <div class="modal-dialog modal-dialog-scrollable">
                       <div class="modal-content" style="min-height:700px;">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Comments <i class="fa-solid fa-comment-dots"></i></h5>
+                          <h5 class="modal-title" id="chead_{{$post['id']}}">Comments <i class="fa-solid fa-comment-dots"></i></h5>
+                          <h5 class="modal-title" id="rhead_{{$post['id']}}" style="display:none;"><i class="fa-solid fa-arrow-left"></i> Replies</h5>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body bodyofcomments" id="commentmodal_{{$post['id']}}">
@@ -522,7 +523,7 @@
                             </div>
                           </div> -->
                         </div>
-                        <div class="modal-footer" style="margin:1px; padding:0px;">
+                        <div class="modal-footer foc_{{$post['id']}}" style="margin:1px; padding:0px;">
                           <div class="row">
                             <div class="col-10" style="padding-left: 5px;">
                               <input type="text" name="" placeholder="Write a comment.." class="form-control commentcontent" id="" style="width: 400px; margin-left:1px; border-radius:20px;" minlength="1">
@@ -533,9 +534,26 @@
                           </div>
 
                         </div>
+                        <div class="modal-footer for_{{$post['id']}}" style="margin:1px; padding:0px; display:none;">
+                          <div class="row">
+                            <div class="col-10" style="padding-left: 5px;">
+                              <input type="text" name="" placeholder="Write a reply.." class="form-control commentcontent" id="" style="width: 400px; margin-left:1px; border-radius:20px;" minlength="1">
+                            </div>
+                            <div class="col-2">
+                              <button type="button" class="btn btn-primary postcomment" id="{{$post['id']}}" style="border-radius:20px;">Post</button>
+                            </div>
+                          </div>
+
+                        </div>
                       </div>
                     </div>
                   </div>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display:none;">
+                    Launch demo modal
+                  </button>
+
+                  <!-- Modal -->
+
                   <div class="col-6" style="padding-left:0px; height :50px;">
                     <button class="btn btn-light btn-lg comment" style="width: 100%; background: white;" id="{{$post['id']}}"><i class="fa fa-commenting" aria-hidden="true"></i></button>
                   </div>
@@ -965,6 +983,19 @@
 
             }
           })
+        })
+        $('.replycomment').click(function() {
+          console.log('User wants to reply to a comment');
+          console.log($(this).attr('id'));
+          let comid=$(this).attr('id');
+          // $(this).parent().css('display','none');
+          // console.log($(this).parent().parent().parent().parent().parent().parent().parent())
+          $('#commentmodal_'+postid).html('');
+          $('#chead_'+postid).css('display','none');
+          $('#rhead_'+postid).css('display','block');
+          // $('#reply_'+comid).modal('show');
+          $('.foc_'+postid).css('display','none');
+          $('.for_'+postid).css('display','block');
         })
       }
     })
