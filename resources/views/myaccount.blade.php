@@ -556,7 +556,7 @@
                   <!-- Modal -->
 
                   <div class="col-6" style="padding-left:0px; height :50px;">
-                    <button class="btn btn-light btn-lg comment" style="width: 100%; background: white;" id="{{$post['id']}}"><i class="fa fa-commenting" aria-hidden="true"></i></button>
+                    <button class="btn btn-light btn-lg comment comment_{{$post['id']}}" style="width: 100%; background: white;" id="{{$post['id']}}"><i class="fa fa-commenting" aria-hidden="true"></i></button>
                   </div>
                 </div>
               </div>
@@ -922,6 +922,7 @@
     $(this).parent().parent().find('.commentsection').modal('show');
     console.log($(this).attr('id'));
     let postid = $(this).attr('id');
+    var vcom = $('.comment_' + postid);
     mydata = {
       id: postid
     }
@@ -1002,6 +1003,11 @@
             method: 'POST',
             data: JSON.stringify(mydatax),
             success: function(data) {
+              $('#rhead_' + postid).click(function() {
+                $('#rhead_' + postid).css('display', 'none');
+                $('#chead_' + postid).css('display', 'block');
+                $(vcom).click();
+              })
               console.log(data);
               $('#commentmodal_' + postid).html(data);
               $('.likereply').click(function() {
@@ -1025,6 +1031,11 @@
                   method: "POST",
                   data: JSON.stringify(mydata),
                   success: function(data) {
+                    $('#rhead_' + postid).click(function() {
+                      $('#rhead_' + postid).css('display', 'none');
+                      $('#chead_' + postid).css('display', 'block');
+                      $(vcom).click();
+                    })
                     console.log(data);
                     if (data == 1) {
                       console.log('entering');
@@ -1072,6 +1083,11 @@
               method: 'POST',
               data: JSON.stringify(mydata),
               success: function(data) {
+                $('#rhead_' + postid).click(function() {
+                  $('#rhead_' + postid).css('display', 'none');
+                  $('#chead_' + postid).css('display', 'block');
+                  $(vcom).click();
+                })
                 console.log(data);
                 $('#commentmodal_' + postid).append(data);
                 $('#replycontent_' + postid).val('')
@@ -1080,6 +1096,11 @@
                   method: 'POST',
                   data: JSON.stringify(mydatax),
                   success: function(data) {
+                    $('#rhead_' + postid).click(function() {
+                      $('#rhead_' + postid).css('display', 'none');
+                      $('#chead_' + postid).css('display', 'block');
+                      $(vcom).click();
+                    })
                     console.log(data);
                     $('#commentmodal_' + postid).html('');
                     $('#replycontent_' + postid).val('')
@@ -1105,6 +1126,11 @@
                         method: "POST",
                         data: JSON.stringify(mydata),
                         success: function(data) {
+                          $('#rhead_' + postid).click(function() {
+                            $('#rhead_' + postid).css('display', 'none');
+                            $('#chead_' + postid).css('display', 'block');
+                            $(vcom).click();
+                          })
                           console.log(data);
                           if (data == 1) {
                             console.log('entering');
@@ -1227,6 +1253,7 @@
               })
             })
             $('.replycomment').click(function() {
+              console.log($('#rhead_' + postid));
               console.log('User wants to reply to a comment');
               console.log($(this).attr('id'));
               let comid = $(this).attr('id');
