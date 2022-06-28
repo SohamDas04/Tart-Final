@@ -521,8 +521,8 @@
                                 Reply
                               </div>
                             </div>
-                          </div> --> 
-                          
+                          </div> -->
+
                         </div>
                         <div class="modal-footer foc_{{$post['id']}}" style="margin:1px; padding:0px;">
                           <div class="row">
@@ -988,21 +988,33 @@
         $('.replycomment').click(function() {
           console.log('User wants to reply to a comment');
           console.log($(this).attr('id'));
-          let comid=$(this).attr('id');
+          let comid = $(this).attr('id');
           // $(this).parent().css('display','none');
           // console.log($(this).parent().parent().parent().parent().parent().parent().parent())
-          $('#commentmodal_'+postid).html('');
-          $('#chead_'+postid).css('display','none');
-          $('#rhead_'+postid).css('display','block');
+          $('#commentmodal_' + postid).html('');
+          $('#chead_' + postid).css('display', 'none');
+          $('#rhead_' + postid).css('display', 'block');
+          mydatax = {
+            cmid: comid,
+          }
+          $.ajax({
+            url: '/viewreplies',
+            method: 'POST',
+            data: JSON.stringify(mydatax),
+            success: function(data) {
+              console.log(data);
+              $('#commentmodal_' + postid).html(data);
+            }
+          })
           // $('#reply_'+comid).modal('show');
-          $('.foc_'+postid).css('display','none');
-          $('.for_'+postid).css('display','block');
-          $('.for_'+postid).children().find('.postreply').attr('id',comid);
-          $('.for_'+postid).children().find('.postreply').click(function(){
+          $('.foc_' + postid).css('display', 'none');
+          $('.for_' + postid).css('display', 'block');
+          $('.for_' + postid).children().find('.postreply').attr('id', comid);
+          $('.for_' + postid).children().find('.postreply').off().click(function() {
             console.log('User wants to post the reply')
-            console.log($('#replycontent_'+postid).val())
-            let reply=$('#replycontent_'+postid).val()
-            mydata={
+            console.log($('#replycontent_' + postid).val())
+            let reply = $('#replycontent_' + postid).val()
+            mydata = {
               cid: comid,
               r: reply
             }
@@ -1011,13 +1023,24 @@
               url: '/replycomment',
               method: 'POST',
               data: JSON.stringify(mydata),
-              success: function(data){
+              success: function(data) {
                 console.log(data);
-                $('#commentmodal_'+postid).append(data);
+                $('#commentmodal_' + postid).append(data);
+                $.ajax({
+                  url: '/viewreplies',
+                  method: 'POST',
+                  data: JSON.stringify(mydatax),
+                  success: function(data) {
+                    console.log(data);
+                    $('#commentmodal_' + postid).html('');
+
+                    $('#commentmodal_' + postid).html(data);
+                  }
+                })
               }
             })
           })
-          
+
         })
       }
     })

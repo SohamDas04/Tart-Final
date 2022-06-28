@@ -700,5 +700,211 @@ class AccountController extends Controller
   }
   public function viewreplies(Request $req)
   {
+    if ($req->ajax()) {
+      // return 1;
+      $data = stripslashes(file_get_contents("php://input"));
+      $mydata = json_decode($data, true);
+      $commentid = $mydata['cmid'];
+      $replies = DB::table('replies')
+        ->where('commentid', $commentid)
+        ->get();
+      $replyarray = json_decode(json_encode($replies), true);
+      $html = '';
+      $no_of_replies = count($replyarray);
+      for ($i = 0; $i < $no_of_replies; $i++) {
+        $info = DB::table('information')
+          ->where('userid', $replyarray[$i]['replierid'])
+          ->get();
+        $infoarray = json_decode(json_encode($info), true);
+        if ($replyarray[$i]['likes'] == 0) {
+          if ($infoarray[0]['dp'] != null) {
+            $nlikes = $replyarray[$i]['likes'] > 0 ? strval($replyarray[$i]['likes']) : "";
+            $html = $html . "
+            <div class='modal fade replytoreply'  id='reply_" . $replyarray[$i]['id'] . "' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+            <div class='modal-dialog'>
+              <div class='modal-content'>
+                <div class='modal-header'>
+                  <h5 class='modal-title' id='exampleModalLabel'>Modal title</h5>
+                  <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                </div>
+                <div class='modal-body'>
+                  ...
+                </div>
+                <div class='modal-footer'>
+                  <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
+                  <button type='button' class='btn btn-primary'>Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+            <div class='card itsareply' style='width: 28rem;border-radius:20px; margin-top:3px;' id='" . $infoarray[0]['userid'] . "' commenttid='" . $commentid . "'>
+            <div class='card-body' style='padding:5px;'>
+              <div class='row'>
+                <div class='col-2' style='padding-right: 0px; margin-right:0px; width:57px;'>
+                  <img src='/uploads/" . $infoarray[0]['dp'] . "' id='postsdp' class='rounded-circle' style='height: 30px; width: 30px; object-fit:cover;margin-left: 10px;' alt=''>
+                </div>
+                <div class='col-8' style='padding-left: 0px; margin-left:0px;'>
+                  <p style='font-size: 18px;'>" . $infoarray[0]['name'] . "</p>
+                </div>
+              </div>
+              <div class='row' style='margin-left: 4px;margin-right: 4x;'>
+                <div class='col-12' style='padding-left: 6px;'>
+                  " . $replyarray[$i]['replies'] . "
+                </div>
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-2 likereply' id='" . $replyarray[$i]['id'] . "' style='margin-left: 25px; margin-top:10px;padding-right:0px;display:inline-block;'>
+              <i class='fa-regular fa-thumbs-up'></i> <div class='clikes' style='display:inline-block;' nolikes='$nlikes'>" . $nlikes . "</div>
+              </div>
+              <div class='col-4 replyreply' id='" . $replyarray[$i]['id'] . "' style='margin-top: 10px;padding-left: 0px;'>
+                Reply
+              </div>
+            </div>
+          </div>
+        </div>";
+          } else {
+            $nlikes = $replyarray[$i]['likes'] > 0 ? strval($replyarray[$i]['likes']) : "";
+            $html = $html . "                  <div class='modal fade replytoreply'  id='reply_" . $replyarray[$i]['id'] . "' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+            <div class='modal-dialog'>
+              <div class='modal-content'>
+                <div class='modal-header'>
+                  <h5 class='modal-title' id='exampleModalLabel'>Modal title</h5>
+                  <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                </div>
+                <div class='modal-body'>
+                  ...
+                </div>
+                <div class='modal-footer'>
+                  <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
+                  <button type='button' class='btn btn-primary'>Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+            <div class='card itsareply' style='width: 28rem;border-radius:20px; margin-top:3px;' id='" . $infoarray[0]['userid'] . "'>
+                <div class='card-body' style='padding:5px;'>
+                  <div class='row'>
+                    <div class='col-2' style='padding-right: 0px; margin-right:0px; width:57px;'>
+                      <img src='/blank-profile-picture-973460_1280.png' id='postsdp' class='rounded-circle' style='height: 30px; width: 30px; object-fit:cover;margin-left: 10px;' alt=''>
+                    </div>
+                    <div class='col-8' style='padding-left: 0px; margin-left:0px;'>
+                      <p style='font-size: 18px;'>" . $infoarray[0]['name'] . "</p>
+                    </div>
+                  </div>
+                  <div class='row' style='margin-left: 4px;margin-right: 4x;'>
+                    <div class='col-12' style='padding-left: 6px;'>
+                      " . $replyarray[$i]['replies'] . "
+                    </div>
+                  </div>
+                </div>
+                <div class='row'>
+                  <div class='col-2 likereply' id='" . $replyarray[$i]['id'] . "' style='margin-left: 25px; margin-top:10px;padding-right:0px;display:inline-block;'>
+                  <i class='fa-regular fa-thumbs-up'></i> <div class='clikes' style='display:inline-block;' nolikes='$nlikes'>" . $nlikes . "</div>
+                  </div>
+                  <div class='col-4 replyreply' id='" . $replyarray[$i]['id'] . "' style='margin-top: 10px;padding-left: 0px;'>
+                    Reply
+                  </div>
+                </div>
+              </div>
+            </div>";
+          }
+        } else {
+          if ($infoarray[0]['dp'] != null) {
+            $nlikes = $replyarray[$i]['likes'] > 0 ? strval($replyarray[$i]['likes']) : "";
+            $html = $html . "
+            <div class='modal fade replytoreply'  id='reply_" . $replyarray[$i]['id'] . "' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+            <div class='modal-dialog'>
+              <div class='modal-content'>
+                <div class='modal-header'>
+                  <h5 class='modal-title' id='exampleModalLabel'>Modal title</h5>
+                  <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                </div>
+                <div class='modal-body'>
+                  ...
+                </div>
+                <div class='modal-footer'>
+                  <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
+                  <button type='button' class='btn btn-primary'>Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+            <div class='card itsareply' style='width: 28rem;border-radius:20px; margin-top:3px;' id='" . $infoarray[0]['userid'] . "' postid='" . $commentid . "'>
+            <div class='card-body' style='padding:5px;'>
+              <div class='row'>
+                <div class='col-2' style='padding-right: 0px; margin-right:0px; width:57px;'>
+                  <img src='/uploads/" . $infoarray[0]['dp'] . "' id='postsdp' class='rounded-circle' style='height: 30px; width: 30px; object-fit:cover;margin-left: 10px;' alt=''>
+                </div>
+                <div class='col-8' style='padding-left: 0px; margin-left:0px;'>
+                  <p style='font-size: 18px;'>" . $infoarray[0]['name'] . "</p>
+                </div>
+              </div>
+              <div class='row' style='margin-left: 4px;margin-right: 4x;'>
+                <div class='col-12' style='padding-left: 6px;'>
+                  " . $replyarray[$i]['replies'] . "
+                </div>
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-2 likereply' id='" . $replyarray[$i]['id'] . "' style='margin-left: 25px; margin-top:10px;padding-right:0px;display:inline-block;'>
+              <i class='fa-solid fa-thumbs-up'></i> <div class='clikes' style='display:inline-block;' nolikes='$nlikes'>" . $nlikes . "</div>
+              </div>
+              <div class='col-4 replyreply' id='" . $replyarray[$i]['id'] . "' style='margin-top: 10px;padding-left: 0px;'>
+                Reply
+              </div>
+            </div>
+          </div>
+        </div>";
+          } else {
+            $nlikes = $replyarray[$i]['likes'] > 0 ? strval($replyarray[$i]['likes']) : "";
+            $html = $html . "                  <div class='modal fade replytoreply'  id='reply_" . $replyarray[$i]['id'] . "' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+            <div class='modal-dialog'>
+              <div class='modal-content'>
+                <div class='modal-header'>
+                  <h5 class='modal-title' id='exampleModalLabel'>Modal title</h5>
+                  <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                </div>
+                <div class='modal-body'>
+                  ...
+                </div>
+                <div class='modal-footer'>
+                  <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
+                  <button type='button' class='btn btn-primary'>Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+            <div class='card itsareply' style='width: 28rem;border-radius:20px; margin-top:3px;' id='" . $infoarray[0]['userid'] . "'>
+                <div class='card-body' style='padding:5px;'>
+                  <div class='row'>
+                    <div class='col-2' style='padding-right: 0px; margin-right:0px; width:57px;'>
+                      <img src='/blank-profile-picture-973460_1280.png' id='postsdp' class='rounded-circle' style='height: 30px; width: 30px; object-fit:cover;margin-left: 10px;' alt=''>
+                    </div>
+                    <div class='col-8' style='padding-left: 0px; margin-left:0px;'>
+                      <p style='font-size: 18px;'>" . $infoarray[0]['name'] . "</p>
+                    </div>
+                  </div>
+                  <div class='row' style='margin-left: 4px;margin-right: 4x;'>
+                    <div class='col-12' style='padding-left: 6px;'>
+                      " . $replyarray[$i]['replies'] . "
+                    </div>
+                  </div>
+                </div>
+                <div class='row'>
+                  <div class='col-2 likereply' id='" . $replyarray[$i]['id'] . "' style='margin-left: 25px; margin-top:10px;padding-right:0px;display:inline-block;' >
+                  <i class='fa-solid fa-thumbs-up'> </i> <div style='display:inline-block;'>" . $nlikes . "</div>
+                  </div>
+                  <div class='col-4 replyreply' id='" . $replyarray[$i]['id'] . "' style='margin-top: 10px;padding-left: 0px;'>
+                    Reply
+                  </div>
+                </div>
+              </div>
+            </div>";
+          }
+        }
+      }
+      return $html;
+    }
   }
 }
