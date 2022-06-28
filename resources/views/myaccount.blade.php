@@ -1174,6 +1174,7 @@
     console.log('User wants to post the written comment');
     let th = this;
     let postid = $(this).attr('id');
+    var vcom = $('.comment_' + postid);
     let comment = $(this).parent().parent().find('.col-10').children().val();
     let bodyofcomment = $(th).parent().parent().parent().parent().children().next();
     console.log(bodyofcomment);
@@ -1192,6 +1193,11 @@
         console.log(data);
         $("#commentmodal_" + postid).append(data);
         $(th).parent().parent().children().children().val('');
+        $('#rhead_' + postid).click(function() {
+          $('#rhead_' + postid).css('display', 'none');
+          $('#chead_' + postid).css('display', 'block');
+          $(vcom).click();
+        })
         $.ajax({
           url: '/viewcomments',
           method: 'POST',
@@ -1253,7 +1259,6 @@
               })
             })
             $('.replycomment').click(function() {
-              console.log($('#rhead_' + postid));
               console.log('User wants to reply to a comment');
               console.log($(this).attr('id'));
               let comid = $(this).attr('id');
@@ -1262,9 +1267,6 @@
               $('#commentmodal_' + postid).html('');
               $('#chead_' + postid).css('display', 'none');
               $('#rhead_' + postid).css('display', 'block');
-              $('#rhead_' + postid).click(function() {
-                console.log('User wants to go back to comment section');
-              })
               mydatax = {
                 cmid: comid,
               }
@@ -1273,6 +1275,11 @@
                 method: 'POST',
                 data: JSON.stringify(mydatax),
                 success: function(data) {
+                  $('#rhead_' + postid).click(function() {
+                    $('#rhead_' + postid).css('display', 'none');
+                    $('#chead_' + postid).css('display', 'block');
+                    $(vcom).click();
+                  })
                   console.log(data);
                   $('#commentmodal_' + postid).html(data);
                   $('.likereply').click(function() {
@@ -1296,6 +1303,11 @@
                       method: "POST",
                       data: JSON.stringify(mydata),
                       success: function(data) {
+                        $('#rhead_' + postid).click(function() {
+                          $('#rhead_' + postid).css('display', 'none');
+                          $('#chead_' + postid).css('display', 'block');
+                          $(vcom).click();
+                        })
                         console.log(data);
                         if (data == 1) {
                           console.log('entering');
@@ -1343,6 +1355,11 @@
                   method: 'POST',
                   data: JSON.stringify(mydata),
                   success: function(data) {
+                    $('#rhead_' + postid).click(function() {
+                      $('#rhead_' + postid).css('display', 'none');
+                      $('#chead_' + postid).css('display', 'block');
+                      $(vcom).click();
+                    })
                     console.log(data);
                     $('#commentmodal_' + postid).append(data);
                     $('#replycontent_' + postid).val('')
@@ -1351,6 +1368,11 @@
                       method: 'POST',
                       data: JSON.stringify(mydatax),
                       success: function(data) {
+                        $('#rhead_' + postid).click(function() {
+                          $('#rhead_' + postid).css('display', 'none');
+                          $('#chead_' + postid).css('display', 'block');
+                          $(vcom).click();
+                        })
                         console.log(data);
                         $('#commentmodal_' + postid).html('');
                         $('#replycontent_' + postid).val('')
@@ -1376,6 +1398,11 @@
                             method: "POST",
                             data: JSON.stringify(mydata),
                             success: function(data) {
+                              $('#rhead_' + postid).click(function() {
+                                $('#rhead_' + postid).css('display', 'none');
+                                $('#chead_' + postid).css('display', 'block');
+                                $(vcom).click();
+                              })
                               console.log(data);
                               if (data == 1) {
                                 console.log('entering');
