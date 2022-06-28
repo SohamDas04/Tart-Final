@@ -755,7 +755,7 @@ class AccountController extends Controller
             </div>
             <div class='row'>
               <div class='col-2 likereply' id='" . $replyarray[$i]['id'] . "' style='margin-left: 25px; margin-top:10px;padding-right:0px;display:inline-block;'>
-              <i class='fa-regular fa-thumbs-up'></i> <div class='clikes' style='display:inline-block;' nolikes='$nlikes'>" . $nlikes . "</div>
+              <i class='fa-regular fa-thumbs-up'></i> <div class='rlikes' style='display:inline-block;' norlikes='$nlikes'>" . $nlikes . "</div>
               </div>
               <div class='col-4 replyreply' id='" . $replyarray[$i]['id'] . "' style='margin-top: 10px;padding-left: 0px;'>
                 Reply
@@ -800,7 +800,7 @@ class AccountController extends Controller
                 </div>
                 <div class='row'>
                   <div class='col-2 likereply' id='" . $replyarray[$i]['id'] . "' style='margin-left: 25px; margin-top:10px;padding-right:0px;display:inline-block;'>
-                  <i class='fa-regular fa-thumbs-up'></i> <div class='clikes' style='display:inline-block;' nolikes='$nlikes'>" . $nlikes . "</div>
+                  <i class='fa-regular fa-thumbs-up'></i> <div class='rlikes' style='display:inline-block;' norlikes='$nlikes'>" . $nlikes . "</div>
                   </div>
                   <div class='col-4 replyreply' id='" . $replyarray[$i]['id'] . "' style='margin-top: 10px;padding-left: 0px;'>
                     Reply
@@ -848,7 +848,7 @@ class AccountController extends Controller
             </div>
             <div class='row'>
               <div class='col-2 likereply' id='" . $replyarray[$i]['id'] . "' style='margin-left: 25px; margin-top:10px;padding-right:0px;display:inline-block;'>
-              <i class='fa-solid fa-thumbs-up'></i> <div class='clikes' style='display:inline-block;' nolikes='$nlikes'>" . $nlikes . "</div>
+              <i class='fa-solid fa-thumbs-up'></i> <div class='rlikes' style='display:inline-block;' norlikes='$nlikes'>" . $nlikes . "</div>
               </div>
               <div class='col-4 replyreply' id='" . $replyarray[$i]['id'] . "' style='margin-top: 10px;padding-left: 0px;'>
                 Reply
@@ -893,7 +893,7 @@ class AccountController extends Controller
                 </div>
                 <div class='row'>
                   <div class='col-2 likereply' id='" . $replyarray[$i]['id'] . "' style='margin-left: 25px; margin-top:10px;padding-right:0px;display:inline-block;' >
-                  <i class='fa-solid fa-thumbs-up'> </i> <div style='display:inline-block;'>" . $nlikes . "</div>
+                  <i class='fa-solid fa-thumbs-up'> </i> <div class='rlikes' style='display:inline-block;' norlikes='$nlikes' >" . $nlikes . "</div>
                   </div>
                   <div class='col-4 replyreply' id='" . $replyarray[$i]['id'] . "' style='margin-top: 10px;padding-left: 0px;'>
                     Reply
@@ -905,6 +905,57 @@ class AccountController extends Controller
         }
       }
       return $html;
+    }
+  }
+  public function likereply(Request $req)
+  {
+    $uid = session()->get('id');
+    if ($req->ajax()) {
+      // return 1;
+      $data = stripslashes(file_get_contents("php://input"));
+      $mydata = json_decode($data, true);
+      $commentid = $mydata['id'];
+      $comments = DB::table('replies')
+        ->where('id', $commentid)
+        ->get();
+      $commentsarray = json_decode(json_encode($comments), true);
+      // dd($postid);
+      $num_of_likes = $commentsarray[0]['likes'];
+      // return $num_of_likes;
+      // $peoplelikes = $postsarray[0]['likename'];
+      $idlikes = $commentsarray[0]['likeid'];
+      $info = DB::table('information')
+        ->where('userid', $uid)
+        ->get();
+      $infoarray = json_decode(json_encode($info), true);
+      $name = $infoarray[0]['name'];
+      $arrayid = explode(",", $idlikes);
+      // return $arrayid;
+      // $arrayname=explode(",",$peoplelikes);
+      if (!in_array("$uid", $arrayid)) {
+        $newidlikes = $idlikes . $uid . ',';
+        $newnumlikes = $num_of_likes + 1;
+        // $newnamelikes = $peoplelikes . $name . ',';
+        DB::table('replies')
+          ->where('id', $commentid)
+          ->update(array('likes' => $newnumlikes, 'likeid' => $newidlikes));
+
+        return 1;
+      } else {
+        // $arrayuid=array("$uid");
+        $newidlikes = str_replace($uid . ',', '', $idlikes);
+        $newnumlikes = $num_of_likes - 1;
+        DB::table('replies')
+          ->where('id', $commentid)
+          ->update(array('likes' => $newnumlikes, 'likeid' => $newidlikes));
+        $tocheckforcount = DB::table('replies')
+          ->where('id', $commentid)
+          ->get();
+        $count = json_decode(json_encode($tocheckforcount), true);
+        if ($count[0]['likes'] == 0) {
+          return 2;
+        }
+      }
     }
   }
 }

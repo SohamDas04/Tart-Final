@@ -51,3 +51,4 @@ Route::post('/likecomment',[AccountController::class,'likecomment']);
 Route::post('/getmodaldata',[AccountController::class,'getmodalcomment']);
 Route::post('/replycomment',[AccountController::class,'replycomment']);
 Route::post('/viewreplies',[AccountController::class,'viewreplies']);
+Route::post('likereply',[AccountController::class,'likereply']);

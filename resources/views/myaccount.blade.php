@@ -1004,6 +1004,54 @@
             success: function(data) {
               console.log(data);
               $('#commentmodal_' + postid).html(data);
+              $('.likereply').click(function() {
+                console.log('User wants to like reply');
+                let lrep = $(this).attr('id');
+                console.log(lrep);
+                console.log($(this).children().next().text())
+                // return false;
+                if ($(this).children().next().text() != '') {
+                  var nnc = parseInt($(this).children().next().text());
+                } else {
+                  var nnc = 0;
+                }
+                mydata = {
+                  id: lrep
+                }
+                let th = this;
+                console.log(nnc);
+                $.ajax({
+                  url: "/likereply",
+                  method: "POST",
+                  data: JSON.stringify(mydata),
+                  success: function(data) {
+                    console.log(data);
+                    if (data == 1) {
+                      console.log('entering');
+                      // return false;
+                      $(th).children().removeClass('fa-regular');
+                      $(th).children().addClass('fa-solid');
+                      if ($(th).children().text() != '') {
+                        let nl = nnc + 1;
+                        $(th).children().next().text(toString(nl))
+                      } else {
+                        $(th).children().next().text('1')
+                      }
+                    } else if (data == 2) {
+                      $(th).children().removeClass('fa-solid');
+                      $(th).children().addClass('fa-regular');
+                      // let nl = nnc + 1;
+                      $(th).children().text('');
+                    } else {
+                      $(th).children().removeClass('fa-solid');
+                      $(th).children().addClass('fa-regular');
+                      let nl = nnc - 1;
+                      $(th).children().next().text(toString(nl))
+                    }
+
+                  }
+                })
+              })
             }
           })
           // $('#reply_'+comid).modal('show');
@@ -1036,6 +1084,54 @@
                     $('#commentmodal_' + postid).html('');
                     $('#replycontent_' + postid).val('')
                     $('#commentmodal_' + postid).html(data);
+                    $('.likereply').click(function() {
+                      console.log('User wants to like reply');
+                      let lrep = $(this).attr('id');
+                      console.log(lrep);
+                      console.log($(this).children().next().text())
+                      // return false;
+                      if ($(this).children().next().text() != '') {
+                        var nnc = parseInt($(this).children().next().text());
+                      } else {
+                        var nnc = 0;
+                      }
+                      mydata = {
+                        id: lrep
+                      }
+                      let th = this;
+                      console.log(nnc);
+                      $.ajax({
+                        url: "/likereply",
+                        method: "POST",
+                        data: JSON.stringify(mydata),
+                        success: function(data) {
+                          console.log(data);
+                          if (data == 1) {
+                            console.log('entering');
+                            // return false;
+                            $(th).children().removeClass('fa-regular');
+                            $(th).children().addClass('fa-solid');
+                            if ($(th).children().text() != '') {
+                              let nl = nnc + 1;
+                              $(th).children().next().text(toString(nl))
+                            } else {
+                              $(th).children().next().text('1')
+                            }
+                          } else if (data == 2) {
+                            $(th).children().removeClass('fa-solid');
+                            $(th).children().addClass('fa-regular');
+                            // let nl = nnc + 1;
+                            $(th).children().text('');
+                          } else {
+                            $(th).children().removeClass('fa-solid');
+                            $(th).children().addClass('fa-regular');
+                            let nl = nnc - 1;
+                            $(th).children().next().text(toString(nl))
+                          }
+
+                        }
+                      })
+                    })
                   }
                 })
               }
