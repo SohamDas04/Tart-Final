@@ -792,6 +792,54 @@
             success: function(data) {
               console.log(data);
               $('#commentmodal_' + postid).html(data);
+              $('.likereply').click(function() {
+                console.log('User wants to like reply');
+                let lrep = $(this).attr('id');
+                console.log(lrep);
+                console.log($(this).children().next().text())
+                // return false;
+                if ($(this).children().next().text() != '') {
+                  var nnc = parseInt($(this).children().next().text());
+                } else {
+                  var nnc = 0;
+                }
+                mydata = {
+                  id: lrep
+                }
+                let th = this;
+                console.log(nnc);
+                $.ajax({
+                  url: "/likereply",
+                  method: "POST",
+                  data: JSON.stringify(mydata),
+                  success: function(data) {
+                    console.log(data);
+                    if (data == 1) {
+                      console.log('entering');
+                      // return false;
+                      $(th).children().removeClass('fa-regular');
+                      $(th).children().addClass('fa-solid');
+                      if ($(th).children().text() != '') {
+                        let nl = nnc + 1;
+                        $(th).children().next().text(toString(nl))
+                      } else {
+                        $(th).children().next().text('1')
+                      }
+                    } else if (data == 2) {
+                      $(th).children().removeClass('fa-solid');
+                      $(th).children().addClass('fa-regular');
+                      // let nl = nnc + 1;
+                      $(th).children().text('');
+                    } else {
+                      $(th).children().removeClass('fa-solid');
+                      $(th).children().addClass('fa-regular');
+                      let nl = nnc - 1;
+                      $(th).children().next().text(toString(nl))
+                    }
+
+                  }
+                })
+              })
             }
           })
           // $('#reply_'+comid).modal('show');
@@ -824,6 +872,54 @@
                     $('#commentmodal_' + postid).html('');
                     $('#replycontent_' + postid).val('')
                     $('#commentmodal_' + postid).html(data);
+                    $('.likereply').click(function() {
+                      console.log('User wants to like reply');
+                      let lrep = $(this).attr('id');
+                      console.log(lrep);
+                      console.log($(this).children().next().text())
+                      // return false;
+                      if ($(this).children().next().text() != '') {
+                        var nnc = parseInt($(this).children().next().text());
+                      } else {
+                        var nnc = 0;
+                      }
+                      mydata = {
+                        id: lrep
+                      }
+                      let th = this;
+                      console.log(nnc);
+                      $.ajax({
+                        url: "/likereply",
+                        method: "POST",
+                        data: JSON.stringify(mydata),
+                        success: function(data) {
+                          console.log(data);
+                          if (data == 1) {
+                            console.log('entering');
+                            // return false;
+                            $(th).children().removeClass('fa-regular');
+                            $(th).children().addClass('fa-solid');
+                            if ($(th).children().text() != '') {
+                              let nl = nnc + 1;
+                              $(th).children().next().text(toString(nl))
+                            } else {
+                              $(th).children().next().text('1')
+                            }
+                          } else if (data == 2) {
+                            $(th).children().removeClass('fa-solid');
+                            $(th).children().addClass('fa-regular');
+                            // let nl = nnc + 1;
+                            $(th).children().text('');
+                          } else {
+                            $(th).children().removeClass('fa-solid');
+                            $(th).children().addClass('fa-regular');
+                            let nl = nnc - 1;
+                            $(th).children().next().text(toString(nl))
+                          }
+
+                        }
+                      })
+                    })
                   }
                 })
               }
@@ -917,6 +1013,160 @@
 
                 }
               })
+            })
+            $('.replycomment').click(function() {
+              console.log('User wants to reply to a comment');
+              console.log($(this).attr('id'));
+              let comid = $(this).attr('id');
+              // $(this).parent().css('display','none');
+              // console.log($(this).parent().parent().parent().parent().parent().parent().parent())
+              $('#commentmodal_' + postid).html('');
+              $('#chead_' + postid).css('display', 'none');
+              $('#rhead_' + postid).css('display', 'block');
+              mydatax = {
+                cmid: comid,
+              }
+              $.ajax({
+                url: '/viewreplies',
+                method: 'POST',
+                data: JSON.stringify(mydatax),
+                success: function(data) {
+                  console.log(data);
+                  $('#commentmodal_' + postid).html(data);
+                  $('.likereply').click(function() {
+                    console.log('User wants to like reply');
+                    let lrep = $(this).attr('id');
+                    console.log(lrep);
+                    console.log($(this).children().next().text())
+                    // return false;
+                    if ($(this).children().next().text() != '') {
+                      var nnc = parseInt($(this).children().next().text());
+                    } else {
+                      var nnc = 0;
+                    }
+                    mydata = {
+                      id: lrep
+                    }
+                    let th = this;
+                    console.log(nnc);
+                    $.ajax({
+                      url: "/likereply",
+                      method: "POST",
+                      data: JSON.stringify(mydata),
+                      success: function(data) {
+                        console.log(data);
+                        if (data == 1) {
+                          console.log('entering');
+                          // return false;
+                          $(th).children().removeClass('fa-regular');
+                          $(th).children().addClass('fa-solid');
+                          if ($(th).children().text() != '') {
+                            let nl = nnc + 1;
+                            $(th).children().next().text(toString(nl))
+                          } else {
+                            $(th).children().next().text('1')
+                          }
+                        } else if (data == 2) {
+                          $(th).children().removeClass('fa-solid');
+                          $(th).children().addClass('fa-regular');
+                          // let nl = nnc + 1;
+                          $(th).children().text('');
+                        } else {
+                          $(th).children().removeClass('fa-solid');
+                          $(th).children().addClass('fa-regular');
+                          let nl = nnc - 1;
+                          $(th).children().next().text(toString(nl))
+                        }
+
+                      }
+                    })
+                  })
+                }
+              })
+              // $('#reply_'+comid).modal('show');
+              $('.foc_' + postid).css('display', 'none');
+              $('.for_' + postid).css('display', 'block');
+              $('.for_' + postid).children().find('.postreply').attr('id', comid);
+              $('.for_' + postid).children().find('.postreply').off().click(function() {
+                console.log('User wants to post the reply')
+                console.log($('#replycontent_' + postid).val())
+                let reply = $('#replycontent_' + postid).val()
+                mydata = {
+                  cid: comid,
+                  r: reply
+                }
+                // return false;
+                $.ajax({
+                  url: '/replycomment',
+                  method: 'POST',
+                  data: JSON.stringify(mydata),
+                  success: function(data) {
+                    console.log(data);
+                    $('#commentmodal_' + postid).append(data);
+                    $('#replycontent_' + postid).val('')
+                    $.ajax({
+                      url: '/viewreplies',
+                      method: 'POST',
+                      data: JSON.stringify(mydatax),
+                      success: function(data) {
+                        console.log(data);
+                        $('#commentmodal_' + postid).html('');
+                        $('#replycontent_' + postid).val('')
+                        $('#commentmodal_' + postid).html(data);
+                        $('.likereply').click(function() {
+                          console.log('User wants to like reply');
+                          let lrep = $(this).attr('id');
+                          console.log(lrep);
+                          console.log($(this).children().next().text())
+                          // return false;
+                          if ($(this).children().next().text() != '') {
+                            var nnc = parseInt($(this).children().next().text());
+                          } else {
+                            var nnc = 0;
+                          }
+                          mydata = {
+                            id: lrep
+                          }
+                          let th = this;
+                          console.log(nnc);
+                          $.ajax({
+                            url: "/likereply",
+                            method: "POST",
+                            data: JSON.stringify(mydata),
+                            success: function(data) {
+                              console.log(data);
+                              if (data == 1) {
+                                console.log('entering');
+                                // return false;
+                                $(th).children().removeClass('fa-regular');
+                                $(th).children().addClass('fa-solid');
+                                if ($(th).children().text() != '') {
+                                  let nl = nnc + 1;
+                                  $(th).children().next().text(toString(nl))
+                                } else {
+                                  $(th).children().next().text('1')
+                                }
+                              } else if (data == 2) {
+                                $(th).children().removeClass('fa-solid');
+                                $(th).children().addClass('fa-regular');
+                                // let nl = nnc + 1;
+                                $(th).children().text('');
+                              } else {
+                                $(th).children().removeClass('fa-solid');
+                                $(th).children().addClass('fa-regular');
+                                let nl = nnc - 1;
+                                $(th).children().next().text(toString(nl))
+                              }
+
+                            }
+                          })
+                        })
+                      }
+                    })
+                  }
+                })
+              })
+
             })
           }
         })
