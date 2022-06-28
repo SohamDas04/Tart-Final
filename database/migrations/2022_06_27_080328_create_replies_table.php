@@ -18,9 +18,9 @@ class CreateRepliesTable extends Migration
             $table->timestamps();
             $table->string('replies');
             $table->integer('commentid');
-            $table->integer('likes');
+            $table->integer('likes')->default(0);
             $table->integer('replierid');
-            $table->string('likeid');
+            $table->string('likeid')->nullable();
         });
     }
 

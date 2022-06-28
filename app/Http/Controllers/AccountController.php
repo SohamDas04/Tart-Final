@@ -7,6 +7,7 @@ use App\Models\Information;
 use App\Models\User;
 use App\Models\post;
 use App\Models\Comment;
+use App\Models\reply;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\School;
@@ -343,10 +344,10 @@ class AccountController extends Controller
               </div>
             </div>
             <div class='row'>
-              <div class='col-2' style='margin-left: 25px; margin-top:10px;padding-right:0px;'>
+              <div class='col-2 likecomment' id='" . $datab->id . "' style='margin-left: 25px; margin-top:10px;padding-right:0px;'>
               <i class='fa-regular fa-thumbs-up'></i>
               </div>
-              <div class='col-4' style='margin-top: 10px;padding-left: 0px;'>
+              <div class='col-4 replycomment' id='" . $datab->id . "' style='margin-top: 10px;padding-left: 0px;'>
                 Reply
               </div>
             </div>
@@ -650,7 +651,54 @@ class AccountController extends Controller
       }
     }
   }
-  public function getmodalcomment(Request $req)
+  public function replycomment(Request $req)
+  {
+    $uid = session()->get('id');
+    if ($req->ajax()) {
+      $data = stripslashes(file_get_contents("php://input"));
+      $mydata = json_decode($data, true);
+      $comid = $mydata['cid'];
+      $reply = $mydata['r'];
+      // return $reply;
+      $replyo = new reply;
+      $replyo->commentid = $comid;
+      $replyo->replies = $reply;
+      $replyo->replierid = $uid;
+      $replyo->save();
+      $info = DB::table('information')
+        ->where('userid', $uid)
+        ->get();
+      $infoarray = json_decode(json_encode($info), true);
+      $html = "<div class='card itsareply' style='width: 28rem;border-radius:20px; margin-top:3px;' id='" . $infoarray[0]['userid'] . "'>
+      <div class='card-body' style='padding:5px;'>
+        <div class='row'>
+          <div class='col-2' style='padding-right: 0px; margin-right:0px; width:57px;'>
+            <img src='/blank-profile-picture-973460_1280.png' id='postsdp' class='rounded-circle' style='height: 30px; width: 30px; object-fit:cover;margin-left: 10px;' alt=''>
+          </div>
+          <div class='col-8' style='padding-left: 0px; margin-left:0px;'>
+            <p style='font-size: 18px;'>" . $infoarray[0]['name'] . "</p>
+          </div>
+        </div>
+        <div class='row' style='margin-left: 4px;margin-right: 4x;'>
+          <div class='col-12' style='padding-left: 6px;'>
+            " . $reply . "
+          </div>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-2 likereply' id='" . $replyo->id . "' style='margin-left: 25px; margin-top:10px;padding-right:0px;' >
+        <i class='fa-solid fa-thumbs-up'> </i>
+        </div>
+        <div class='col-4 replyr' id='" . $replyo->id . "' style='margin-top: 10px;padding-left: 0px;'>
+          Reply
+        </div>
+      </div>
+    </div>
+  </div>";
+      return $html;
+    }
+  }
+  public function viewreplies(Request $req)
   {
   }
 }

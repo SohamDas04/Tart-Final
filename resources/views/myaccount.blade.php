@@ -521,7 +521,8 @@
                                 Reply
                               </div>
                             </div>
-                          </div> -->
+                          </div> --> 
+                          
                         </div>
                         <div class="modal-footer foc_{{$post['id']}}" style="margin:1px; padding:0px;">
                           <div class="row">
@@ -537,10 +538,10 @@
                         <div class="modal-footer for_{{$post['id']}}" style="margin:1px; padding:0px; display:none;">
                           <div class="row">
                             <div class="col-10" style="padding-left: 5px;">
-                              <input type="text" name="" placeholder="Write a reply.." class="form-control commentcontent" id="" style="width: 400px; margin-left:1px; border-radius:20px;" minlength="1">
+                              <input type="text" name="" placeholder="Write a reply.." class="form-control replycontent" id="replycontent_{{$post['id']}}" style="width: 400px; margin-left:1px; border-radius:20px;" minlength="1">
                             </div>
                             <div class="col-2">
-                              <button type="button" class="btn btn-primary postcomment" id="{{$post['id']}}" style="border-radius:20px;">Post</button>
+                              <button type="button" class="btn btn-primary postreply" id="" style="border-radius:20px;">Post</button>
                             </div>
                           </div>
 
@@ -996,6 +997,27 @@
           // $('#reply_'+comid).modal('show');
           $('.foc_'+postid).css('display','none');
           $('.for_'+postid).css('display','block');
+          $('.for_'+postid).children().find('.postreply').attr('id',comid);
+          $('.for_'+postid).children().find('.postreply').click(function(){
+            console.log('User wants to post the reply')
+            console.log($('#replycontent_'+postid).val())
+            let reply=$('#replycontent_'+postid).val()
+            mydata={
+              cid: comid,
+              r: reply
+            }
+            // return false;
+            $.ajax({
+              url: '/replycomment',
+              method: 'POST',
+              data: JSON.stringify(mydata),
+              success: function(data){
+                console.log(data);
+                $('#commentmodal_'+postid).append(data);
+              }
+            })
+          })
+          
         })
       }
     })

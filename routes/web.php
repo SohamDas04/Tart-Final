@@ -50,3 +50,4 @@ Route::post('/viewcomments',[AccountController::class,'viewcomments']);
 Route::post('/likecomment',[AccountController::class,'likecomment']);
 Route::post('/getmodaldata',[AccountController::class,'getmodalcomment']);
 Route::post('/replycomment',[AccountController::class,'replycomment']);
+Route::post('/viewreplies',[AccountController::class,'viewreplies']);
