@@ -1026,6 +1026,7 @@
               success: function(data) {
                 console.log(data);
                 $('#commentmodal_' + postid).append(data);
+                $('#replycontent_' + postid).val('')
                 $.ajax({
                   url: '/viewreplies',
                   method: 'POST',
@@ -1033,7 +1034,7 @@
                   success: function(data) {
                     console.log(data);
                     $('#commentmodal_' + postid).html('');
-
+                    $('#replycontent_' + postid).val('')
                     $('#commentmodal_' + postid).html(data);
                   }
                 })
