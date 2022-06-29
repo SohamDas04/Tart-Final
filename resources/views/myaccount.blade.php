@@ -1479,6 +1479,23 @@
       success: function(data){
         console.log(data);
         $('.flist_'+id).html(data);
+        $('.unfriend').click(function(){
+          console.log('User wants to unfriend id: '+$(this).attr('id'))
+          let rid=$(this).attr('id');
+          $('#row_'+rid).remove();
+          mydata={
+            id: rid,
+          }
+          $.ajax({
+            url: "/unfriend",
+            method:'POST',
+            data: JSON.stringify(mydata),
+            success: function(data){
+              console.log(data);
+              
+            }
+          })
+        })
       }
     })
 

@@ -53,3 +53,4 @@ Route::post('/replycomment',[AccountController::class,'replycomment']);
 Route::post('/viewreplies',[AccountController::class,'viewreplies']);
 Route::post('likereply',[AccountController::class,'likereply']);
 Route::post('/viewfriendlist',[AccountController::class,'viewfriendlist']);
+Route::post('/unfriend',[AccountController::class,'unfriend']);
