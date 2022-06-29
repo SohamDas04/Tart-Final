@@ -116,6 +116,28 @@
 </head>
 
 <body style="background-color:ghostwhite;">
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none;">
+    Launch demo modal
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="friendlist_{{$members['userid']}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Friends</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body flist_{{$members['userid']}}">
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <span style="display: none;">
     <form action="/uploadp">@csrf<input type="file" name="dpupload" class="uploadp" id="test"></form>
   </span>
@@ -273,7 +295,7 @@
         <div class="row">
           <div class=" col-4">
             <div class="row">
-              <button type="button" class="btn btn-dark" style="border-radius:50px;">Friends List</button>
+              <button type="button" class="btn btn-dark viewfriendl" style="border-radius:50px;" id="{{$members['userid']}}">Friends List</button>
             </div>
             <br>
             <div class="row" style="background-color:rgba(250, 248, 245)">
@@ -1441,6 +1463,25 @@
         })
       }
     })
+  })
+  $('.viewfriendl').click(function() {
+    console.log('user wants to view friends list');
+    console.log($(this).attr('id'));
+    let id = $(this).attr('id');
+    $('#friendlist_' + id).modal('show');
+    mydata={
+      uid: id,
+    }
+    $.ajax({
+      url:'/viewfriendlist',
+      method:'POST',
+      data: JSON.stringify(mydata),
+      success: function(data){
+        console.log(data);
+        $('.flist_'+id).html(data);
+      }
+    })
+
   })
 </script>
 

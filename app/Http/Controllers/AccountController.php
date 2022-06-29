@@ -958,4 +958,47 @@ class AccountController extends Controller
       }
     }
   }
+  public function viewfriendlist(Request $req){
+    $uid = session()->get('id');
+    if ($req->ajax()) {
+      $data = stripslashes(file_get_contents("php://input"));
+      $mydata = json_decode($data, true);
+      $user = $mydata['uid'];
+      $html='';
+      $friends=DB::table('friendrequests')
+          ->where('to', $uid)
+          ->orWhere('from',$uid)
+          ->where('status','2')
+          ->get();
+        // return $friends;
+      foreach($friends as $friend){
+        // return $friend;
+        $friendarray=json_decode(json_encode($friend), true);
+        // dd($friendarray);
+        // return $friendarray;
+        // return $friendarray['to'];
+        if($friendarray['from']!=$uid){
+        $info=DB::table('information')
+        ->where('userid', $friendarray['from'])
+        ->get();
+        // return 1;
+        }else{
+          $info=DB::table('information')
+        ->where('userid', $friendarray['to'])
+        ->get();
+        }
+        $infoarray=json_decode(json_encode($info), true);
+        // return $infoarray[0]['dp'];
+        // dd($infoarray);
+        if ($infoarray[0]['dp'] != ''){
+          // return $infoarray[0]['dp'];
+        $html=$html." <div class='row' style='margin-top:4px;'> <div class='col-1' style='padding:0;'> <img src='/uploads/".$infoarray[0]['dp']."' alt='' style='max-width:40px; height:40px'> </div><div class='col-5' style='padding:0;margin-top:10px;'> ".$infoarray[0]['name']."</div><div class='col-2' style='margin-left:129px;'> <button type='button' class='btn btn-light unfriend' id='".strval($infoarray[0]['userid'])."'>Unfriend</button> </div></div>";
+        }
+        else{
+        $html=$html." <div class='row' style='margin-top:4px;'> <div class='col-1' style='padding:0;'> <img src='/blank-profile-picture-973460_1280.png' alt='' style='max-width:40px; height:40px'> </div><div class='col-5' style='padding:0;margin-top:10px;'> ".$infoarray[0]['name']." </div><div class='col-2' style='margin-left:129px;'> <button type='button' class='btn btn-light unfriend' id='".strval($infoarray[0]['userid'])."'>Unfriend</button> </div></div>";
+        }
+      }
+      return $html;
+    }
+  }
 }
